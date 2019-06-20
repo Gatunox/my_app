@@ -84,6 +84,7 @@ class _DogCardState extends State<DogCard> with AutomaticKeepAliveClientMixin {
               left: 50.0,
               child: dogCard,
             ),
+            Positioned(top: 7.5, child: placeholderContainer),
             Positioned(top: 7.5, child: dogImage),
           ],
         ),
@@ -142,8 +143,30 @@ class _DogCardState extends State<DogCard> with AutomaticKeepAliveClientMixin {
       ),
     );
 
+
+
+    // This is an animated widget built into flutter.
+    return AnimatedCrossFade(
+      // You pass it the starting widget and the ending widget.
+      firstChild: placeholderContainer,
+      secondChild: dogAvatar,
+      // Then, you pass it a ternary that should be based on your state
+      //
+      // If renderUrl is null tell the widget to use the placeholder,
+      // otherwise use the dogAvatar.
+      crossFadeState: renderUrl == ""
+          ? CrossFadeState.showFirst
+          : CrossFadeState.showSecond,
+      // Finally, pass in the amount of time the fade should take.
+      duration: Duration(milliseconds: 1500),
+      firstCurve: Curves.linear,
+      secondCurve: Curves.linear,
+    );
+  }
+
+  Widget get placeholderContainer  {
     // Placeholder is a static container the same size as the dog image.
-    var placeholder = Container(
+    return Container(
       width: 100.0,
       height: 100.0,
       decoration: BoxDecoration(
@@ -159,24 +182,6 @@ class _DogCardState extends State<DogCard> with AutomaticKeepAliveClientMixin {
           image: new AssetImage('images/logo.png'),
         ),
       ),
-    );
-
-    // This is an animated widget built into flutter.
-    return AnimatedCrossFade(
-      // You pass it the starting widget and the ending widget.
-      firstChild: placeholder,
-      secondChild: dogAvatar,
-      // Then, you pass it a ternary that should be based on your state
-      //
-      // If renderUrl is null tell the widget to use the placeholder,
-      // otherwise use the dogAvatar.
-      crossFadeState: renderUrl == ""
-          ? CrossFadeState.showFirst
-          : CrossFadeState.showSecond,
-      // Finally, pass in the amount of time the fade should take.
-      duration: Duration(milliseconds: 1600),
-      firstCurve: Curves.easeInQuart,
-      secondCurve: Curves.linear,
     );
   }
 
