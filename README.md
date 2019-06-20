@@ -24,3 +24,7 @@ samples, guidance on mobile development, and a full API reference.
 4-Open the Runner Project on Xcode, with this command: $ open ios/runner.xcworkspace
 5-Run the App, with this command: $ flutter run
 
+## to get the master branch up to date.
+git branch (verify the is on master)
+git fetch my_app (will sync al branchs from remote)
+git merge my_app/master (will merge master)
