@@ -8,7 +8,6 @@ import 'package:my_app/third_route.dart';
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
-
   final PageController controller = new PageController(
     initialPage: 1,
   );
@@ -31,7 +30,11 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.grey,
         brightness: Brightness.dark,
-        accentColor: Colors.purple
+        accentColor: Colors.purple,
+        pageTransitionsTheme: PageTransitionsTheme(builders: {
+          TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
+          TargetPlatform.android: CupertinoPageTransitionsBuilder(),
+        }),
       ),
       routes: {
         // When we navigate to the "/" route, build the FirstScreen Widget
@@ -46,21 +49,18 @@ class MyApp extends StatelessWidget {
 
 class FirstRoute extends StatelessWidget {
   FirstRoute({Key key, this.controller}) : super(key: key);
-  
+
   final PageController controller;
 
   @override
   Widget build(BuildContext context) {
     return PageView(
-        children: <Widget>[
-          new LeftPage(
-              title: 'Flutter Demo Left Page', controller: controller),
-          new HomePage(
-              title: 'Flutter Demo Home Page', controller: controller),
-          new RightPage(
-              title: 'Flutter Demo Right Page', controller: controller),
-        ],
-        controller: controller,
-      );
+      children: <Widget>[
+        new LeftPage(title: 'Flutter Demo Left Page', controller: controller),
+        new HomePage(title: 'Flutter Demo Home Page', controller: controller),
+        new RightPage(title: 'Flutter Demo Right Page', controller: controller),
+      ],
+      controller: controller,
+    );
   }
 }

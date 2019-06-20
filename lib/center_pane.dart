@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_app/third_route.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key key, this.title, this.controller}) : super(key: key);
@@ -18,8 +19,6 @@ class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
 }
-
-
 
 class _HomePageState extends State<HomePage>
     with AutomaticKeepAliveClientMixin {
@@ -85,11 +84,27 @@ class _HomePageState extends State<HomePage>
                 Navigator.pushNamed(context, '/second');
               },
             ),
-             RaisedButton(
+            RaisedButton(
               child: Text('Open Third Route'),
               onPressed: () {
                 // Navigate to second route when tapped.
-                Navigator.pushNamed(context, '/third');
+                //Navigator.pushNamed(context, '/third');
+                Navigator.push(
+                  context,
+                  PageRouteBuilder(
+                    pageBuilder: (context, animation1, animation2) {
+                      return ThirdRoute(title: 'We Rate Dogs');
+                    },
+                    transitionsBuilder:
+                        (context, animation1, animation2, child) {
+                      return FadeTransition(
+                        opacity: animation1,
+                        child: child,
+                      );
+                    },
+                    transitionDuration: Duration(milliseconds: 500),
+                  ),
+                );
               },
             ),
           ],
@@ -105,6 +120,5 @@ class _HomePageState extends State<HomePage>
   }
 
   @override
-
   bool get wantKeepAlive => true;
 }
