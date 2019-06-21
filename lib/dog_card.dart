@@ -116,7 +116,8 @@ class _DogCardState extends State<DogCard> with AutomaticKeepAliveClientMixin {
   }
 
   Widget get dogImage {
-    print("renderUrl:" + renderUrl);
+    // if(renderUrl is String)
+    //   print("renderUrl:" + renderUrl);
 
     var dogAvatar = Container(
       // You can explicitly set heights and widths on Containers.
