@@ -11,7 +11,7 @@ class DogCard extends StatefulWidget {
 }
 
 class _DogCardState extends State<DogCard> with AutomaticKeepAliveClientMixin {
-  String renderUrl = "";
+  String _renderUrl = "";
 
   Widget get dogCard {
     // A new container
@@ -110,7 +110,7 @@ class _DogCardState extends State<DogCard> with AutomaticKeepAliveClientMixin {
     if (mounted) {
       // Avoid calling `setState` if the widget is no longer in the widget tree.
       setState(() {
-        renderUrl = widget.dog.imageUrl;
+        _renderUrl = widget.dog.imageUrl;
       });
     }
   }
@@ -139,30 +139,38 @@ class _DogCardState extends State<DogCard> with AutomaticKeepAliveClientMixin {
           // ImageProviders (such as NetworkImage) are ideal
           // when your image needs to be loaded or can change.
           // Use the null check to avoid an error.
-          image: NetworkImage(renderUrl ?? ''),
+          image: NetworkImage(_renderUrl ?? ''),
         ),
       ),
     );
 
-
+    return AnimatedOpacity(
+          // If the widget is visible, animate to 0.0 (invisible).
+          // If the widget is hidden, animate to 1.0 (fully visible).
+          opacity: _renderUrl == "" ? 0.0 : 1.0,
+          duration: Duration(milliseconds: 1000),
+          // The green box must be a child of the AnimatedOpacity widget.
+          child: dogAvatar,
+          curve: Curves.easeInCubic,
+    );
 
     // This is an animated widget built into flutter.
-    return AnimatedCrossFade(
-      // You pass it the starting widget and the ending widget.
-      firstChild: placeholderContainer,
-      secondChild: dogAvatar,
-      // Then, you pass it a ternary that should be based on your state
-      //
-      // If renderUrl is null tell the widget to use the placeholder,
-      // otherwise use the dogAvatar.
-      crossFadeState: renderUrl == ""
-          ? CrossFadeState.showFirst
-          : CrossFadeState.showSecond,
-      // Finally, pass in the amount of time the fade should take.
-      duration: Duration(milliseconds: 1500),
-      firstCurve: Curves.linear,
-      secondCurve: Curves.linear,
-    );
+    // return AnimatedCrossFade(
+    //   // You pass it the starting widget and the ending widget.
+    //   firstChild: placeholderContainer,
+    //   secondChild: dogAvatar,
+    //   // Then, you pass it a ternary that should be based on your state
+    //   //
+    //   // If renderUrl is null tell the widget to use the placeholder,
+    //   // otherwise use the dogAvatar.
+    //   crossFadeState: _renderUrl == ""
+    //       ? CrossFadeState.showFirst
+    //       : CrossFadeState.showSecond,
+    //   // Finally, pass in the amount of time the fade should take.
+    //   duration: Duration(milliseconds: 2000),
+    //   firstCurve: Curves.easeOutCubic,
+    //   secondCurve: Curves.easeInCubic,
+    // );
   }
 
   Widget get placeholderContainer  {
