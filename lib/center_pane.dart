@@ -118,6 +118,7 @@ class _HomePageState extends State<HomePage>
                         'assets/Super-cool-button.flr',
                         animation: _animationName,
                         fit: BoxFit.fitWidth,
+                        callback: _onFlareCompleted,
                       ),
                     ),
                   ),
@@ -156,6 +157,10 @@ class _HomePageState extends State<HomePage>
         _animationName = 'Restart';
       }
     });
+  }
+
+  void _onFlareCompleted(String animationName) {
+    print( animationName + " Finished Animating");
   }
 
   @override
