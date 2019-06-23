@@ -17,6 +17,7 @@ environment:
   sdk: ">=2.1.0 <3.0.0"
 
 dependencies:
+  flare_flutter: ^1.5.2
   flutter:
     sdk: flutter
 
@@ -46,6 +47,7 @@ flutter:
   #  - images/a_dot_ham.jpeg
   assets:
     - images/
+    - assets/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

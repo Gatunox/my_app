@@ -19,6 +19,12 @@ class _DogCardState extends State<DogCard> with AutomaticKeepAliveClientMixin {
     return Container(
       width: 330.0,
       height: 115.0,
+      decoration: new BoxDecoration(boxShadow: [
+        new BoxShadow(
+          color: Colors.grey[700],
+          blurRadius: 10.0,
+        ),
+      ]),
       child: Card(
         color: Colors.black87,
         // Wrap children in a Padding widget in order to give padding.
@@ -145,13 +151,13 @@ class _DogCardState extends State<DogCard> with AutomaticKeepAliveClientMixin {
     );
 
     return AnimatedOpacity(
-          // If the widget is visible, animate to 0.0 (invisible).
-          // If the widget is hidden, animate to 1.0 (fully visible).
-          opacity: _renderUrl == "" ? 0.0 : 1.0,
-          duration: Duration(milliseconds: 1000),
-          // The green box must be a child of the AnimatedOpacity widget.
-          child: dogAvatar,
-          curve: Curves.easeInCubic,
+      // If the widget is visible, animate to 0.0 (invisible).
+      // If the widget is hidden, animate to 1.0 (fully visible).
+      opacity: _renderUrl == "" ? 0.0 : 1.0,
+      duration: Duration(milliseconds: 1000),
+      // The green box must be a child of the AnimatedOpacity widget.
+      child: dogAvatar,
+      curve: Curves.easeInCubic,
     );
 
     // This is an animated widget built into flutter.
@@ -173,7 +179,7 @@ class _DogCardState extends State<DogCard> with AutomaticKeepAliveClientMixin {
     // );
   }
 
-  Widget get placeholderContainer  {
+  Widget get placeholderContainer {
     // Placeholder is a static container the same size as the dog image.
     return Container(
       width: 100.0,

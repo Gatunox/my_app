@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/third_route.dart';
+import 'package:flare_flutter/flare_actor.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key key, this.title, this.controller}) : super(key: key);
@@ -23,6 +24,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage>
     with AutomaticKeepAliveClientMixin {
   int _counter = 0;
+  String _animationName = 'Idle';
 
   void _incrementCounter() {
     setState(() {
@@ -68,20 +70,6 @@ class _HomePageState extends State<HomePage>
               // Center is a layout widget. It takes a single child and positions it
               // in the middle of the parent.
               child: Column(
-                // Column is also layout widget. It takes a list of children and
-                // arranges them vertically. By default, it sizes itself to fit its
-                // children horizontally, and tries to be as tall as its parent.
-                //
-                // Invoke "debug painting" (press "p" in the console, choose the
-                // "Toggle Debug Paint" action from the Flutter Inspector in Android
-                // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-                // to see the wireframe for each widget.
-                //
-                // Column has various properties to control how it sizes itself and
-                // how it positions its children. Here we use mainAxisAlignment to
-                // center the children vertically; the main axis here is the vertical
-                // axis because Columns are vertical (the cross axis would be
-                // horizontal).
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Text(
@@ -121,6 +109,18 @@ class _HomePageState extends State<HomePage>
                       );
                     },
                   ),
+                  SizedBox(
+                    width: 500,
+                    height: 75,
+                    child: GestureDetector(
+                      onTap: _onButtonTap,
+                      child: FlareActor(
+                        'assets/Super-cool-button.flr',
+                        animation: _animationName,
+                        fit: BoxFit.fitWidth,
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -129,8 +129,8 @@ class _HomePageState extends State<HomePage>
               tooltip: 'Increment',
               child: Icon(Icons.add),
               heroTag: "home_page_btn",
-            ), 
-            backgroundColor: Colors.transparent, 
+            ),
+            backgroundColor: Colors.transparent,
           ),
           Positioned(
             //Place it at the top, and not use the entire screen
@@ -139,13 +139,23 @@ class _HomePageState extends State<HomePage>
             right: 0.0,
             child: AppBar(
               title: Text(widget.title),
-              backgroundColor: Colors.transparent, 
+              backgroundColor: Colors.transparent,
               elevation: 0.0, //Shadow gone
             ),
           ),
         ],
       ),
     );
+  }
+
+  void _onButtonTap() {
+    setState(() {
+      if (_animationName == 'Idle' || _animationName == 'Restart') {
+        _animationName = 'Loading';
+      } else {
+        _animationName = 'Restart';
+      }
+    });
   }
 
   @override
