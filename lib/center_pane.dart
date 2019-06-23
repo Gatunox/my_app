@@ -44,78 +44,107 @@ class _HomePageState extends State<HomePage>
     // The Flutter framework has been optimized to make rerunning build methods
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
-    return Scaffold(
-      appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.display1,
-            ),
-            RaisedButton(
-              child: Text('Open Second Route'),
-              onPressed: () {
-                // Navigate to second route when tapped.
-                Navigator.pushNamed(context, '/second');
-              },
-            ),
-            RaisedButton(
-              child: Text('Open Third Route'),
-              onPressed: () {
-                // Navigate to second route when tapped.
-                //Navigator.pushNamed(context, '/third');
-                Navigator.push(
-                  context,
-                  PageRouteBuilder(
-                    pageBuilder: (context, animation1, animation2) {
-                      return ThirdRoute(title: 'We Rate Dogs');
-                    },
-                    transitionsBuilder:
-                        (context, animation1, animation2, child) {
-                      return FadeTransition(
-                        opacity: animation1,
-                        child: child,
-                      );
-                    },
-                    transitionDuration: Duration(milliseconds: 500),
-                  ),
-                );
-              },
-            ),
+    return Container(
+      // Add box decoration
+      decoration: BoxDecoration(
+        // Box decoration takes a gradient
+        gradient: LinearGradient(
+          // Where the linear gradient begins and ends
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          // Add one stop for each color. Stops should increase from 0 to 1
+          stops: [0.0, 1],
+          colors: [
+            // Colors are easy thanks to Flutter's Colors class.
+            Colors.grey[800],
+            Colors.grey[900],
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-        heroTag: "home_page_btn",
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      child: Stack(
+        children: <Widget>[
+          Scaffold(
+            body: Center(
+              // Center is a layout widget. It takes a single child and positions it
+              // in the middle of the parent.
+              child: Column(
+                // Column is also layout widget. It takes a list of children and
+                // arranges them vertically. By default, it sizes itself to fit its
+                // children horizontally, and tries to be as tall as its parent.
+                //
+                // Invoke "debug painting" (press "p" in the console, choose the
+                // "Toggle Debug Paint" action from the Flutter Inspector in Android
+                // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
+                // to see the wireframe for each widget.
+                //
+                // Column has various properties to control how it sizes itself and
+                // how it positions its children. Here we use mainAxisAlignment to
+                // center the children vertically; the main axis here is the vertical
+                // axis because Columns are vertical (the cross axis would be
+                // horizontal).
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text(
+                    'You have pushed the button this many times:',
+                  ),
+                  Text(
+                    '$_counter',
+                    style: Theme.of(context).textTheme.display1,
+                  ),
+                  RaisedButton(
+                    child: Text('Open Second Route'),
+                    onPressed: () {
+                      // Navigate to second route when tapped.
+                      Navigator.pushNamed(context, '/second');
+                    },
+                  ),
+                  RaisedButton(
+                    child: Text('Open Third Route'),
+                    onPressed: () {
+                      // Navigate to second route when tapped.
+                      //Navigator.pushNamed(context, '/third');
+                      Navigator.push(
+                        context,
+                        PageRouteBuilder(
+                          pageBuilder: (context, animation1, animation2) {
+                            return ThirdRoute(title: 'We Rate Dogs');
+                          },
+                          transitionsBuilder:
+                              (context, animation1, animation2, child) {
+                            return FadeTransition(
+                              opacity: animation1,
+                              child: child,
+                            );
+                          },
+                          transitionDuration: Duration(milliseconds: 500),
+                        ),
+                      );
+                    },
+                  ),
+                ],
+              ),
+            ),
+            floatingActionButton: FloatingActionButton(
+              onPressed: _incrementCounter,
+              tooltip: 'Increment',
+              child: Icon(Icons.add),
+              heroTag: "home_page_btn",
+            ), 
+            backgroundColor: Colors.transparent, 
+          ),
+          Positioned(
+            //Place it at the top, and not use the entire screen
+            top: 0.0,
+            left: 0.0,
+            right: 0.0,
+            child: AppBar(
+              title: Text(widget.title),
+              backgroundColor: Colors.transparent, 
+              elevation: 0.0, //Shadow gone
+            ),
+          ),
+        ],
+      ),
     );
   }
 
