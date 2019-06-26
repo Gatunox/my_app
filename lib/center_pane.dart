@@ -46,6 +46,7 @@ class _HomePageState extends State<HomePage>
     // The Flutter framework has been optimized to make rerunning build methods
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
+    print(_animationName);
     return Container(
       // Add box decoration
       decoration: BoxDecoration(
@@ -122,6 +123,13 @@ class _HomePageState extends State<HomePage>
                       ),
                     ),
                   ),
+                  RaisedButton(
+                    child: Text('Open Forth Route'),
+                    onPressed: () {
+                      // Navigate to forth route when tapped.
+                      Navigator.pushNamed(context, '/forth');
+                    },
+                  ),
                 ],
               ),
             ),
@@ -160,7 +168,12 @@ class _HomePageState extends State<HomePage>
   }
 
   void _onFlareCompleted(String animationName) {
-    print( animationName + " Finished Animating");
+    if (animationName == 'Restart') {
+      setState(() {
+        _animationName = 'Idle';
+      });
+    }
+    print(animationName + " Finished Animating");
   }
 
   @override

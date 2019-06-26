@@ -4,6 +4,7 @@ import 'package:my_app/center_pane.dart';
 import 'package:my_app/right_pane.dart';
 import 'package:my_app/second_route.dart';
 import 'package:my_app/third_route.dart';
+import 'package:my_app/forth_route.dart';
 
 void main() => runApp(MyApp());
 
@@ -42,6 +43,7 @@ class MyApp extends StatelessWidget {
         // When we navigate to the "/second" route, build the SecondScreen Widget
         '/second': (context) => SecondRoute(),
         '/third': (context) => ThirdRoute(title: 'We Rate Dogs'),
+        '/forth': (context) => ForthRoute(),
       },
     );
   }
