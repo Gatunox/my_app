@@ -35,11 +35,10 @@ class _RightPageState extends State<RightPage>
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
           // Add one stop for each color. Stops should increase from 0 to 1
-          stops: [0.0, 1],
           colors: [
             // Colors are easy thanks to Flutter's Colors class.
-            Colors.grey[800],
-            Colors.grey[900],
+            Colors.purple,
+            Colors.amber,
           ],
         ),
       ),

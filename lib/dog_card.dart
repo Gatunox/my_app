@@ -18,24 +18,24 @@ class _DogCardState extends State<DogCard> with AutomaticKeepAliveClientMixin {
     // The height and width are arbitrary numbers for styling.
     return Container(
       width: 330.0,
-      height: 115.0,
+      height: 235.0,
       decoration: new BoxDecoration(boxShadow: [
         new BoxShadow(
-          color: Colors.grey[700],
-          blurRadius: 10.0,
+          color: Colors.purple[400],
+          blurRadius: 5.0,
         ),
       ]),
       child: Card(
-        color: Colors.black87,
+        color: Colors.white,
         // Wrap children in a Padding widget in order to give padding.
         child: Padding(
           // The class that controls padding is called 'EdgeInsets'
           // The EdgeInsets.only constructor is used to set
           // padding explicitly to each side of the child.
           padding: const EdgeInsets.only(
-            top: 8.0,
-            bottom: 8.0,
-            left: 64.0,
+            top: 10.0,
+            bottom: 10.0,
+            left: 70.0,
           ),
           // Column is another layout widget -- like stack -- that
           // takes a list of widgets as children, and lays the
@@ -48,26 +48,52 @@ class _DogCardState extends State<DogCard> with AutomaticKeepAliveClientMixin {
             // CSS's 'justify-content: space-around' in a vertically
             // laid out flexbox.
             crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
-              Text(widget.dog.name,
-                  // Themes are set in the MaterialApp widget at the root of your app.
-                  // They have default values -- which we're using because we didn't set our own.
-                  // They're great for having consistent, app-wide styling that's easily changed.
-                  style: Theme.of(context).textTheme.headline),
-              Text(widget.dog.location,
-                  style: Theme.of(context).textTheme.subhead),
+              RichText(
+                text: TextSpan(
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                  children: <TextSpan>[
+                    TextSpan(
+                      text: widget.dog.name,
+                      style: TextStyle(
+                          fontFamily: 'Roboto',
+                          fontSize: 20.0,
+                          color: Colors.black.withOpacity(1.0)),
+                    ),
+                  ],
+                ),
+              ),
+              RichText(
+                text: TextSpan(
+                  children: <TextSpan>[
+                    TextSpan(
+                      text: widget.dog.location,
+                      style: TextStyle(
+                          fontFamily: 'Roboto',
+                          fontSize: 16.0,
+                          color: Colors.black.withOpacity(1.0)),
+                    ),
+                  ],
+                ),
+              ),
               Row(
                 children: <Widget>[
                   Icon(
                     Icons.star,
+                    color: Colors.purple,
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                      top: 8.0,
-                      bottom: 6.0,
+                  RichText(
+                    text: TextSpan(
+                      children: <TextSpan>[
+                        TextSpan(
+                          text: ': ${widget.dog.rating} / 10',
+                          style: TextStyle(
+                              fontSize: 14.0,
+                              color: Colors.black.withOpacity(1.0)),
+                        ),
+                      ],
                     ),
-                    child: Text(': ${widget.dog.rating} / 10'),
                   )
                 ],
               )
@@ -83,15 +109,16 @@ class _DogCardState extends State<DogCard> with AutomaticKeepAliveClientMixin {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
       child: Container(
-        height: 115.0,
+        height: 260.0,
         child: Stack(
           children: <Widget>[
             Positioned(
+              top: 25.0,
               left: 50.0,
               child: dogCard,
             ),
-            Positioned(top: 7.5, child: placeholderContainer),
-            Positioned(top: 7.5, child: dogImage),
+            //Positioned(top: 0.5, child: placeholderContainer),
+            Positioned(top: 0.5, child: dogImage),
           ],
         ),
       ),
@@ -128,23 +155,21 @@ class _DogCardState extends State<DogCard> with AutomaticKeepAliveClientMixin {
     var dogAvatar = Container(
       // You can explicitly set heights and widths on Containers.
       // Otherwise they take up as much space as their children.
-      width: 100.0,
-      height: 100.0,
+      width: 115.0,
+      height: 115.0,
       // Decoration is a property that lets you style the container.
       // It expects a BoxDecoration.
       decoration: BoxDecoration(
-        // BoxDecorations have many possible properties.
-        // Using BoxShape with a background image is the
-        // easiest way to make a circle cropped avatar style image.
+        boxShadow: [
+          new BoxShadow(
+            color: Colors.black87,
+            blurRadius: 5.0,
+          ),
+        ],
         shape: BoxShape.circle,
         image: DecorationImage(
           // Just like CSS's `imagesize` property.
           fit: BoxFit.cover,
-          // A NetworkImage widget is a widget that
-          // takes a URL to an image.
-          // ImageProviders (such as NetworkImage) are ideal
-          // when your image needs to be loaded or can change.
-          // Use the null check to avoid an error.
           image: NetworkImage(_renderUrl ?? ''),
         ),
       ),
@@ -154,7 +179,7 @@ class _DogCardState extends State<DogCard> with AutomaticKeepAliveClientMixin {
       // If the widget is visible, animate to 0.0 (invisible).
       // If the widget is hidden, animate to 1.0 (fully visible).
       opacity: _renderUrl == "" ? 0.0 : 1.0,
-      duration: Duration(milliseconds: 1000),
+      duration: Duration(milliseconds: 500),
       // The green box must be a child of the AnimatedOpacity widget.
       child: dogAvatar,
       curve: Curves.easeInCubic,
@@ -179,26 +204,17 @@ class _DogCardState extends State<DogCard> with AutomaticKeepAliveClientMixin {
     // );
   }
 
-  Widget get placeholderContainer {
-    // Placeholder is a static container the same size as the dog image.
-    return Container(
-      width: 100.0,
-      height: 100.0,
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        image: DecorationImage(
-          // Just like CSS's `imagesize` property.
-          fit: BoxFit.cover,
-          // A NetworkImage widget is a widget that
-          // takes a URL to an image.
-          // ImageProviders (such as NetworkImage) are ideal
-          // when your image needs to be loaded or can change.
-          // Use the null check to avoid an error.
-          image: new AssetImage('images/logo.png'),
-        ),
-      ),
-    );
-  }
+  // Widget get placeholderContainer {
+  //   // Placeholder is a static container the same size as the dog image.
+  //   return Container(
+  //     width: 115.0,
+  //     height: 115.0,
+  //     decoration: BoxDecoration(
+  //       color: Colors.transparent,
+  //       shape: BoxShape.circle,
+  //     ),
+  //   );
+  // }
 
   @override
   bool get wantKeepAlive => true;

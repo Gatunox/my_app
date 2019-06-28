@@ -42,8 +42,8 @@ class _ThirdRouteState extends State<ForthRoute>
           stops: [0.0, 1],
           colors: [
             // Colors are easy thanks to Flutter's Colors class.
-            Colors.grey[800],
-            Colors.grey[900],
+            Colors.purple,
+            Colors.amber,
           ],
         ),
       ),
@@ -63,7 +63,7 @@ class _ThirdRouteState extends State<ForthRoute>
                     height: 50,
                     color: Colors.transparent,
                     child: AppBar(
-                      title: Text(""),
+                      title: Text("Dogs List"),
                       backgroundColor: Colors.transparent, //No more green
                       elevation: 0.0, //Shadow gone
                     ),
