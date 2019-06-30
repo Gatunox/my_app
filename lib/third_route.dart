@@ -30,8 +30,8 @@ class _ThirdRouteState extends State<ThirdRoute>
         // Box decoration takes a gradient
         gradient: LinearGradient(
           // Where the linear gradient begins and ends
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
           // Add one stop for each color. Stops should increase from 0 to 1
           colors: [
             // Colors are easy thanks to Flutter's Colors class.

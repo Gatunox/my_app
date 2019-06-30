@@ -36,8 +36,8 @@ class _ThirdRouteState extends State<ForthRoute>
         // Box decoration takes a gradient
         gradient: LinearGradient(
           // Where the linear gradient begins and ends
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
           // Add one stop for each color. Stops should increase from 0 to 1
           stops: [0.0, 1],
           colors: [

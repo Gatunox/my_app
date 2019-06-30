@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dog_model.dart';
+import 'dart:ui' as ui;
 
 class DogCard extends StatefulWidget {
   DogCard({Key key, this.dog}) : super(key: key);
@@ -19,13 +20,28 @@ class _DogCardState extends State<DogCard> with AutomaticKeepAliveClientMixin {
     return Container(
       width: 330.0,
       height: 235.0,
-      decoration: new BoxDecoration(boxShadow: [
-        new BoxShadow(
-          color: Colors.purple[400],
-          blurRadius: 5.0,
-        ),
-      ]),
+      decoration: new BoxDecoration(
+        boxShadow: [
+          new BoxShadow(
+            color: Colors.purple[400],
+            blurRadius: 20.0,
+          ),
+        ],
+        borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(2),
+            topRight: Radius.circular(35),
+            bottomLeft: Radius.circular(35),
+            bottomRight: Radius.circular(2)),
+      ),
       child: Card(
+        elevation: 15,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(2),
+              topRight: Radius.circular(35),
+              bottomLeft: Radius.circular(35),
+              bottomRight: Radius.circular(2)),
+        ),
         color: Colors.white,
         // Wrap children in a Padding widget in order to give padding.
         child: Padding(
@@ -107,17 +123,17 @@ class _DogCardState extends State<DogCard> with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+      padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 0.0),
       child: Container(
-        height: 260.0,
+        height: 290.0,
         child: Stack(
           children: <Widget>[
             Positioned(
-              top: 25.0,
+              top: 45.0,
               left: 50.0,
               child: dogCard,
             ),
-            //Positioned(top: 0.5, child: placeholderContainer),
+            Positioned(top: 0.5, child: placeholderContainer),
             Positioned(top: 0.5, child: dogImage),
           ],
         ),
@@ -152,37 +168,35 @@ class _DogCardState extends State<DogCard> with AutomaticKeepAliveClientMixin {
     // if(renderUrl is String)
     //   print("renderUrl:" + renderUrl);
 
-    var dogAvatar = Container(
-      // You can explicitly set heights and widths on Containers.
-      // Otherwise they take up as much space as their children.
+    var dogAvatar = ClipOval(
+        child: Container(
       width: 115.0,
       height: 115.0,
       // Decoration is a property that lets you style the container.
       // It expects a BoxDecoration.
       decoration: BoxDecoration(
-        boxShadow: [
-          new BoxShadow(
-            color: Colors.black87,
-            blurRadius: 5.0,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.transparent,
+            ),
+          ],
+          shape: BoxShape.circle,
+          image: DecorationImage(
+            // Just like CSS's `imagesize` property.
+            fit: BoxFit.cover,
+            image: NetworkImage(_renderUrl ?? ''),
           ),
-        ],
-        shape: BoxShape.circle,
-        image: DecorationImage(
-          // Just like CSS's `imagesize` property.
-          fit: BoxFit.cover,
-          image: NetworkImage(_renderUrl ?? ''),
-        ),
-      ),
-    );
+          border: Border.all(width: 4.0, color: Colors.amber)),
+    ));
 
     return AnimatedOpacity(
       // If the widget is visible, animate to 0.0 (invisible).
       // If the widget is hidden, animate to 1.0 (fully visible).
       opacity: _renderUrl == "" ? 0.0 : 1.0,
-      duration: Duration(milliseconds: 500),
+      duration: Duration(milliseconds: 1000),
       // The green box must be a child of the AnimatedOpacity widget.
       child: dogAvatar,
-      curve: Curves.easeInCubic,
+      curve: Curves.slowMiddle,
     );
 
     // This is an animated widget built into flutter.
@@ -204,17 +218,33 @@ class _DogCardState extends State<DogCard> with AutomaticKeepAliveClientMixin {
     // );
   }
 
-  // Widget get placeholderContainer {
-  //   // Placeholder is a static container the same size as the dog image.
-  //   return Container(
-  //     width: 115.0,
-  //     height: 115.0,
-  //     decoration: BoxDecoration(
-  //       color: Colors.transparent,
-  //       shape: BoxShape.circle,
-  //     ),
-  //   );
-  // }
+  Widget get placeholderContainer {
+    // Placeholder is a static container the same size as the dog image.
+    return ClipOval(
+      child: Container(
+        width: 115.0,
+        height: 115.0,
+        decoration: BoxDecoration(
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black54,
+            ),
+          ],
+        ),
+        child: BackdropFilter(
+            filter: ui.ImageFilter.blur(sigmaX: 8, sigmaY: 8),
+            child: Container(
+                child: Icon(
+                  Icons.pets,
+                  color: Colors.white70,
+                  size: 45.0,
+                ),
+                decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    border: Border.all(width: 4.0, color: Colors.amber)))),
+      ),
+    );
+  }
 
   @override
   bool get wantKeepAlive => true;

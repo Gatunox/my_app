@@ -23,17 +23,10 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage>
     with AutomaticKeepAliveClientMixin {
-  int _counter = 0;
   String _animationName = 'Idle';
 
   void _incrementCounter() {
     setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
     });
   }
 
@@ -72,22 +65,23 @@ class _HomePageState extends State<HomePage>
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Text(
-                    'You have pushed the button this many times:',
-                  ),
-                  Text(
-                    '$_counter',
-                    style: Theme.of(context).textTheme.display1,
-                  ),
                   RaisedButton(
-                    child: Text('Open Second Route'),
+                    child: Text('Open\nSecond\nRoute',style: TextStyle(fontSize: 20),
+                      textAlign: TextAlign.center,),
                     onPressed: () {
                       // Navigate to second route when tapped.
                       Navigator.pushNamed(context, '/second');
                     },
+                    elevation: 10,
+                    color: Colors.black38,
+                    padding: EdgeInsets.all(40),
+                    shape: CircleBorder(
+                      side: BorderSide(color: Colors.amber, width: 4),
+                    )
                   ),
                   RaisedButton(
-                    child: Text('Open Third Route'),
+                    child: Text('Open\nThird\nRoute',style: TextStyle(fontSize: 20),
+                      textAlign: TextAlign.center,),
                     onPressed: () {
                       // Navigate to second route when tapped.
                       //Navigator.pushNamed(context, '/third');
@@ -108,35 +102,61 @@ class _HomePageState extends State<HomePage>
                         ),
                       );
                     },
+                    elevation: 10,
+                    color: Colors.black38,
+                    padding: EdgeInsets.all(40),
+                    shape: CircleBorder(
+                      side: BorderSide(color: Colors.amber, width: 4),
+                    )
                   ),
-                  SizedBox(
-                    width: 500,
-                    height: 75,
-                    child: GestureDetector(
-                      onTap: _onButtonTap,
-                      child: FlareActor(
-                        'assets/Super-cool-button.flr',
-                        animation: _animationName,
-                        fit: BoxFit.fitWidth,
-                        callback: _onFlareCompleted,
-                      ),
-                    ),
-                  ),
+                  // SizedBox(
+                  //   width: 500,
+                  //   height: 75,
+                  //   child: GestureDetector(
+                  //     onTap: _onButtonTap,
+                  //     child: FlareActor(
+                  //       'assets/Super-cool-button.flr',
+                  //       animation: _animationName,
+                  //       fit: BoxFit.fitWidth,
+                  //       callback: _onFlareCompleted,
+                  //     ),
+                  //   ),
+                  // ),
                   RaisedButton(
-                    child: Text('Open Forth Route'),
+                    child: Text(
+                      'Open\nForth\nRoute',
+                      style: TextStyle(fontSize: 20),
+                      textAlign: TextAlign.center,
+                    ),
+                    elevation: 10,
+                    color: Colors.black38,
                     onPressed: () {
                       // Navigate to forth route when tapped.
                       Navigator.pushNamed(context, '/forth');
                     },
+                    padding: EdgeInsets.all(40),
+                    shape: CircleBorder(
+                      side: BorderSide(color: Colors.amber, width: 4),
+                    )
+                  ),
+                  RaisedButton(
+                    onPressed: () {
+                      print("click");
+                    },
+                    elevation: 10,
+                    color: Colors.black38,
+                    child: Text(
+                      "Circle\nBorder",
+                      style: TextStyle(fontSize: 20),
+                      textAlign: TextAlign.center,
+                    ),
+                    padding: EdgeInsets.all(40),
+                    shape: CircleBorder(
+                      side: BorderSide(color: Colors.amber, width: 4),
+                    ),
                   ),
                 ],
               ),
-            ),
-            floatingActionButton: FloatingActionButton(
-              onPressed: _incrementCounter,
-              tooltip: 'Increment',
-              child: Icon(Icons.add),
-              heroTag: "home_page_btn",
             ),
             backgroundColor: Colors.transparent,
           ),
