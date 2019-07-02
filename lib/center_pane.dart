@@ -39,7 +39,7 @@ class _HomePageState extends State<HomePage>
     // The Flutter framework has been optimized to make rerunning build methods
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
-    print(_animationName);
+    //print(_animationName);
     return Container(
       // Add box decoration
       decoration: BoxDecoration(

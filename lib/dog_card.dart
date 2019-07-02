@@ -1,46 +1,50 @@
 import 'package:flutter/material.dart';
+import 'dog_detail_page.dart';
 import 'dog_model.dart';
 import 'dart:ui' as ui;
 
 class DogCard extends StatefulWidget {
-  DogCard({Key key, this.dog}) : super(key: key);
-
   final Dog dog;
 
+  DogCard({Key key, this.dog}) : super(key: key);
+
   @override
-  _DogCardState createState() => _DogCardState();
+  _DogCardState createState() => _DogCardState(dog);
 }
 
 class _DogCardState extends State<DogCard> with AutomaticKeepAliveClientMixin {
   String _renderUrl = "";
+  Dog _dog;
+
+  _DogCardState(this._dog);
 
   Widget get dogCard {
     // A new container
     // The height and width are arbitrary numbers for styling.
     return Container(
       width: 330.0,
-      height: 235.0,
+      height: 135.0,
       decoration: new BoxDecoration(
         boxShadow: [
           new BoxShadow(
-            color: Colors.purple[400],
-            blurRadius: 20.0,
+            color: Colors.black45,
+            blurRadius: 15.0,
           ),
         ],
         borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(2),
-            topRight: Radius.circular(35),
-            bottomLeft: Radius.circular(35),
-            bottomRight: Radius.circular(2)),
+            topLeft: Radius.circular(55),
+            topRight: Radius.circular(55),
+            bottomLeft: Radius.circular(55),
+            bottomRight: Radius.circular(55)),
       ),
       child: Card(
-        elevation: 15,
+        elevation: 0,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(2),
-              topRight: Radius.circular(35),
-              bottomLeft: Radius.circular(35),
-              bottomRight: Radius.circular(2)),
+              topLeft: Radius.circular(55),
+              topRight: Radius.circular(55),
+              bottomLeft: Radius.circular(55),
+              bottomRight: Radius.circular(55)),
         ),
         color: Colors.white,
         // Wrap children in a Padding widget in order to give padding.
@@ -122,23 +126,42 @@ class _DogCardState extends State<DogCard> with AutomaticKeepAliveClientMixin {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 0.0),
-      child: Container(
-        height: 290.0,
-        child: Stack(
-          children: <Widget>[
-            Positioned(
-              top: 45.0,
-              left: 50.0,
-              child: dogCard,
-            ),
-            Positioned(top: 0.5, child: placeholderContainer),
-            Positioned(top: 0.5, child: dogImage),
-          ],
+    return GestureDetector(
+      onTap: () {
+        showDogDetailPage();
+      },
+      child: Padding(
+        padding: const EdgeInsets.only(left: 20.0, right: 3.0),
+        child: Container(
+          height: 190.0,
+          child: Stack(
+            children: <Widget>[
+              Positioned(
+                top: 45.0,
+                left: 50.0,
+                child: dogCard,
+              ),
+              //Positioned(top: 0.0, child: placeholderContainer),
+              Positioned(top: 0.0, child: dogImage),
+            ],
+          ),
         ),
       ),
     );
+  }
+
+  showDogDetailPage() {
+    bool showDetail = _renderUrl == "" ? false : true;
+    if (showDetail) {
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          // builder methods always take context!
+          builder: (context) {
+            return DogDetailPage(dog: _dog);
+          },
+        ),
+      );
+    }
   }
 
   // State classes run this method when the state is created.
@@ -168,36 +191,79 @@ class _DogCardState extends State<DogCard> with AutomaticKeepAliveClientMixin {
     // if(renderUrl is String)
     //   print("renderUrl:" + renderUrl);
 
-    var dogAvatar = ClipOval(
-        child: Container(
-      width: 115.0,
-      height: 115.0,
-      // Decoration is a property that lets you style the container.
-      // It expects a BoxDecoration.
-      decoration: BoxDecoration(
-          boxShadow: [
-            BoxShadow(
-              color: Colors.transparent,
-            ),
-          ],
-          shape: BoxShape.circle,
-          image: DecorationImage(
-            // Just like CSS's `imagesize` property.
-            fit: BoxFit.cover,
-            image: NetworkImage(_renderUrl ?? ''),
+    var dogAvatar = Hero(
+        tag: widget.dog,
+        // placeholderBuilder: (context, child) {
+        //   return Opacity(opacity: 0.2, child: child);
+        // },
+        child: ClipRRect(
+          borderRadius: new BorderRadius.circular(55.0),
+            child: Container(
+          width: 110.0,
+          height: 110.0,
+          decoration: BoxDecoration(
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black54,
+                blurRadius: 1.0,
+              ),
+            ],
+            shape: BoxShape.rectangle,
+            borderRadius: BorderRadius.circular(55.0),
+            // image: DecorationImage(
+            //   // Just like CSS's `imagesize` property.
+            //   fit: BoxFit.cover,
+            //   image: NetworkImage(_renderUrl ?? ''),
+            //),
+            //border: Border.all(width: 4.0, color: Colors.amber)
           ),
-          border: Border.all(width: 4.0, color: Colors.amber)),
-    ));
+          child: Stack(children: <Widget>[
+            Positioned(
+              width: 110.0,
+              height: 110.0,
+              child: BackdropFilter(
+                  filter: ui.ImageFilter.blur(sigmaX: 8, sigmaY: 8),
+                  child: Container(
+                      child: Icon(
+                        Icons.pets,
+                        color: Colors.white70,
+                        size: 45.0,
+                      ),
+                      decoration: BoxDecoration(
+                          shape: BoxShape.rectangle,
+                          borderRadius: BorderRadius.circular(55.0),
+                          // image: DecorationImage(
+                          //   // Just like CSS's `imagesize` property.
+                          //   fit: BoxFit.cover,
+                          //   image: NetworkImage(_renderUrl ?? ''),
+                          // ),
+                          border:
+                              Border.all(width: 4.0, color: Colors.amber)))),
+            ),
+            Container(
+                decoration: BoxDecoration(
+                    shape: BoxShape.rectangle,
+                    borderRadius:BorderRadius.circular(55.0),
+                    image: DecorationImage(
+                      // Just like CSS's `imagesize` property.
+                      fit: BoxFit.cover,
+                      image: NetworkImage(_renderUrl ?? ''),
+                    ),
+                    border: Border.all(width: 4.0, color: Colors.amber))),
+          ]),
+        )));
 
-    return AnimatedOpacity(
-      // If the widget is visible, animate to 0.0 (invisible).
-      // If the widget is hidden, animate to 1.0 (fully visible).
-      opacity: _renderUrl == "" ? 0.0 : 1.0,
-      duration: Duration(milliseconds: 1000),
-      // The green box must be a child of the AnimatedOpacity widget.
-      child: dogAvatar,
-      curve: Curves.slowMiddle,
-    );
+    return _renderUrl == "" ? Container() : dogAvatar;
+    //return dogAvatar;
+    // return AnimatedOpacity(
+    //   // If the widget is visible, animate to 0.0 (invisible).
+    //   // If the widget is hidden, animate to 1.0 (fully visible).
+    //   opacity: _renderUrl == "" ? 1.0 : 1.0,
+    //   duration: Duration(milliseconds: 0),
+    //   // The green box must be a child of the AnimatedOpacity widget.
+    //   child: dogAvatar,
+    //   curve: Curves.slowMiddle,
+    // );
 
     // This is an animated widget built into flutter.
     // return AnimatedCrossFade(
