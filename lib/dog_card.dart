@@ -127,7 +127,7 @@ class _DogCardState extends State<DogCard> with AutomaticKeepAliveClientMixin {
 
   @override
   Widget build(BuildContext context) {
-    timeDilation = 2;
+    timeDilation = 2.5;
     return GestureDetector(
       onTap: () {
         showDogDetailPage();

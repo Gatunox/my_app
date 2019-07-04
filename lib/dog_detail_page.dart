@@ -26,7 +26,9 @@ class _DogDetailPageState extends State<DogDetailPage>
     var dogAvatar = Hero(
         // The same code, except the Dog property lives on the widget in this file.
         tag: widget.dog,
-        
+        placeholderBuilder: (context, child) {
+    return Opacity(opacity: 0.2, child: child);
+  },
         child: Container(
           height: scrrenWidth,
           width: scrrenWidth,
