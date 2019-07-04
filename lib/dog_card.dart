@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dog_detail_page.dart';
 import 'dog_model.dart';
+import 'package:flutter/scheduler.dart' show timeDilation;
 import 'dart:ui' as ui;
 
 class DogCard extends StatefulWidget {
@@ -22,8 +23,8 @@ class _DogCardState extends State<DogCard> with AutomaticKeepAliveClientMixin {
     // A new container
     // The height and width are arbitrary numbers for styling.
     return Container(
-      width: 330.0,
-      height: 135.0,
+      width: 350.0,
+      height: 235.0,
       decoration: new BoxDecoration(
         boxShadow: [
           new BoxShadow(
@@ -32,19 +33,19 @@ class _DogCardState extends State<DogCard> with AutomaticKeepAliveClientMixin {
           ),
         ],
         borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(55),
-            topRight: Radius.circular(55),
-            bottomLeft: Radius.circular(55),
-            bottomRight: Radius.circular(55)),
+            topLeft: Radius.circular(40),
+            topRight: Radius.circular(0),
+            bottomLeft: Radius.circular(40),
+            bottomRight: Radius.circular(0)),
       ),
       child: Card(
         elevation: 0,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(55),
-              topRight: Radius.circular(55),
-              bottomLeft: Radius.circular(55),
-              bottomRight: Radius.circular(55)),
+              topLeft: Radius.circular(40),
+              topRight: Radius.circular(0),
+              bottomLeft: Radius.circular(40),
+              bottomRight: Radius.circular(0)),
         ),
         color: Colors.white,
         // Wrap children in a Padding widget in order to give padding.
@@ -126,14 +127,15 @@ class _DogCardState extends State<DogCard> with AutomaticKeepAliveClientMixin {
 
   @override
   Widget build(BuildContext context) {
+    timeDilation = 2;
     return GestureDetector(
       onTap: () {
         showDogDetailPage();
       },
       child: Padding(
-        padding: const EdgeInsets.only(left: 20.0, right: 3.0),
+        padding: const EdgeInsets.only(left: 20.0, right: 0.0),
         child: Container(
-          height: 190.0,
+          height: 290.0,
           child: Stack(
             children: <Widget>[
               Positioned(
@@ -197,7 +199,7 @@ class _DogCardState extends State<DogCard> with AutomaticKeepAliveClientMixin {
         //   return Opacity(opacity: 0.2, child: child);
         // },
         child: ClipRRect(
-          borderRadius: new BorderRadius.circular(55.0),
+          borderRadius: new BorderRadius.circular(40.0),
             child: Container(
           width: 110.0,
           height: 110.0,
@@ -209,7 +211,7 @@ class _DogCardState extends State<DogCard> with AutomaticKeepAliveClientMixin {
               ),
             ],
             shape: BoxShape.rectangle,
-            borderRadius: BorderRadius.circular(55.0),
+            borderRadius: BorderRadius.circular(40.0),
             // image: DecorationImage(
             //   // Just like CSS's `imagesize` property.
             //   fit: BoxFit.cover,
@@ -231,25 +233,20 @@ class _DogCardState extends State<DogCard> with AutomaticKeepAliveClientMixin {
                       ),
                       decoration: BoxDecoration(
                           shape: BoxShape.rectangle,
-                          borderRadius: BorderRadius.circular(55.0),
-                          // image: DecorationImage(
-                          //   // Just like CSS's `imagesize` property.
-                          //   fit: BoxFit.cover,
-                          //   image: NetworkImage(_renderUrl ?? ''),
-                          // ),
+                          borderRadius: BorderRadius.circular(40.0),
                           border:
-                              Border.all(width: 4.0, color: Colors.amber)))),
+                              Border.all(width: 3.0, color: Colors.amber)))),
             ),
             Container(
                 decoration: BoxDecoration(
                     shape: BoxShape.rectangle,
-                    borderRadius:BorderRadius.circular(55.0),
+                    borderRadius:BorderRadius.circular(40.0),
                     image: DecorationImage(
                       // Just like CSS's `imagesize` property.
                       fit: BoxFit.cover,
                       image: NetworkImage(_renderUrl ?? ''),
                     ),
-                    border: Border.all(width: 4.0, color: Colors.amber))),
+                    border: Border.all(width: 3.0, color: Colors.amber))),
           ]),
         )));
 
