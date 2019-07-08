@@ -3,6 +3,7 @@ import 'dog_detail_page.dart';
 import 'dog_detail_animatior.dart';
 import 'dog_model.dart';
 import 'package:flutter/scheduler.dart' show timeDilation;
+import 'dart:math' as math;
 import 'dart:ui' as ui;
 
 class DogCard extends StatefulWidget {
@@ -128,7 +129,7 @@ class _DogCardState extends State<DogCard> with AutomaticKeepAliveClientMixin {
 
   @override
   Widget build(BuildContext context) {
-    timeDilation = 1.0;
+    timeDilation = 1.5;
     return GestureDetector(
       onTap: () {
         showDogDetailPage();
@@ -207,7 +208,7 @@ class _DogCardState extends State<DogCard> with AutomaticKeepAliveClientMixin {
               fit: BoxFit.cover,
               image: NetworkImage(_renderUrl ?? ''),
             ),
-            border: Border.all(width: 2.0, color: Colors.amber)));
+            border: Border.all(width: 2.0, color: Colors.black45)));
   }
 
   Widget get dogImage {
@@ -216,6 +217,25 @@ class _DogCardState extends State<DogCard> with AutomaticKeepAliveClientMixin {
 
     var dogAvatar = Hero(
         tag: _dog,
+        flightShuttleBuilder: (
+          BuildContext flightContext,
+          Animation<double> animation,
+          HeroFlightDirection flightDirection,
+          BuildContext fromHeroContext,
+          BuildContext toHeroContext,
+        ) {
+          final Hero toHero = toHeroContext.widget;
+          return ScaleTransition(
+            scale: animation.drive(
+              Tween<double>(begin: 0.0, end: 1.0).chain(
+                CurveTween(
+                  curve: Interval(0.0, 1.0, curve: PeakQuadraticCurve()),
+                ),
+              ),
+            ),
+            child: toHero.child,
+          );
+        },
         // placeholderBuilder: (context, child) {
         //   return Opacity(opacity: 0.2, child: child);
         // },
@@ -245,18 +265,18 @@ class _DogCardState extends State<DogCard> with AutomaticKeepAliveClientMixin {
                   width: 110.0,
                   height: 110.0,
                   child: BackdropFilter(
-                      filter: ui.ImageFilter.blur(sigmaX: 8, sigmaY: 8),
+                      filter: ui.ImageFilter.blur(sigmaX: 3, sigmaY: 3),
                       child: Container(
                           child: Icon(
                             Icons.pets,
-                            color: Colors.white70,
+                            color: Colors.white,
                             size: 45.0,
                           ),
                           decoration: BoxDecoration(
                               shape: BoxShape.rectangle,
                               borderRadius: BorderRadius.circular(40.0),
                               border: Border.all(
-                                  width: 2.0, color: Colors.amber)))),
+                                  width: 2.0, color: Colors.black54)))),
                 ),
                 _renderUrl == "" ? Container() : dogImageContainer,
               ]),
@@ -316,11 +336,19 @@ class _DogCardState extends State<DogCard> with AutomaticKeepAliveClientMixin {
                 ),
                 decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    border: Border.all(width: 4.0, color: Colors.amber)))),
+                    border: Border.all(width: 2.0, color: Colors.white70)))),
       ),
     );
   }
 
   @override
   bool get wantKeepAlive => true;
+}
+
+class PeakQuadraticCurve extends Curve {
+  @override
+  double transform(double t) {
+    assert(t >= 0.0 && t <= 1.0);
+    return -5 * math.pow(t, 2) + 5 * t + 1;
+  }
 }

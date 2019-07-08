@@ -72,11 +72,11 @@ class DogDetailsEnterAnimations {
             ),
           ),
         ),
-        videoScrollerXTranslation = new Tween(begin: 80.0, end: 0.0).animate(
+        videoScrollerXTranslation = new Tween(begin: 65.0, end: 0.0).animate(
           new CurvedAnimation(
             parent: controller,
             curve: new Interval(
-              0.830,
+              0.500,
               1.000,
               curve: Curves.ease,
             ),
