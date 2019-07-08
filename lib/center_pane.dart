@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/third_route.dart';
-import 'package:flare_flutter/flare_actor.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key key, this.title, this.controller}) : super(key: key);
