@@ -72,11 +72,11 @@ class _HomePageState extends State<HomePage>
                       // Navigate to second route when tapped.
                       Navigator.pushNamed(context, '/second');
                     },
-                    elevation: 10,
+                    elevation: 2,
                     color: Colors.black38,
                     padding: EdgeInsets.all(40),
                     shape: CircleBorder(
-                      side: BorderSide(color: Colors.amber, width: 3),
+                      side: BorderSide(color: Colors.amber, width: 2),
                     )
                   ),
                   RaisedButton(
@@ -102,11 +102,11 @@ class _HomePageState extends State<HomePage>
                         ),
                       );
                     },
-                    elevation: 10,
+                    elevation: 2,
                     color: Colors.black38,
                     padding: EdgeInsets.all(40),
                     shape: CircleBorder(
-                      side: BorderSide(color: Colors.amber, width: 3),
+                      side: BorderSide(color: Colors.amber, width: 2),
                     )
                   ),
                   // SizedBox(
@@ -128,7 +128,7 @@ class _HomePageState extends State<HomePage>
                       style: TextStyle(fontSize: 20),
                       textAlign: TextAlign.center,
                     ),
-                    elevation: 10,
+                    elevation: 2,
                     color: Colors.black38,
                     onPressed: () {
                       // Navigate to forth route when tapped.
@@ -136,14 +136,14 @@ class _HomePageState extends State<HomePage>
                     },
                     padding: EdgeInsets.all(40),
                     shape: CircleBorder(
-                      side: BorderSide(color: Colors.amber, width: 3),
+                      side: BorderSide(color: Colors.amber, width: 2),
                     )
                   ),
                   RaisedButton(
                     onPressed: () {
                       print("click");
                     },
-                    elevation: 10,
+                    elevation: 2,
                     color: Colors.black38,
                     child: Text(
                       "Circle\nBorder",
@@ -152,7 +152,7 @@ class _HomePageState extends State<HomePage>
                     ),
                     padding: EdgeInsets.all(40),
                     shape: CircleBorder(
-                      side: BorderSide(color: Colors.amber, width: 3),
+                      side: BorderSide(color: Colors.amber, width: 2),
                     ),
                   ),
                 ],

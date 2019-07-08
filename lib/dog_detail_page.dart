@@ -1,23 +1,24 @@
 import 'package:flutter/material.dart';
-
+import 'dog_detail_enter_animations.dart';
 import 'dog_model.dart';
+import 'dart:ui' as ui;
 
 class DogDetailPage extends StatefulWidget {
-  final Dog dog;
+  DogDetailPage({Key key, this.dog, this.animation}) : super(key: key);
 
-  DogDetailPage({Key key, this.dog}) : super(key: key);
+  final Dog dog;
+  final DogDetailsEnterAnimations animation;
 
   @override
-  _DogDetailPageState createState() => _DogDetailPageState(dog);
+  _DogDetailPageState createState() => _DogDetailPageState(dog, animation);
 }
 
 class _DogDetailPageState extends State<DogDetailPage>
     with AutomaticKeepAliveClientMixin {
-  // Arbitrary size choice for styles
-  final double dogAvatarSize = 250.0;
-  Dog _dog;
+  _DogDetailPageState(this._dog, this._animation);
 
-  _DogDetailPageState(this._dog);
+  Dog _dog;
+  DogDetailsEnterAnimations _animation;
 
   Widget get dogImage {
     final double scrrenWidth = MediaQuery.of(context).size.width;
@@ -26,9 +27,9 @@ class _DogDetailPageState extends State<DogDetailPage>
     var dogAvatar = Hero(
         // The same code, except the Dog property lives on the widget in this file.
         tag: widget.dog,
-        placeholderBuilder: (context, child) {
-    return Opacity(opacity: 0.2, child: child);
-  },
+        // placeholderBuilder: (context, child) {
+        //   return Opacity(opacity: 0.2, child: child);
+        // },
         child: Container(
           height: scrrenWidth,
           width: scrrenWidth,
@@ -37,15 +38,14 @@ class _DogDetailPageState extends State<DogDetailPage>
           decoration: BoxDecoration(
             borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(40),
-                topRight: Radius.circular(0),
-                bottomLeft: Radius.circular(0),
-                bottomRight: Radius.circular(0)),
+                topRight: Radius.circular(40),
+                bottomLeft: Radius.circular(40),
+                bottomRight: Radius.circular(40)),
             shape: BoxShape.rectangle,
             // This is how you add an image to a Container's background.
             image: DecorationImage(
-                fit: BoxFit.cover,
-                image: NetworkImage(widget.dog.imageUrl ?? '')),
-            border: Border.all(width: 3.0, color: Colors.amber),
+                fit: BoxFit.cover, image: NetworkImage(_dog.imageUrl ?? '')),
+            border: Border.all(width: 2.0, color: Colors.amber),
           ),
         ));
 
@@ -73,8 +73,113 @@ class _DogDetailPageState extends State<DogDetailPage>
 
   Future<void> executeAfterBuild() async {
     if (mounted) {
-      setState(() {});
+      setState(() {
+        print("executeAfterBuild");
+      });
     }
+  }
+
+  Widget _buildAnimation(BuildContext context, Widget child) {
+    final double scrrenWidth = MediaQuery.of(context).size.width;
+    return Container(
+      decoration: BoxDecoration(
+        // Box decoration takes a gradient
+        gradient: LinearGradient(
+          // Where the linear gradient begins and ends
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          // Add one stop for each color. Stops should increase from 0 to 1
+          colors: [
+            // Colors are easy thanks to Flutter's Colors class.
+            Colors.purple,
+            Colors.amber,
+          ],
+        ),
+      ),
+      child: Stack(children: <Widget>[
+        Container(
+          padding: EdgeInsets.only(top: 0.0),
+          height: 200,
+          child: AppBar(
+            title: Text('Meet ${_dog.name}',
+                textAlign: TextAlign.center, style: TextStyle(fontSize: 22.0)),
+            backgroundColor: Colors.transparent, //No more green
+            elevation: 0.0, //Shadow gone
+          ),
+        ),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            SizedBox(height: 125.0),
+            dogImage,
+          ],
+        ),
+        // Align(
+        //   alignment: Alignment.bottomLeft,
+        //   child: ClipRRect(
+        //       borderRadius: new BorderRadius.only(
+        //           topLeft: Radius.circular(40.0),
+        //           topRight: Radius.circular(40.0)),
+        //       child: Container(
+        //         height: scrrenWidth,
+        //         width: scrrenWidth,
+        //         color: Colors.white,
+        //       )),
+        // )
+        Padding(
+          padding: const EdgeInsets.only(top: 120.0),
+          child: Transform(
+            transform: new Matrix4.translationValues(
+              0.0,
+              _animation.videoScrollerXTranslation.value,
+              0.0,
+            ),
+            child: Opacity(
+              opacity: _animation.videoScrollerOpacity.value,
+              child: Container(
+                child: ScrollConfiguration(
+                  behavior: MyBehavior(),
+                  child: ListView.builder(
+                    padding: EdgeInsets.zero,
+                    physics: ClampingScrollPhysics(),
+                    // Must have an item count equal to the number of items!
+                    itemCount: 1,
+                    // A callback that will return a widget.
+                    itemBuilder: (context, int index) {
+                      // In our case, a DogCard for each doggo.
+                      return Container(
+                        padding: EdgeInsets.only(top: 340.0),
+                        height: 1110,
+                        child: ClipRRect(
+                            borderRadius: new BorderRadius.only(
+                                topLeft: Radius.circular(40.0),
+                                topRight: Radius.circular(40.0),
+                                bottomLeft: Radius.circular(40),
+                                bottomRight: Radius.circular(40)),
+                            child: Container(
+                              width: scrrenWidth,
+                              //color: Colors.white,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(40),
+                                    topRight: Radius.circular(40),
+                                    bottomLeft: Radius.circular(40),
+                                    bottomRight: Radius.circular(40)),
+                                shape: BoxShape.rectangle,
+                                // This is how you add an image to a Container's background.
+                                color: Colors.white,
+                              ),
+                            )),
+                      );
+                    },
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ]),
+    );
   }
 
   //Finally, the build method:
@@ -84,57 +189,11 @@ class _DogDetailPageState extends State<DogDetailPage>
   // have in this file rather than trying to have one massive build method
   @override
   Widget build(BuildContext context) {
-    final double scrrenWidth = MediaQuery.of(context).size.width;
-    //print("Call build DogDetailPage");
-    // This is a new page, so you need a new Scaffold
     Future.delayed(const Duration(seconds: 1), () => executeAfterBuild());
-    return Scaffold(
-      body: Container(
-        decoration: BoxDecoration(
-          // Box decoration takes a gradient
-          gradient: LinearGradient(
-            // Where the linear gradient begins and ends
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            // Add one stop for each color. Stops should increase from 0 to 1
-            colors: [
-              // Colors are easy thanks to Flutter's Colors class.
-              Colors.purple,
-              Colors.amber,
-            ],
-          ),
-        ),
-        child: Stack(children: <Widget>[
-          Container(
-            padding: EdgeInsets.only(top: 0.0),
-            height: 200,
-            child: AppBar(
-              title: Text('Meet ${widget.dog.name}',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 22.0)),
-              backgroundColor: Colors.transparent, //No more green
-              elevation: 0.0, //Shadow gone
-            ),
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              SizedBox(height: 125.0),
-              dogImage,
-            ],
-          ),
-          Align(
-            alignment: Alignment.bottomLeft,
-            child: ClipRRect(
-                borderRadius:
-                    new BorderRadius.only(topLeft: Radius.circular(40.0)),
-                child: Container(
-                  height: scrrenWidth,
-                  width: scrrenWidth,
-                  color: Colors.white,
-                )),
-          )
-        ]),
+    return new Scaffold(
+      body: new AnimatedBuilder(
+        animation: _animation.controller,
+        builder: _buildAnimation,
       ),
     );
   }
@@ -142,4 +201,12 @@ class _DogDetailPageState extends State<DogDetailPage>
   @override
   // TODO: implement wantKeepAlive
   bool get wantKeepAlive => true;
+}
+
+class MyBehavior extends ScrollBehavior {
+  @override
+  Widget buildViewportChrome(
+      BuildContext context, Widget child, AxisDirection axisDirection) {
+    return child;
+  }
 }

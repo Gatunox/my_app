@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dog_detail_page.dart';
+import 'dog_detail_animatior.dart';
 import 'dog_model.dart';
 import 'package:flutter/scheduler.dart' show timeDilation;
 import 'dart:ui' as ui;
@@ -28,8 +29,8 @@ class _DogCardState extends State<DogCard> with AutomaticKeepAliveClientMixin {
       decoration: new BoxDecoration(
         boxShadow: [
           new BoxShadow(
-            color: Colors.black45,
-            blurRadius: 15.0,
+            color: Colors.black12,
+            blurRadius: 1.0,
           ),
         ],
         borderRadius: BorderRadius.only(
@@ -127,7 +128,7 @@ class _DogCardState extends State<DogCard> with AutomaticKeepAliveClientMixin {
 
   @override
   Widget build(BuildContext context) {
-    timeDilation = 2.5;
+    timeDilation = 1.0;
     return GestureDetector(
       onTap: () {
         showDogDetailPage();
@@ -155,12 +156,19 @@ class _DogCardState extends State<DogCard> with AutomaticKeepAliveClientMixin {
   showDogDetailPage() {
     bool showDetail = _renderUrl == "" ? false : true;
     if (showDetail) {
-      Navigator.of(context).push(
-        MaterialPageRoute(
-          // builder methods always take context!
-          builder: (context) {
-            return DogDetailPage(dog: _dog);
+      Navigator.push(
+        context,
+        PageRouteBuilder(
+          pageBuilder: (context, animation1, animation2) {
+            return DogDetailAnimator(dog: _dog);
           },
+          transitionsBuilder: (context, animation1, animation2, child) {
+            return FadeTransition(
+              opacity: animation1,
+              child: child,
+            );
+          },
+          transitionDuration: Duration(milliseconds: 500),
         ),
       );
     }
@@ -199,56 +207,56 @@ class _DogCardState extends State<DogCard> with AutomaticKeepAliveClientMixin {
         //   return Opacity(opacity: 0.2, child: child);
         // },
         child: ClipRRect(
-          borderRadius: new BorderRadius.circular(40.0),
+            borderRadius: new BorderRadius.circular(40.0),
             child: Container(
-          width: 110.0,
-          height: 110.0,
-          decoration: BoxDecoration(
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black54,
-                blurRadius: 1.0,
-              ),
-            ],
-            shape: BoxShape.rectangle,
-            borderRadius: BorderRadius.circular(40.0),
-            // image: DecorationImage(
-            //   // Just like CSS's `imagesize` property.
-            //   fit: BoxFit.cover,
-            //   image: NetworkImage(_renderUrl ?? ''),
-            //),
-            //border: Border.all(width: 4.0, color: Colors.amber)
-          ),
-          child: Stack(children: <Widget>[
-            Positioned(
               width: 110.0,
               height: 110.0,
-              child: BackdropFilter(
-                  filter: ui.ImageFilter.blur(sigmaX: 8, sigmaY: 8),
-                  child: Container(
-                      child: Icon(
-                        Icons.pets,
-                        color: Colors.white70,
-                        size: 45.0,
-                      ),
-                      decoration: BoxDecoration(
-                          shape: BoxShape.rectangle,
-                          borderRadius: BorderRadius.circular(40.0),
-                          border:
-                              Border.all(width: 3.0, color: Colors.amber)))),
-            ),
-            Container(
-                decoration: BoxDecoration(
-                    shape: BoxShape.rectangle,
-                    borderRadius:BorderRadius.circular(40.0),
-                    image: DecorationImage(
-                      // Just like CSS's `imagesize` property.
-                      fit: BoxFit.cover,
-                      image: NetworkImage(_renderUrl ?? ''),
-                    ),
-                    border: Border.all(width: 3.0, color: Colors.amber))),
-          ]),
-        )));
+              decoration: BoxDecoration(
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black54,
+                    blurRadius: 1.0,
+                  ),
+                ],
+                shape: BoxShape.rectangle,
+                borderRadius: BorderRadius.circular(40.0),
+                // image: DecorationImage(
+                //   // Just like CSS's `imagesize` property.
+                //   fit: BoxFit.cover,
+                //   image: NetworkImage(_renderUrl ?? ''),
+                //),
+                //border: Border.all(width: 4.0, color: Colors.amber)
+              ),
+              child: Stack(children: <Widget>[
+                Positioned(
+                  width: 110.0,
+                  height: 110.0,
+                  child: BackdropFilter(
+                      filter: ui.ImageFilter.blur(sigmaX: 8, sigmaY: 8),
+                      child: Container(
+                          child: Icon(
+                            Icons.pets,
+                            color: Colors.white70,
+                            size: 45.0,
+                          ),
+                          decoration: BoxDecoration(
+                              shape: BoxShape.rectangle,
+                              borderRadius: BorderRadius.circular(40.0),
+                              border: Border.all(
+                                  width: 2.0, color: Colors.amber)))),
+                ),
+                Container(
+                    decoration: BoxDecoration(
+                        shape: BoxShape.rectangle,
+                        borderRadius: BorderRadius.circular(40.0),
+                        image: DecorationImage(
+                          // Just like CSS's `imagesize` property.
+                          fit: BoxFit.cover,
+                          image: NetworkImage(_renderUrl ?? ''),
+                        ),
+                        border: Border.all(width: 2.0, color: Colors.amber))),
+              ]),
+            )));
 
     return _renderUrl == "" ? Container() : dogAvatar;
     //return dogAvatar;
