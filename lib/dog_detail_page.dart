@@ -150,26 +150,111 @@ class _DogDetailPageState extends State<DogDetailPage>
                       return Container(
                         padding: EdgeInsets.only(top: 340.0),
                         height: 1110,
-                        child: ClipRRect(
-                            borderRadius: new BorderRadius.only(
-                                topLeft: Radius.circular(40.0),
-                                topRight: Radius.circular(40.0),
+                        child: Container(
+                          decoration: new BoxDecoration(
+                            boxShadow: [
+                              new BoxShadow(
+                                color: Colors.black87,
+                                blurRadius: 4.0,
+                              ),
+                            ],
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(40),
+                                topRight: Radius.circular(40),
                                 bottomLeft: Radius.circular(40),
                                 bottomRight: Radius.circular(40)),
-                            child: Container(
-                              width: scrrenWidth,
-                              //color: Colors.white,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(40),
-                                    topRight: Radius.circular(40),
-                                    bottomLeft: Radius.circular(40),
-                                    bottomRight: Radius.circular(40)),
-                                shape: BoxShape.rectangle,
-                                // This is how you add an image to a Container's background.
-                                color: Colors.white,
+                          ),
+                          child: Card(
+                            elevation: 0,
+                            margin: const EdgeInsets.only(top: 1.0),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(40),
+                                  topRight: Radius.circular(40),
+                                  bottomLeft: Radius.circular(40),
+                                  bottomRight: Radius.circular(40)),
+                            ),
+                            color: Colors.white,
+                            // Wrap children in a Padding widget in order to give padding.
+                            child: Padding(
+                              // The class that controls padding is called 'EdgeInsets'
+                              // The EdgeInsets.only constructor is used to set
+                              // padding explicitly to each side of the child.
+                              padding: const EdgeInsets.only(
+                                top: 10.0,
+                                bottom: 10.0,
+                                left: 70.0,
                               ),
-                            )),
+                              // Column is another layout widget -- like stack -- that
+                              // takes a list of widgets as children, and lays the
+                              // widgets out from top to bottom.
+                              child: Column(
+                                // These alignment properties function exactly like
+                                // CSS flexbox properties.
+                                // The main axis of a column is the vertical axis,
+                                // `MainAxisAlignment.spaceAround` is equivalent of
+                                // CSS's 'justify-content: space-around' in a vertically
+                                // laid out flexbox.
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: <Widget>[
+                                  RichText(
+                                    text: TextSpan(
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold),
+                                      children: <TextSpan>[
+                                        TextSpan(
+                                          text: widget.dog.name,
+                                          style: TextStyle(
+                                              fontFamily: 'Roboto',
+                                              fontSize: 20.0,
+                                              color: Colors.black
+                                                  .withOpacity(1.0)),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  RichText(
+                                    text: TextSpan(
+                                      children: <TextSpan>[
+                                        TextSpan(
+                                          text: widget.dog.location,
+                                          style: TextStyle(
+                                              fontFamily: 'Roboto',
+                                              fontSize: 16.0,
+                                              color: Colors.black
+                                                  .withOpacity(1.0)),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Row(
+                                    children: <Widget>[
+                                      Icon(
+                                        Icons.star,
+                                        color: Colors.purple,
+                                      ),
+                                      RichText(
+                                        text: TextSpan(
+                                          children: <TextSpan>[
+                                            TextSpan(
+                                              text:
+                                                  ': ${widget.dog.rating} / 10',
+                                              style: TextStyle(
+                                                  fontSize: 14.0,
+                                                  color: Colors.black
+                                                      .withOpacity(1.0)),
+                                            ),
+                                          ],
+                                        ),
+                                      )
+                                    ],
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
                       );
                     },
                   ),

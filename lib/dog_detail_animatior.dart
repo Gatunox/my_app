@@ -27,6 +27,7 @@ class _DogDetailAnimator extends State<DogDetailAnimator>
       duration: const Duration(milliseconds: 1500),
       vsync: this,
     );
+    _controller.reset();
     _controller.forward();
   }
 

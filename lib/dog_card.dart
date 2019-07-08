@@ -186,15 +186,28 @@ class _DogCardState extends State<DogCard> with AutomaticKeepAliveClientMixin {
   // but this is a simpler way to explain Flutter basics
   void renderDogPic() async {
     // this makes the service call
-    await widget.dog.getImageUrl();
+    await _dog.getImageUrl();
     // setState tells Flutter to rerender anything that's been changed.
     // setState cannot be async, so we use a variable that can be overwritten
     if (mounted) {
       // Avoid calling `setState` if the widget is no longer in the widget tree.
       setState(() {
-        _renderUrl = widget.dog.imageUrl;
+        _renderUrl = _dog.imageUrl;
       });
     }
+  }
+
+  Widget get dogImageContainer {
+    return Container(
+        decoration: BoxDecoration(
+            shape: BoxShape.rectangle,
+            borderRadius: BorderRadius.circular(40.0),
+            image: DecorationImage(
+              // Just like CSS's `imagesize` property.
+              fit: BoxFit.cover,
+              image: NetworkImage(_renderUrl ?? ''),
+            ),
+            border: Border.all(width: 2.0, color: Colors.amber)));
   }
 
   Widget get dogImage {
@@ -202,7 +215,7 @@ class _DogCardState extends State<DogCard> with AutomaticKeepAliveClientMixin {
     //   print("renderUrl:" + renderUrl);
 
     var dogAvatar = Hero(
-        tag: widget.dog,
+        tag: _dog,
         // placeholderBuilder: (context, child) {
         //   return Opacity(opacity: 0.2, child: child);
         // },
@@ -245,20 +258,11 @@ class _DogCardState extends State<DogCard> with AutomaticKeepAliveClientMixin {
                               border: Border.all(
                                   width: 2.0, color: Colors.amber)))),
                 ),
-                Container(
-                    decoration: BoxDecoration(
-                        shape: BoxShape.rectangle,
-                        borderRadius: BorderRadius.circular(40.0),
-                        image: DecorationImage(
-                          // Just like CSS's `imagesize` property.
-                          fit: BoxFit.cover,
-                          image: NetworkImage(_renderUrl ?? ''),
-                        ),
-                        border: Border.all(width: 2.0, color: Colors.amber))),
+                _renderUrl == "" ? Container() : dogImageContainer,
               ]),
             )));
 
-    return _renderUrl == "" ? Container() : dogAvatar;
+    return dogAvatar;
     //return dogAvatar;
     // return AnimatedOpacity(
     //   // If the widget is visible, animate to 0.0 (invisible).
