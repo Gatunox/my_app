@@ -7,19 +7,19 @@ class ForthRoute extends StatefulWidget {
 
   final String title;
   List<Dog> initialDoggos = []
-    ..add(Dog('Ruby', 'Portland, OR, USA',
-        'Ruby is a very good girl. Yes: Fetch, loungin\'. No: Dogs who get on furniture.'))
-    ..add(Dog('Rex', 'Seattle, WA, USA', 'Best in Show 1999'))
-    ..add(Dog('Rod Stewart', 'Prague, CZ',
-        'Star good boy on international snooze team.'))
-    ..add(Dog('Herbert', 'Dallas, TX, USA', 'A Very Good Boy'))
-    ..add(Dog('Ruby', 'Portland, OR, USA',
-        'Ruby is a very good girl. Yes: Fetch, loungin\'. No: Dogs who get on furniture.'))
-    ..add(Dog('Rex', 'Seattle, WA, USA', 'Best in Show 1999'))
-    ..add(Dog('Rod Stewart', 'Prague, CZ',
-        'Star good boy on international snooze team.'))
-    ..add(Dog('Herbert', 'Dallas, TX, USA', 'A Very Good Boy'))
-    ..add(Dog('Buddy', 'North Pole, Earth', 'Self proclaimed human lover.'));
+    ..add(Dog(id:1, name: 'Ruby', location: 'Portland, OR, USA',
+        description: 'Ruby is a very good girl. Yes: Fetch, loungin\'. No: Dogs who get on furniture.'))
+    ..add(Dog(id:2, name:  'Rex', location: 'Seattle, WA, USA', description: 'Best in Show 1999'))
+    ..add(Dog(id:3, name: 'Rod Stewart', location: 'Prague, CZ',
+        description: 'Star good boy on international snooze team.'))
+    ..add(Dog(id:4, name: 'Herbert', location: 'Dallas, TX, USA', description:'A Very Good Boy'))
+    ..add(Dog(id:5, name: 'Ruby', location: 'Portland, OR, USA',
+        description: 'Ruby is a very good girl. Yes: Fetch, loungin\'. No: Dogs who get on furniture.'))
+    ..add(Dog(id:6, name: 'Rex', location: 'Seattle, WA, USA', description: 'Best in Show 1999'))
+    ..add(Dog(id:7, name: 'Rod Stewart', location: 'Prague, CZ',
+        description: 'Star good boy on international snooze team.'))
+    ..add(Dog(id:8, name: 'Herbert', location: 'Dallas, TX, USA', description: 'A Very Good Boy'))
+    ..add(Dog(id:9, name: 'Buddy', location: 'North Pole, Earth', description: 'Self proclaimed human lover.'));
 
   @override
   _ThirdRouteState createState() => _ThirdRouteState();

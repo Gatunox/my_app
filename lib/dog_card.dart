@@ -36,91 +36,94 @@ class _DogCardState extends State<DogCard> with AutomaticKeepAliveClientMixin {
         ],
         borderRadius: BorderRadius.only(
             topLeft: Radius.circular(40),
-            topRight: Radius.circular(0),
+            topRight: Radius.circular(40),
             bottomLeft: Radius.circular(40),
-            bottomRight: Radius.circular(0)),
+            bottomRight: Radius.circular(40)),
       ),
-      child: Card(
-        elevation: 0,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(40),
-              topRight: Radius.circular(0),
-              bottomLeft: Radius.circular(40),
-              bottomRight: Radius.circular(0)),
-        ),
-        color: Colors.white,
-        // Wrap children in a Padding widget in order to give padding.
-        child: Padding(
-          // The class that controls padding is called 'EdgeInsets'
-          // The EdgeInsets.only constructor is used to set
-          // padding explicitly to each side of the child.
-          padding: const EdgeInsets.only(
-            top: 10.0,
-            bottom: 10.0,
-            left: 70.0,
+      child: Hero(
+        tag: _dog.id,
+        child: Card(
+          elevation: 0,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(40),
+                topRight: Radius.circular(40),
+                bottomLeft: Radius.circular(40),
+                bottomRight: Radius.circular(40)),
           ),
-          // Column is another layout widget -- like stack -- that
-          // takes a list of widgets as children, and lays the
-          // widgets out from top to bottom.
-          child: Column(
-            // These alignment properties function exactly like
-            // CSS flexbox properties.
-            // The main axis of a column is the vertical axis,
-            // `MainAxisAlignment.spaceAround` is equivalent of
-            // CSS's 'justify-content: space-around' in a vertically
-            // laid out flexbox.
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              RichText(
-                text: TextSpan(
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                  children: <TextSpan>[
-                    TextSpan(
-                      text: widget.dog.name,
-                      style: TextStyle(
-                          fontFamily: 'Roboto',
-                          fontSize: 20.0,
-                          color: Colors.black.withOpacity(1.0)),
-                    ),
-                  ],
-                ),
-              ),
-              RichText(
-                text: TextSpan(
-                  children: <TextSpan>[
-                    TextSpan(
-                      text: widget.dog.location,
-                      style: TextStyle(
-                          fontFamily: 'Roboto',
-                          fontSize: 16.0,
-                          color: Colors.black.withOpacity(1.0)),
-                    ),
-                  ],
-                ),
-              ),
-              Row(
-                children: <Widget>[
-                  Icon(
-                    Icons.star,
-                    color: Colors.purple,
+          color: Colors.white,
+          // Wrap children in a Padding widget in order to give padding.
+          child: Padding(
+            // The class that controls padding is called 'EdgeInsets'
+            // The EdgeInsets.only constructor is used to set
+            // padding explicitly to each side of the child.
+            padding: const EdgeInsets.only(
+              top: 10.0,
+              bottom: 10.0,
+              left: 70.0,
+            ),
+            // Column is another layout widget -- like stack -- that
+            // takes a list of widgets as children, and lays the
+            // widgets out from top to bottom.
+            child: Column(
+              // These alignment properties function exactly like
+              // CSS flexbox properties.
+              // The main axis of a column is the vertical axis,
+              // `MainAxisAlignment.spaceAround` is equivalent of
+              // CSS's 'justify-content: space-around' in a vertically
+              // laid out flexbox.
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                RichText(
+                  text: TextSpan(
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                    children: <TextSpan>[
+                      TextSpan(
+                        text: widget.dog.name,
+                        style: TextStyle(
+                            fontFamily: 'Roboto',
+                            fontSize: 20.0,
+                            color: Colors.black.withOpacity(1.0)),
+                      ),
+                    ],
                   ),
-                  RichText(
-                    text: TextSpan(
-                      children: <TextSpan>[
-                        TextSpan(
-                          text: ': ${widget.dog.rating} / 10',
-                          style: TextStyle(
-                              fontSize: 14.0,
-                              color: Colors.black.withOpacity(1.0)),
-                        ),
-                      ],
+                ),
+                RichText(
+                  text: TextSpan(
+                    children: <TextSpan>[
+                      TextSpan(
+                        text: widget.dog.location,
+                        style: TextStyle(
+                            fontFamily: 'Roboto',
+                            fontSize: 16.0,
+                            color: Colors.black.withOpacity(1.0)),
+                      ),
+                    ],
+                  ),
+                ),
+                Row(
+                  children: <Widget>[
+                    Icon(
+                      Icons.star,
+                      color: Colors.purple,
                     ),
-                  )
-                ],
-              )
-            ],
+                    RichText(
+                      text: TextSpan(
+                        children: <TextSpan>[
+                          TextSpan(
+                            text: ': ${widget.dog.rating} / 10',
+                            style: TextStyle(
+                                fontSize: 14.0,
+                                color: Colors.black.withOpacity(1.0)),
+                          ),
+                        ],
+                      ),
+                    )
+                  ],
+                )
+              ],
+            ),
           ),
         ),
       ),
@@ -129,7 +132,7 @@ class _DogCardState extends State<DogCard> with AutomaticKeepAliveClientMixin {
 
   @override
   Widget build(BuildContext context) {
-    timeDilation = 1.5;
+    timeDilation = 1.0;
     return GestureDetector(
       onTap: () {
         showDogDetailPage();
@@ -202,7 +205,7 @@ class _DogCardState extends State<DogCard> with AutomaticKeepAliveClientMixin {
     return Container(
         decoration: BoxDecoration(
             shape: BoxShape.rectangle,
-            borderRadius: BorderRadius.circular(40.0),
+            borderRadius: BorderRadius.circular(30.0),
             image: DecorationImage(
               // Just like CSS's `imagesize` property.
               fit: BoxFit.cover,
@@ -216,7 +219,7 @@ class _DogCardState extends State<DogCard> with AutomaticKeepAliveClientMixin {
     //   print("renderUrl:" + renderUrl);
 
     var dogAvatar = Hero(
-        tag: _dog,
+        tag: _dog.hashCode,
         flightShuttleBuilder: (
           BuildContext flightContext,
           Animation<double> animation,
@@ -225,11 +228,11 @@ class _DogCardState extends State<DogCard> with AutomaticKeepAliveClientMixin {
           BuildContext toHeroContext,
         ) {
           final Hero toHero = toHeroContext.widget;
-          return ScaleTransition(
-            scale: animation.drive(
-              Tween<double>(begin: 0.0, end: 1.0).chain(
+          return FadeTransition(
+            opacity: animation.drive(
+              Tween<double>(begin: 0.0, end: 0.6).chain(
                 CurveTween(
-                  curve: Interval(0.0, 1.0, curve: PeakQuadraticCurve()),
+                  curve: Interval(0.0, 1.0, curve: ValleyQuadraticCurve()),
                 ),
               ),
             ),
@@ -240,7 +243,7 @@ class _DogCardState extends State<DogCard> with AutomaticKeepAliveClientMixin {
         //   return Opacity(opacity: 0.2, child: child);
         // },
         child: ClipRRect(
-            borderRadius: new BorderRadius.circular(40.0),
+            borderRadius: new BorderRadius.circular(30.0),
             child: Container(
               width: 110.0,
               height: 110.0,
@@ -252,7 +255,7 @@ class _DogCardState extends State<DogCard> with AutomaticKeepAliveClientMixin {
                   ),
                 ],
                 shape: BoxShape.rectangle,
-                borderRadius: BorderRadius.circular(40.0),
+                borderRadius: BorderRadius.circular(30.0),
                 // image: DecorationImage(
                 //   // Just like CSS's `imagesize` property.
                 //   fit: BoxFit.cover,
@@ -274,7 +277,7 @@ class _DogCardState extends State<DogCard> with AutomaticKeepAliveClientMixin {
                           ),
                           decoration: BoxDecoration(
                               shape: BoxShape.rectangle,
-                              borderRadius: BorderRadius.circular(40.0),
+                              borderRadius: BorderRadius.circular(30.0),
                               border: Border.all(
                                   width: 2.0, color: Colors.black54)))),
                 ),
@@ -349,6 +352,14 @@ class PeakQuadraticCurve extends Curve {
   @override
   double transform(double t) {
     assert(t >= 0.0 && t <= 1.0);
-    return -5 * math.pow(t, 2) + 5 * t + 1;
+    return -2 * math.pow(t, 2) + 2 * t + 1;
+  }
+}
+
+class ValleyQuadraticCurve extends Curve {
+  @override
+  double transform(double t) {
+    assert(t >= 0.0 && t <= 1.0);
+    return 1 * math.pow(t - 0.5, 2);
   }
 }

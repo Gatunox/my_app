@@ -27,7 +27,7 @@ class _DogDetailPageState extends State<DogDetailPage>
     // Containers define the size of its children.
     var dogAvatar = Hero(
         // The same code, except the Dog property lives on the widget in this file.
-        tag: _dog,
+        tag: _dog.hashCode,
         flightShuttleBuilder: (
           BuildContext flightContext,
           Animation<double> animation,
@@ -154,25 +154,28 @@ class _DogDetailPageState extends State<DogDetailPage>
             child: Opacity(
                 opacity: _animation.videoScrollerOpacity.value,
                 child: Align(
-                  alignment: Alignment.bottomLeft,
-                  child: ClipRRect(
-                      borderRadius: new BorderRadius.only(
-                          topLeft: Radius.circular(40.0),
-                          topRight: Radius.circular(40.0)),
-                      child: Material(
-                        color: Colors.white,
-                        elevation: 10,
-                        child: Container(
-                          height: scrrenWidth + 10,
-                          width: scrrenWidth,
-                          decoration: BoxDecoration(
-                              shape: BoxShape.rectangle,
-                              borderRadius: BorderRadius.circular(40.0),
-                              border: Border.all(
-                                  width: 2.0, color: Colors.black54)),
-                        ),
-                      )),
-                )),
+                    alignment: Alignment.bottomLeft,
+                    child: Hero(
+                      tag: _dog.id,
+                                          child: ClipRRect(
+                          borderRadius: new BorderRadius.only(
+                              topLeft: Radius.circular(40.0),
+                              topRight: Radius.circular(40.0)),
+                          child: Material(
+                            color: Colors.white,
+                            elevation: 10,
+                            child: Container(
+                              height: scrrenWidth + 10,
+                              width: scrrenWidth,
+                              decoration: BoxDecoration(
+                                  shape: BoxShape.rectangle,
+                                  borderRadius: BorderRadius.circular(40.0),
+                                  border: Border.all(
+                  width: 2.0, color: Colors.black54)),
+                            ),
+                          )),
+                    ),
+                  )),
           ),
         ),
       ]),
@@ -212,6 +215,6 @@ class PeakQuadraticCurve extends Curve {
   @override
   double transform(double t) {
     assert(t >= 0.0 && t <= 1.0);
-    return -10 * math.pow(t, 3) + 10 * t + 1;
+    return -4 * math.pow(t, 2) + 4 * t + 1;
   }
 }
