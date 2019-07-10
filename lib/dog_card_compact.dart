@@ -6,16 +6,16 @@ import 'package:flutter/scheduler.dart' show timeDilation;
 import 'dart:math' as math;
 import 'dart:ui' as ui;
 
-class DogCard extends StatefulWidget {
+class DogCardCompact extends StatefulWidget {
   final Dog dog;
 
-  DogCard({Key key, this.dog}) : super(key: key);
+  DogCardCompact({Key key, this.dog}) : super(key: key);
 
   @override
   _DogCardState createState() => _DogCardState(dog);
 }
 
-class _DogCardState extends State<DogCard> with AutomaticKeepAliveClientMixin {
+class _DogCardState extends State<DogCardCompact> with AutomaticKeepAliveClientMixin {
   String _renderUrl = "";
   Dog _dog;
 
@@ -25,31 +25,19 @@ class _DogCardState extends State<DogCard> with AutomaticKeepAliveClientMixin {
     // A new container
     // The height and width are arbitrary numbers for styling.
     return Container(
-      width: 335.0,
-      height: 235.0,
-      decoration: new BoxDecoration(
-        boxShadow: [
-          new BoxShadow(
-            color: Colors.black12,
-            blurRadius: 1.0,
-          ),
-        ],
-        borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(40),
-            topRight: Radius.circular(40),
-            bottomLeft: Radius.circular(40),
-            bottomRight: Radius.circular(40)),
-      ),
+      width: 265.0,
+      height: 117.0,
+      padding: const EdgeInsets.all(0.0),
       child: Hero(
         tag: "dogCard" + _dog.id.toString(),
         child: Card(
-          elevation: 5,
+          elevation: 1,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(40),
-                topRight: Radius.circular(40),
-                bottomLeft: Radius.circular(40),
-                bottomRight: Radius.circular(40)),
+                topLeft: Radius.circular(20),
+                topRight: Radius.circular(20),
+                bottomLeft: Radius.circular(20),
+                bottomRight: Radius.circular(20)),
           ),
           color: Colors.white,
           // Wrap children in a Padding widget in order to give padding.
@@ -60,7 +48,7 @@ class _DogCardState extends State<DogCard> with AutomaticKeepAliveClientMixin {
             padding: const EdgeInsets.only(
               top: 10.0,
               bottom: 10.0,
-              left: 70.0,
+              left: 20.0,
             ),
             // Column is another layout widget -- like stack -- that
             // takes a list of widgets as children, and lays the
@@ -140,16 +128,16 @@ class _DogCardState extends State<DogCard> with AutomaticKeepAliveClientMixin {
       child: Padding(
         padding: const EdgeInsets.only(left: 20.0, right: 5.0),
         child: Container(
-          height: 290.0,
+          height: 130.0,
           child: Stack(
             children: <Widget>[
               Positioned(
-                top: 45.0,
-                left: 50.0,
+                top: 0.0,
+                left: 110.0,
                 child: dogCard,
               ),
               //Positioned(top: 0.0, child: placeholderContainer),
-              Positioned(top: 0.0, child: dogImage),
+              Positioned(top: 4.0,left: 4.0, child: dogImage),
             ],
           ),
         ),
@@ -205,13 +193,13 @@ class _DogCardState extends State<DogCard> with AutomaticKeepAliveClientMixin {
     return Container(
         decoration: BoxDecoration(
             shape: BoxShape.rectangle,
-            borderRadius: BorderRadius.circular(30.0),
+            borderRadius: BorderRadius.circular(20.0),
             image: DecorationImage(
               // Just like CSS's `imagesize` property.
               fit: BoxFit.cover,
               image: NetworkImage(_renderUrl ?? ''),
             ),
-            border: Border.all(width: 2.0, color: Colors.black45)));
+            border: Border.all(width: 1.0, color: Colors.black45)));
   }
 
   Widget get dogImage {
@@ -220,42 +208,40 @@ class _DogCardState extends State<DogCard> with AutomaticKeepAliveClientMixin {
 
     var dogAvatar = Hero(
         tag: "dogImage" + _dog.id.toString(),
-        flightShuttleBuilder: (
-          BuildContext flightContext,
-          Animation<double> animation,
-          HeroFlightDirection flightDirection,
-          BuildContext fromHeroContext,
-          BuildContext toHeroContext,
-        ) {
-          final Hero toHero = toHeroContext.widget;
-          return FadeTransition(
-            opacity: animation.drive(
-              Tween<double>(begin: 0.0, end: 0.6).chain(
-                CurveTween(
-                  curve: Interval(0.0, 1.0, curve: ValleyQuadraticCurve()),
-                ),
-              ),
-            ),
-            child: toHero.child,
-          );
-        },
-        // placeholderBuilder: (context, child) {
-        //   return Opacity(opacity: 0.2, child: child);
+      
+        // flightShuttleBuilder: (
+        //   BuildContext flightContext,
+        //   Animation<double> animation,
+        //   HeroFlightDirection flightDirection,
+        //   BuildContext fromHeroContext,
+        //   BuildContext toHeroContext,
+        // ) {
+        //   final Hero toHero = toHeroContext.widget;
+        //   return FadeTransition(
+        //     opacity: animation.drive(
+        //       Tween<double>(begin: 0.0, end: 1.0).chain(
+        //         CurveTween(
+        //           curve: Interval(0.0, 1.0, curve: ValleyQuadraticCurve()),
+        //         ),
+        //       ),
+        //     ),
+        //     child: toHero.child,
+        //   );
         // },
         child: ClipRRect(
-            borderRadius: new BorderRadius.circular(30.0),
+            borderRadius: new BorderRadius.circular(20.0),
             child: Container(
               width: 110.0,
               height: 110.0,
               decoration: BoxDecoration(
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black54,
-                    blurRadius: 1.0,
+                    color: Color(0xA5000000),
+                    blurRadius: 0.0,
                   ),
                 ],
                 shape: BoxShape.rectangle,
-                borderRadius: BorderRadius.circular(30.0),
+                borderRadius: BorderRadius.circular(20.0),
                 // image: DecorationImage(
                 //   // Just like CSS's `imagesize` property.
                 //   fit: BoxFit.cover,
@@ -277,7 +263,7 @@ class _DogCardState extends State<DogCard> with AutomaticKeepAliveClientMixin {
                           ),
                           decoration: BoxDecoration(
                               shape: BoxShape.rectangle,
-                              borderRadius: BorderRadius.circular(30.0),
+                              borderRadius: BorderRadius.circular(20.0),
                               border: Border.all(
                                   width: 2.0, color: Colors.black54)))),
                 ),

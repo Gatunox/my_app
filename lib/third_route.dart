@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dog_model.dart';
-import 'dog_card.dart';
+import 'dog_card_compact.dart';
 
 class ThirdRoute extends StatefulWidget {
   ThirdRoute({Key key, this.title}) : super(key: key);
@@ -54,14 +54,14 @@ class _ThirdRouteState extends State<ThirdRoute>
               /// children. It doesn't take up any space itself, so it
               /// can be used as a placeholder in your code.
               body: Container(
-                padding: EdgeInsets.only(top: 45.0),
+                padding: EdgeInsets.only(top: 60.0),
                 child: ListView.builder(
                   // Must have an item count equal to the number of items!
                   itemCount: widget.initialDoggos.length,
                   // A callback that will return a widget.
                   itemBuilder: (context, int) {
                     // In our case, a DogCard for each doggo.
-                    return DogCard(dog: widget.initialDoggos[int]);
+                    return DogCardCompact(dog: widget.initialDoggos[int]);
                   },
                 ),
                 //child: DogCard(dog: widget.initialDoggos[1]), // New code

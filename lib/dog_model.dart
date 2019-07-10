@@ -2,11 +2,21 @@ import 'dart:convert';
 import 'dart:io';
 
 class Dog {
-  final int id;
-  final String name;
-  final String location;
-  final String description;
+  int id;
+  String name;
+  String location;
+  String description;
   String imageUrl;
+  int height;
+  int weight;
+  int longevety;
+
+  int size;
+  int grooming;
+  int activity;
+  int barking;
+  int training;
+  int coat;
 
   // All dogs start out at 10, because they're good dogs.
   int rating = 10;
@@ -16,6 +26,24 @@ class Dog {
         this.name = name,
         this.location = location,
         this.description = description;
+
+
+   int get dog_id { 
+      return id; 
+   } 
+    
+   void set dog_id(int id) { 
+      this.id = id; 
+   } 
+
+   String get dog_name { 
+      return name; 
+   } 
+    
+   void set dog_name(String name) { 
+      this.name = name; 
+   } 
+
 
   Future getImageUrl() async {
     // Null check so our app isn't doing extra work.

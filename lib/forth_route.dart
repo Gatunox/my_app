@@ -60,7 +60,7 @@ class _ThirdRouteState extends State<ForthRoute>
                 if (index == 0) {
                   // return the header
                   return Container(
-                    height: 55,
+                    height: 120,
                     color: Colors.transparent,
                     child: AppBar(
                       title: Text("Dogs List"),

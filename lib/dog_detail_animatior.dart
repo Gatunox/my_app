@@ -24,7 +24,7 @@ class _DogDetailAnimator extends State<DogDetailAnimator>
   void initState() {
     super.initState();
     _controller = new AnimationController(
-      duration: const Duration(milliseconds: 1500),
+      duration: const Duration(milliseconds: 1000),
       vsync: this,
     );
     _controller.reset();

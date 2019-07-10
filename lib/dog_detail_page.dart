@@ -27,7 +27,7 @@ class _DogDetailPageState extends State<DogDetailPage>
     // Containers define the size of its children.
     var dogAvatar = Hero(
         // The same code, except the Dog property lives on the widget in this file.
-        tag: _dog.hashCode,
+        tag: "dogImage" + _dog.id.toString(),
         flightShuttleBuilder: (
           BuildContext flightContext,
           Animation<double> animation,
@@ -48,8 +48,8 @@ class _DogDetailPageState extends State<DogDetailPage>
           );
         },
         child: Container(
-          height: scrrenWidth,
-          width: scrrenWidth,
+          height: scrrenWidth + 10,
+          width: scrrenWidth + 10,
           // Use Box Decoration to make the image a circle
           // and add an arbitrary shadow for styling.
           decoration: BoxDecoration(
@@ -114,9 +114,16 @@ class _DogDetailPageState extends State<DogDetailPage>
         ),
       ),
       child: Stack(children: <Widget>[
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            SizedBox(height: 105.0),
+            dogImage,
+          ],
+        ),
         Container(
           padding: EdgeInsets.only(top: 0.0),
-          height: 200,
+          height: 130,
           child: AppBar(
             title: Text('Meet ${_dog.name}',
                 textAlign: TextAlign.center, style: TextStyle(fontSize: 22.0)),
@@ -124,13 +131,7 @@ class _DogDetailPageState extends State<DogDetailPage>
             elevation: 0.0, //Shadow gone
           ),
         ),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            SizedBox(height: 125.0),
-            dogImage,
-          ],
-        ),
+        
         // Align(
         //   alignment: Alignment.bottomLeft,
         //   child: ClipRRect(
@@ -144,7 +145,7 @@ class _DogDetailPageState extends State<DogDetailPage>
         //       )),
         // )
         Padding(
-          padding: const EdgeInsets.only(top: 0.0),
+          padding: const EdgeInsets.all(0.0),
           child: Transform(
             transform: new Matrix4.translationValues(
               0.0,
@@ -154,28 +155,32 @@ class _DogDetailPageState extends State<DogDetailPage>
             child: Opacity(
                 opacity: _animation.videoScrollerOpacity.value,
                 child: Align(
-                    alignment: Alignment.bottomLeft,
-                    child: Hero(
-                      tag: _dog.id,
-                                          child: ClipRRect(
-                          borderRadius: new BorderRadius.only(
-                              topLeft: Radius.circular(40.0),
-                              topRight: Radius.circular(40.0)),
-                          child: Material(
-                            color: Colors.white,
-                            elevation: 10,
-                            child: Container(
-                              height: scrrenWidth + 10,
-                              width: scrrenWidth,
-                              decoration: BoxDecoration(
-                                  shape: BoxShape.rectangle,
-                                  borderRadius: BorderRadius.circular(40.0),
-                                  border: Border.all(
-                  width: 2.0, color: Colors.black54)),
-                            ),
-                          )),
-                    ),
-                  )),
+                  alignment: Alignment.bottomLeft,
+                  child: Hero(
+                    tag: "dogCard" + _dog.id.toString(),
+                    child: ClipRRect(
+                        borderRadius: new BorderRadius.only(
+                            topLeft: Radius.circular(40.0),
+                            topRight: Radius.circular(40.0),
+                            bottomLeft: Radius.circular(40.0),
+                            bottomRight: Radius.circular(40.0)),
+                        child: Material(
+                          color: Colors.transparent,
+                          elevation: 1,
+                          child: Container(
+                            margin: const EdgeInsets.only(top: 5.0),
+                            height: scrrenWidth,
+                            width: scrrenWidth,
+                            decoration: BoxDecoration(
+                               color: Colors.white,
+                                shape: BoxShape.rectangle,
+                                borderRadius: BorderRadius.circular(40.0),
+                                border: Border.all(
+                                    width: 2.0, color: Colors.transparent)),
+                          ),
+                        )),
+                  ),
+                )),
           ),
         ),
       ]),
@@ -215,6 +220,6 @@ class PeakQuadraticCurve extends Curve {
   @override
   double transform(double t) {
     assert(t >= 0.0 && t <= 1.0);
-    return -4 * math.pow(t, 2) + 4 * t + 1;
+    return -2 * math.pow(t, 2) + 2 * t + 1;
   }
 }
