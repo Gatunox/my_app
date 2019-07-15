@@ -7,19 +7,53 @@ class ThirdRoute extends StatefulWidget {
 
   final String title;
   List<Dog> initialDoggos = []
-    ..add(Dog(id:1, name: 'Ruby', location: 'Portland, OR, USA',
-        description: 'Ruby is a very good girl. Yes: Fetch, loungin\'. No: Dogs who get on furniture.'))
-    ..add(Dog(id:2, name:  'Rex', location: 'Seattle, WA, USA', description: 'Best in Show 1999'))
-    ..add(Dog(id:3, name: 'Rod Stewart', location: 'Prague, CZ',
+    ..add(Dog(
+        id: 1,
+        name: 'Ruby',
+        location: 'Portland, OR, USA',
+        description:
+            'Ruby is a very good girl. Yes: Fetch, loungin\'. No: Dogs who get on furniture.'))
+    ..add(Dog(
+        id: 2,
+        name: 'Rex',
+        location: 'Seattle, WA, USA',
+        description: 'Best in Show 1999'))
+    ..add(Dog(
+        id: 3,
+        name: 'Rod Stewart',
+        location: 'Prague, CZ',
         description: 'Star good boy on international snooze team.'))
-    ..add(Dog(id:4, name: 'Herbert', location: 'Dallas, TX, USA', description:'A Very Good Boy'))
-    ..add(Dog(id:5, name: 'Ruby', location: 'Portland, OR, USA',
-        description: 'Ruby is a very good girl. Yes: Fetch, loungin\'. No: Dogs who get on furniture.'))
-    ..add(Dog(id:6, name: 'Rex', location: 'Seattle, WA, USA', description: 'Best in Show 1999'))
-    ..add(Dog(id:7, name: 'Rod Stewart', location: 'Prague, CZ',
+    ..add(Dog(
+        id: 4,
+        name: 'Herbert',
+        location: 'Dallas, TX, USA',
+        description: 'A Very Good Boy'))
+    ..add(Dog(
+        id: 5,
+        name: 'Ruby',
+        location: 'Portland, OR, USA',
+        description:
+            'Ruby is a very good girl. Yes: Fetch, loungin\'. No: Dogs who get on furniture.'))
+    ..add(Dog(
+        id: 6,
+        name: 'Rex',
+        location: 'Seattle, WA, USA',
+        description: 'Best in Show 1999'))
+    ..add(Dog(
+        id: 7,
+        name: 'Rod Stewart',
+        location: 'Prague, CZ',
         description: 'Star good boy on international snooze team.'))
-    ..add(Dog(id:8, name: 'Herbert', location: 'Dallas, TX, USA', description: 'A Very Good Boy'))
-    ..add(Dog(id:9, name: 'Buddy', location: 'North Pole, Earth', description: 'Self proclaimed human lover.'));
+    ..add(Dog(
+        id: 8,
+        name: 'Herbert',
+        location: 'Dallas, TX, USA',
+        description: 'A Very Good Boy'))
+    ..add(Dog(
+        id: 9,
+        name: 'Buddy',
+        location: 'North Pole, Earth',
+        description: 'Self proclaimed human lover.'));
 
   @override
   _ThirdRouteState createState() => _ThirdRouteState();
@@ -29,6 +63,7 @@ class _ThirdRouteState extends State<ThirdRoute>
     with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
+    final double scrrenWidth = MediaQuery.of(context).size.width;
     super.build(context);
     return Container(
       // Add box decoration
@@ -48,36 +83,42 @@ class _ThirdRouteState extends State<ThirdRoute>
       ),
       child: Stack(
         children: <Widget>[
-          SafeArea(
-            child: Scaffold(
-              /// Container is a convenience widget that lets us style it's
-              /// children. It doesn't take up any space itself, so it
-              /// can be used as a placeholder in your code.
-              body: Container(
-                padding: EdgeInsets.only(top: 60.0),
-                child: ListView.builder(
-                  // Must have an item count equal to the number of items!
-                  itemCount: widget.initialDoggos.length,
-                  // A callback that will return a widget.
-                  itemBuilder: (context, int) {
-                    // In our case, a DogCard for each doggo.
-                    return DogCardCompact(dog: widget.initialDoggos[int]);
-                  },
-                ),
-                //child: DogCard(dog: widget.initialDoggos[1]), // New code
-              ),
-              backgroundColor: Colors.transparent,
-            ),
-          ),
           Positioned(
-            //Place it at the top, and not use the entire screen
-            top: 0.0,
-            left: 0.0,
-            right: 0.0,
-            child: AppBar(
-              title: Text(widget.title),
-              backgroundColor: Colors.transparent, //No more green
-              elevation: 0.0, //Shadow gone
+              //Place it at the top, and not use the entire screen
+              top: 0.0,
+              bottom: 0.0,
+              left: 0.0,
+              width: 138.5,
+              child: Container(
+                color: Colors.black12,
+                child: Padding(
+                  padding:
+                      const EdgeInsets.only(left: 6.0, top: 110, bottom: 20),
+                  child: new Column(),
+                ),
+              )),
+          Container(
+            padding: EdgeInsets.only(top: 0.0),
+            child: ListView.builder(
+              // Must have an item count equal to the number of items!
+              itemCount: widget.initialDoggos.length,
+              // A callback that will return a widget.
+              itemBuilder: (context, int index) {
+                if (index == 0) {
+                  // return the header
+                  return Container(
+                    height: 120,
+                    color: Colors.transparent,
+                    child: AppBar(
+                      title: Text("Dogs List"),
+                      backgroundColor: Colors.transparent, //No more green
+                      elevation: 0.0, //Shadow gone
+                    ),
+                  );
+                } else {
+                  return DogCardCompact(dog: widget.initialDoggos[index]);
+                }
+              },
             ),
           ),
         ],
@@ -88,3 +129,4 @@ class _ThirdRouteState extends State<ThirdRoute>
   @override
   bool get wantKeepAlive => true;
 }
+

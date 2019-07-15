@@ -48,8 +48,8 @@ class _DogDetailPageState extends State<DogDetailPage>
           );
         },
         child: Container(
-          height: scrrenWidth + 10,
-          width: scrrenWidth + 10,
+          height: scrrenWidth + 84,
+          width: scrrenWidth + 84,
           // Use Box Decoration to make the image a circle
           // and add an arbitrary shadow for styling.
           decoration: BoxDecoration(
@@ -62,7 +62,7 @@ class _DogDetailPageState extends State<DogDetailPage>
             // This is how you add an image to a Container's background.
             image: DecorationImage(
                 fit: BoxFit.cover, image: NetworkImage(_dog.imageUrl ?? '')),
-            border: Border.all(width: 2.0, color: Colors.black54),
+            border: Border.all(width: 1.0, color: Colors.black54),
           ),
         ));
 
@@ -91,7 +91,7 @@ class _DogDetailPageState extends State<DogDetailPage>
   Future<void> executeAfterBuild() async {
     if (mounted) {
       setState(() {
-        print("executeAfterBuild");
+        //print("executeAfterBuild");
       });
     }
   }
@@ -109,29 +109,11 @@ class _DogDetailPageState extends State<DogDetailPage>
           colors: [
             // Colors are easy thanks to Flutter's Colors class.
             Colors.purple,
-            Colors.amber,
+            Colors.purple,
           ],
         ),
       ),
       child: Stack(children: <Widget>[
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            SizedBox(height: 105.0),
-            dogImage,
-          ],
-        ),
-        Container(
-          padding: EdgeInsets.only(top: 0.0),
-          height: 130,
-          child: AppBar(
-            title: Text('Meet ${_dog.name}',
-                textAlign: TextAlign.center, style: TextStyle(fontSize: 22.0)),
-            backgroundColor: Colors.transparent, //No more green
-            elevation: 0.0, //Shadow gone
-          ),
-        ),
-        
         // Align(
         //   alignment: Alignment.bottomLeft,
         //   child: ClipRRect(
@@ -146,41 +128,62 @@ class _DogDetailPageState extends State<DogDetailPage>
         // )
         Padding(
           padding: const EdgeInsets.all(0.0),
-          child: Transform(
-            transform: new Matrix4.translationValues(
-              0.0,
-              _animation.videoScrollerXTranslation.value,
-              0.0,
+          child: Align(
+            alignment: Alignment.bottomLeft,
+            child: Hero(
+              tag: "dogCard" + _dog.id.toString(),
+              child: ClipRRect(
+                  borderRadius: new BorderRadius.only(
+                      topLeft: Radius.circular(40.0),
+                      topRight: Radius.circular(40.0),
+                      bottomLeft: Radius.circular(40.0),
+                      bottomRight: Radius.circular(40.0)),
+                  child: Material(
+                    color: Colors.transparent,
+                    elevation: 0,
+                    child: Container(
+                      margin: const EdgeInsets.only(top: 5.0),
+                      height: scrrenWidth + 44,
+                      width: scrrenWidth,
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          shape: BoxShape.rectangle,
+                          borderRadius: BorderRadius.circular(40.0),
+                          border: Border.all(
+                              width: 0.0, color: Colors.transparent)),
+                    ),
+                  )),
             ),
-            child: Opacity(
-                opacity: _animation.videoScrollerOpacity.value,
-                child: Align(
-                  alignment: Alignment.bottomLeft,
-                  child: Hero(
-                    tag: "dogCard" + _dog.id.toString(),
-                    child: ClipRRect(
-                        borderRadius: new BorderRadius.only(
-                            topLeft: Radius.circular(40.0),
-                            topRight: Radius.circular(40.0),
-                            bottomLeft: Radius.circular(40.0),
-                            bottomRight: Radius.circular(40.0)),
-                        child: Material(
-                          color: Colors.transparent,
-                          elevation: 1,
-                          child: Container(
-                            margin: const EdgeInsets.only(top: 5.0),
-                            height: scrrenWidth,
-                            width: scrrenWidth,
-                            decoration: BoxDecoration(
-                               color: Colors.white,
-                                shape: BoxShape.rectangle,
-                                borderRadius: BorderRadius.circular(40.0),
-                                border: Border.all(
-                                    width: 2.0, color: Colors.transparent)),
-                          ),
-                        )),
-                  ),
-                )),
+          ),
+        ),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            SizedBox(height: 0.0),
+            dogImage,
+          ],
+        ),
+        Container(
+          padding: EdgeInsets.only(top: 0.0),
+          height: 130,
+          decoration: BoxDecoration(
+            // Box decoration takes a gradient
+            gradient: LinearGradient(
+              // Where the linear gradient begins and ends
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              stops: [0.2, 1],
+              // Add one stop for each color. Stops should increase from 0 to 1
+              colors: [
+                // Colors are easy thanks to Flutter's Colors class.
+                Colors.black54,
+                Colors.transparent,
+              ],
+            ),
+          ),
+          child: AppBar(
+            backgroundColor: Colors.transparent, //No more green
+            elevation: 0.0, //Shadow gone
           ),
         ),
       ]),

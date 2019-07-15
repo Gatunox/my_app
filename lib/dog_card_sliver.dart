@@ -1,26 +1,46 @@
 import 'package:flutter/material.dart';
-import 'dog_detail_page.dart';
-import 'dog_detail_animatior.dart';
+import 'dog_detail_sliver.dart';
 import 'dog_model.dart';
+import 'dog_detail_enter_animations.dart';
 import 'package:flutter/scheduler.dart' show timeDilation;
 import 'dart:math' as math;
 import 'dart:ui' as ui;
 
-class DogCardCompact extends StatefulWidget {
+class DogCardSliver extends StatefulWidget {
   final Dog dog;
 
-  DogCardCompact({Key key, this.dog}) : super(key: key);
+  DogCardSliver({Key key, this.dog}) : super(key: key);
 
   @override
   _DogCardState createState() => _DogCardState(dog);
 }
 
-class _DogCardState extends State<DogCardCompact>
-    with AutomaticKeepAliveClientMixin {
-  String _renderUrl = "";
-  Dog _dog;
+class _DogCardState extends State<DogCardSliver>
+    with SingleTickerProviderStateMixin, AutomaticKeepAliveClientMixin {
 
   _DogCardState(this._dog);
+
+  String _renderUrl = "";
+  Dog _dog;
+  AnimationController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = new AnimationController(
+      duration: const Duration(milliseconds: 1000),
+      vsync: this,
+    );
+    _controller.reset();
+    _controller.forward();
+    renderDogPic();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   Widget get dogCard {
     // A new container
@@ -31,88 +51,93 @@ class _DogCardState extends State<DogCardCompact>
       padding: const EdgeInsets.all(0.0),
       child: Hero(
         tag: "dogCard" + _dog.id.toString(),
-        child: Card(
-          elevation: 1,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(20),
-                topRight: Radius.circular(20),
-                bottomLeft: Radius.circular(20),
-                bottomRight: Radius.circular(20)),
-          ),
-          margin: const EdgeInsets.only(left:4, right: 4),
-          color: Colors.white,
-          // Wrap children in a Padding widget in order to give padding.
-          child: Padding(
-            // The class that controls padding is called 'EdgeInsets'
-            // The EdgeInsets.only constructor is used to set
-            // padding explicitly to each side of the child.
-            padding: const EdgeInsets.only(
-              top: 10.0,
-              bottom: 10.0,
-              left: 20.0,
+        child: GestureDetector(
+          onTap: () {
+         showDogDetailPage();
+       },
+                  child: Card(
+            elevation: 1,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(20),
+                  topRight: Radius.circular(20),
+                  bottomLeft: Radius.circular(20),
+                  bottomRight: Radius.circular(20)),
             ),
-            // Column is another layout widget -- like stack -- that
-            // takes a list of widgets as children, and lays the
-            // widgets out from top to bottom.
-            child: Column(
-              // These alignment properties function exactly like
-              // CSS flexbox properties.
-              // The main axis of a column is the vertical axis,
-              // `MainAxisAlignment.spaceAround` is equivalent of
-              // CSS's 'justify-content: space-around' in a vertically
-              // laid out flexbox.
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                RichText(
-                  text: TextSpan(
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                    children: <TextSpan>[
-                      TextSpan(
-                        text: widget.dog.name,
-                        style: TextStyle(
-                            fontFamily: 'Roboto',
-                            fontSize: 20.0,
-                            color: Colors.black.withOpacity(1.0)),
-                      ),
-                    ],
-                  ),
-                ),
-                RichText(
-                  text: TextSpan(
-                    children: <TextSpan>[
-                      TextSpan(
-                        text: widget.dog.location,
-                        style: TextStyle(
-                            fontFamily: 'Roboto',
-                            fontSize: 16.0,
-                            color: Colors.black.withOpacity(1.0)),
-                      ),
-                    ],
-                  ),
-                ),
-                Row(
-                  children: <Widget>[
-                    Icon(
-                      Icons.star,
-                      color: Colors.purple,
+            margin: const EdgeInsets.only(left:4, right: 4),
+            color: Colors.white,
+            // Wrap children in a Padding widget in order to give padding.
+            child: Padding(
+              // The class that controls padding is called 'EdgeInsets'
+              // The EdgeInsets.only constructor is used to set
+              // padding explicitly to each side of the child.
+              padding: const EdgeInsets.only(
+                top: 10.0,
+                bottom: 10.0,
+                left: 20.0,
+              ),
+              // Column is another layout widget -- like stack -- that
+              // takes a list of widgets as children, and lays the
+              // widgets out from top to bottom.
+              child: Column(
+                // These alignment properties function exactly like
+                // CSS flexbox properties.
+                // The main axis of a column is the vertical axis,
+                // `MainAxisAlignment.spaceAround` is equivalent of
+                // CSS's 'justify-content: space-around' in a vertically
+                // laid out flexbox.
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  RichText(
+                    text: TextSpan(
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                      children: <TextSpan>[
+                        TextSpan(
+                          text: widget.dog.name,
+                          style: TextStyle(
+                              fontFamily: 'Roboto',
+                              fontSize: 20.0,
+                              color: Colors.black.withOpacity(1.0)),
+                        ),
+                      ],
                     ),
-                    RichText(
-                      text: TextSpan(
-                        children: <TextSpan>[
-                          TextSpan(
-                            text: ': ${widget.dog.rating} / 10',
-                            style: TextStyle(
-                                fontSize: 14.0,
-                                color: Colors.black.withOpacity(1.0)),
-                          ),
-                        ],
+                  ),
+                  RichText(
+                    text: TextSpan(
+                      children: <TextSpan>[
+                        TextSpan(
+                          text: widget.dog.location,
+                          style: TextStyle(
+                              fontFamily: 'Roboto',
+                              fontSize: 16.0,
+                              color: Colors.black.withOpacity(1.0)),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Row(
+                    children: <Widget>[
+                      Icon(
+                        Icons.star,
+                        color: Colors.purple,
                       ),
-                    )
-                  ],
-                )
-              ],
+                      RichText(
+                        text: TextSpan(
+                          children: <TextSpan>[
+                            TextSpan(
+                              text: ': ${widget.dog.rating} / 10',
+                              style: TextStyle(
+                                  fontSize: 14.0,
+                                  color: Colors.black.withOpacity(1.0)),
+                            ),
+                          ],
+                        ),
+                      )
+                    ],
+                  )
+                ],
+              ),
             ),
           ),
         ),
@@ -123,11 +148,13 @@ class _DogCardState extends State<DogCardCompact>
   @override
   Widget build(BuildContext context) {
     timeDilation = 1.0;
-    return GestureDetector(
-      onTap: () {
-        showDogDetailPage();
-      },
-      child: Padding(
+    return 
+    // GestureDetector(
+    //   onTap: () {
+    //     showDogDetailPage();
+    //   },
+    // child: 
+      Padding(
         padding: const EdgeInsets.only(left: 18.0, right: 5.0),
         child: Container(
           height: 121.0,
@@ -143,8 +170,8 @@ class _DogCardState extends State<DogCardCompact>
             ],
           ),
         ),
-      ),
-    );
+      );
+    //);
   }
 
   showDogDetailPage() {
@@ -154,7 +181,7 @@ class _DogCardState extends State<DogCardCompact>
         context,
         PageRouteBuilder(
           pageBuilder: (context, animation1, animation2) {
-            return DogDetailAnimator(dog: _dog);
+            return DogDetailSliver(dog: _dog, animation: DogDetailsEnterAnimations(_controller));
           },
           transitionsBuilder: (context, animation1, animation2, child) {
             return FadeTransition(
@@ -166,14 +193,6 @@ class _DogCardState extends State<DogCardCompact>
         ),
       );
     }
-  }
-
-  // State classes run this method when the state is created.
-  // You shouldn't do async work in initState, so we'll defer it
-  // to another method.
-  void initState() {
-    super.initState();
-    renderDogPic();
   }
 
   // IRL, we'd want the Dog class itself to get the image

@@ -5,6 +5,7 @@ import 'package:my_app/right_pane.dart';
 import 'package:my_app/second_route.dart';
 import 'package:my_app/third_route.dart';
 import 'package:my_app/forth_route.dart';
+import 'package:my_app/fifth_route.dart';
 import 'package:my_app/splash_route.dart';
 
 void main() => runApp(MyApp());
@@ -46,6 +47,7 @@ class MyApp extends StatelessWidget {
         '/third': (context) => ThirdRoute(title: 'We Rate Dogs'),
         '/forth': (context) => ForthRoute(),
         '/splash': (context) => SplashRoute(),
+        '/fifth': (context) => FifthRoute(title: 'We Rate Dogs'),
       },
     );
   }

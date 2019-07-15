@@ -45,8 +45,8 @@ class _HomePageState extends State<HomePage>
         // Box decoration takes a gradient
         gradient: LinearGradient(
           // Where the linear gradient begins and ends
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
           // Add one stop for each color. Stops should increase from 0 to 1
           colors: [
             // Colors are easy thanks to Flutter's Colors class.
@@ -65,7 +65,7 @@ class _HomePageState extends State<HomePage>
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   RaisedButton(
-                    child: Text('Open\nSecond\nRoute',style: TextStyle(fontSize: 20),
+                    child: Text('Open\nOne',style: TextStyle(fontSize: 20),
                       textAlign: TextAlign.center,),
                     onPressed: () {
                       // Navigate to second route when tapped.
@@ -79,7 +79,7 @@ class _HomePageState extends State<HomePage>
                     )
                   ),
                   RaisedButton(
-                    child: Text('Open\nThird\nRoute',style: TextStyle(fontSize: 20),
+                    child: Text('Open\nTwo',style: TextStyle(fontSize: 20),
                       textAlign: TextAlign.center,),
                     onPressed: () {
                       // Navigate to second route when tapped.
@@ -123,7 +123,7 @@ class _HomePageState extends State<HomePage>
                   // ),
                   RaisedButton(
                     child: Text(
-                      'Open\nForth\nRoute',
+                      'Open\nThree',
                       style: TextStyle(fontSize: 20),
                       textAlign: TextAlign.center,
                     ),
@@ -140,12 +140,12 @@ class _HomePageState extends State<HomePage>
                   ),
                   RaisedButton(
                     onPressed: () {
-                      print("click");
+                      Navigator.pushNamed(context, '/fifth');
                     },
                     elevation: 2,
                     color: Colors.black38,
                     child: Text(
-                      "Circle\nBorder",
+                      "Open\nFour",
                       style: TextStyle(fontSize: 20),
                       textAlign: TextAlign.center,
                     ),
