@@ -98,27 +98,30 @@ class _FifthRouteState extends State<FifthRoute>
                 ),
               )),
           Container(
-            padding: EdgeInsets.only(top: 0.0),
+            height: scrrenWidth,
+            width: scrrenWidth,
+            padding: EdgeInsets.only(top: 80.0),
             child: ListView.builder(
+              scrollDirection: Axis.horizontal,
               physics: const AlwaysScrollableScrollPhysics (),
               // Must have an item count equal to the number of items!
               itemCount: widget.initialDoggos.length,
               // A callback that will return a widget.
               itemBuilder: (context, int index) {
-                if (index == 0) {
+                //if (index == 0) {
                   // return the header
-                  return Container(
-                    height: 120,
-                    color: Colors.transparent,
-                    child: AppBar(
-                      title: Text("Dogs List"),
-                      backgroundColor: Colors.transparent, //No more green
-                      elevation: 0.0, //Shadow gone
-                    ),
-                  );
-                } else {
+                  // return Container(
+                  //   height: 120,
+                  //   color: Colors.transparent,
+                  //   child: AppBar(
+                  //     title: Text("Dogs List"),
+                  //     backgroundColor: Colors.transparent, //No more green
+                  //     elevation: 0.0, //Shadow gone
+                  //   ),
+                  // );
+                // } else {
                   return DogCardSliver(dog: widget.initialDoggos[index]);
-                }
+               // }
               },
             ),
           ),

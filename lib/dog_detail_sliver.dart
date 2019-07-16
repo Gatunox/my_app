@@ -128,7 +128,7 @@ class _DogDetailPageState extends State<DogDetailSliver>
                         elevation: 0,
                         child: Container(
                           margin: const EdgeInsets.only(top: 5.0),
-                          height: 710,
+                          height: 715,
                           width: scrrenWidth,
                           decoration: BoxDecoration(
                               color: Colors.white,
@@ -377,9 +377,9 @@ class MySliverAppBar extends SliverPersistentHeaderDelegate {
         Align(
           alignment: Alignment.bottomCenter,
           child: Padding(
-        padding: const EdgeInsets.only(bottom:12.0),
-                      child: Opacity(
-                        opacity: 1.0,
+            padding: const EdgeInsets.only(bottom: 12.0),
+            child: Opacity(
+              opacity: 1.0,
               //opacity: shrinkOffset / expandedHeight,
               child: Text(
                 dog.name,
@@ -392,11 +392,11 @@ class MySliverAppBar extends SliverPersistentHeaderDelegate {
             ),
           ),
         ),
-
         AppBar(
-          backgroundColor: Colors.transparent, //No more green
-          elevation: 0.0, //Shadow gone
-        ),
+            backgroundColor: Colors.transparent, //No more green
+            elevation: 0.0, //Shadow gone
+            primary: true,
+          ), 
       ],
     );
   }
@@ -405,7 +405,7 @@ class MySliverAppBar extends SliverPersistentHeaderDelegate {
   double get maxExtent => expandedHeight;
 
   @override
-  double get minExtent => kToolbarHeight + 130;
+  double get minExtent => kToolbarHeight + 120;
 
   @override
   bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) => true;

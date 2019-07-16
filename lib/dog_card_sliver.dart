@@ -17,7 +17,6 @@ class DogCardSliver extends StatefulWidget {
 
 class _DogCardState extends State<DogCardSliver>
     with SingleTickerProviderStateMixin, AutomaticKeepAliveClientMixin {
-
   _DogCardState(this._dog);
 
   String _renderUrl = "";
@@ -53,9 +52,9 @@ class _DogCardState extends State<DogCardSliver>
         tag: "dogCard" + _dog.id.toString(),
         child: GestureDetector(
           onTap: () {
-         showDogDetailPage();
-       },
-                  child: Card(
+            showDogDetailPage();
+          },
+          child: Card(
             elevation: 1,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.only(
@@ -64,7 +63,7 @@ class _DogCardState extends State<DogCardSliver>
                   bottomLeft: Radius.circular(20),
                   bottomRight: Radius.circular(20)),
             ),
-            margin: const EdgeInsets.only(left:4, right: 4),
+            margin: const EdgeInsets.only(left: 4, right: 4),
             color: Colors.white,
             // Wrap children in a Padding widget in order to give padding.
             child: Padding(
@@ -148,13 +147,16 @@ class _DogCardState extends State<DogCardSliver>
   @override
   Widget build(BuildContext context) {
     timeDilation = 1.0;
-    return 
-    // GestureDetector(
-    //   onTap: () {
-    //     showDogDetailPage();
-    //   },
-    // child: 
-      Padding(
+    return
+        // GestureDetector(
+        //   onTap: () {
+        //     showDogDetailPage();
+        //   },
+        // child:
+        Container(
+      height: 200,
+      width: 440,
+      child: Padding(
         padding: const EdgeInsets.only(left: 18.0, right: 5.0),
         child: Container(
           height: 121.0,
@@ -170,7 +172,8 @@ class _DogCardState extends State<DogCardSliver>
             ],
           ),
         ),
-      );
+      ),
+    );
     //);
   }
 
@@ -181,7 +184,8 @@ class _DogCardState extends State<DogCardSliver>
         context,
         PageRouteBuilder(
           pageBuilder: (context, animation1, animation2) {
-            return DogDetailSliver(dog: _dog, animation: DogDetailsEnterAnimations(_controller));
+            return DogDetailSliver(
+                dog: _dog, animation: DogDetailsEnterAnimations(_controller));
           },
           transitionsBuilder: (context, animation1, animation2, child) {
             return FadeTransition(
