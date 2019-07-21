@@ -101,6 +101,8 @@ class _ThirdRouteState extends State<ThirdRoute>
             padding: EdgeInsets.only(top: 0.0),
             child: ListView.builder(
               // Must have an item count equal to the number of items!
+              addAutomaticKeepAlives: true,
+              physics: const AlwaysScrollableScrollPhysics(),
               itemCount: widget.initialDoggos.length,
               // A callback that will return a widget.
               itemBuilder: (context, int index) {

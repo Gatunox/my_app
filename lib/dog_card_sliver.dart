@@ -5,6 +5,7 @@ import 'dog_detail_enter_animations.dart';
 import 'package:flutter/scheduler.dart' show timeDilation;
 import 'dart:math' as math;
 import 'dart:ui' as ui;
+import 'package:transparent_image/transparent_image.dart';
 
 class DogCardSliver extends StatefulWidget {
   final Dog dog;
@@ -42,11 +43,13 @@ class _DogCardState extends State<DogCardSliver>
   }
 
   Widget get dogCard {
+    final double scrrenWidth = MediaQuery.of(context).size.width;
+    final double scrrenHeight = MediaQuery.of(context).size.height;
     // A new container
     // The height and width are arbitrary numbers for styling.
     return Container(
-      width: 266.0,
-      height: 120.5,
+      width: scrrenWidth - 60,
+      height: 120.0,
       padding: const EdgeInsets.all(0.0),
       child: Hero(
         tag: "dogCard" + _dog.id.toString(),
@@ -58,12 +61,12 @@ class _DogCardState extends State<DogCardSliver>
             elevation: 1,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(20),
-                  topRight: Radius.circular(20),
-                  bottomLeft: Radius.circular(20),
-                  bottomRight: Radius.circular(20)),
+                  topLeft: Radius.circular(30),
+                  topRight: Radius.circular(30),
+                  bottomLeft: Radius.circular(30),
+                  bottomRight: Radius.circular(30)),
             ),
-            margin: const EdgeInsets.only(left: 4, right: 4),
+            margin: const EdgeInsets.only(left: 0, right: 0),
             color: Colors.white,
             // Wrap children in a Padding widget in order to give padding.
             child: Padding(
@@ -146,6 +149,8 @@ class _DogCardState extends State<DogCardSliver>
 
   @override
   Widget build(BuildContext context) {
+    final double scrrenWidth = MediaQuery.of(context).size.width;
+    final double scrrenHeight = MediaQuery.of(context).size.height;
     timeDilation = 1.0;
     return
         // GestureDetector(
@@ -154,20 +159,18 @@ class _DogCardState extends State<DogCardSliver>
         //   },
         // child:
         Container(
-      height: 200,
-      width: 440,
+      height: scrrenHeight,
+      width: scrrenWidth - 30,
       child: Padding(
-        padding: const EdgeInsets.only(left: 18.0, right: 5.0),
+        padding: const EdgeInsets.only(left: 15.0, right: 0.0),
         child: Container(
-          height: 121.0,
           child: Stack(
             children: <Widget>[
-              Positioned(
-                top: 0.0,
-                left: 116.0,
-                child: dogCard,
-              ),
-              //Positioned(top: 0.0, child: placeholderContainer),
+              // Positioned(
+              //   top: 380.0,
+              //   left: 0.0,
+              //   child: dogCard,
+              // ),
               Positioned(top: 0.0, left: 0.0, child: dogImage),
             ],
           ),
@@ -216,144 +219,97 @@ class _DogCardState extends State<DogCardSliver>
 
   Widget get dogImageContainer {
     return Container(
-        decoration: BoxDecoration(
-            shape: BoxShape.rectangle,
-            borderRadius: BorderRadius.circular(20.0),
-            image: DecorationImage(
-              // Just like CSS's `imagesize` property.
-              fit: BoxFit.cover,
-              image: NetworkImage(_renderUrl ?? ''),
-            ),
-            border: Border.all(width: 1.0, color: Colors.black45)));
+      decoration: BoxDecoration(
+          shape: BoxShape.rectangle,
+          borderRadius: BorderRadius.circular(30.0),
+          image: DecorationImage(
+            // Just like CSS's `imagesize` property.
+            fit: BoxFit.cover,
+            image: NetworkImage(_renderUrl ?? ''),
+          ),
+          border: Border.all(width: 1.0, color: Colors.black45)),
+      // child: FadeInImage.memoryNetwork(
+      //     placeholder: kTransparentImage,
+      //     image: _renderUrl,
+      //   ),
+    );
   }
 
   Widget get dogImage {
-    // if(renderUrl is String)
-    //   print("renderUrl:" + renderUrl);
-
+    final double scrrenWidth = MediaQuery.of(context).size.width;
+    //print("Call get dogImage");
+    // Containers define the size of its children.
     var dogAvatar = Hero(
+        // The same code, except the Dog property lives on the widget in this file.
         tag: "dogImage" + _dog.id.toString(),
-
-        // flightShuttleBuilder: (
-        //   BuildContext flightContext,
-        //   Animation<double> animation,
-        //   HeroFlightDirection flightDirection,
-        //   BuildContext fromHeroContext,
-        //   BuildContext toHeroContext,
-        // ) {
-        //   final Hero toHero = toHeroContext.widget;
-        //   return FadeTransition(
-        //     opacity: animation.drive(
-        //       Tween<double>(begin: 0.0, end: 1.0).chain(
-        //         CurveTween(
-        //           curve: Interval(0.0, 1.0, curve: ValleyQuadraticCurve()),
-        //         ),
-        //       ),
-        //     ),
-        //     child: toHero.child,
-        //   );
-        // },
-        child: ClipRRect(
-            borderRadius: new BorderRadius.circular(20.0),
-            child: Container(
-              width: 120.5,
-              height: 120.5,
-              padding: const EdgeInsets.all(0.0),
-              decoration: BoxDecoration(
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black54,
-                    blurRadius: 0.0,
-                  ),
-                ],
-                shape: BoxShape.rectangle,
-                borderRadius: BorderRadius.circular(20.0),
-                // image: DecorationImage(
-                //   // Just like CSS's `imagesize` property.
-                //   fit: BoxFit.cover,
-                //   image: NetworkImage(_renderUrl ?? ''),
-                //),
-                //border: Border.all(width: 4.0, color: Colors.amber)
+        flightShuttleBuilder: (
+          BuildContext flightContext,
+          Animation<double> animation,
+          HeroFlightDirection flightDirection,
+          BuildContext fromHeroContext,
+          BuildContext toHeroContext,
+        ) {
+          final Hero toHero = toHeroContext.widget;
+          return ScaleTransition(
+            scale: animation.drive(
+              Tween<double>(begin: 0.0, end: 1.0).chain(
+                CurveTween(
+                  curve: Interval(0.0, 1.0, curve: PeakQuadraticCurve()),
+                ),
               ),
-              child: Stack(children: <Widget>[
-                Positioned(
-                  width: 120.0,
-                  height: 120.0,
-                  child: BackdropFilter(
-                      filter: ui.ImageFilter.blur(sigmaX: 3, sigmaY: 3),
-                      child: Container(
-                          child: Icon(
-                            Icons.pets,
-                            color: Colors.white,
-                            size: 45.0,
-                          ),
-                          decoration: BoxDecoration(
-                              shape: BoxShape.rectangle,
-                              borderRadius: BorderRadius.circular(20.0),
-                              border: Border.all(
-                                  width: 2.0, color: Colors.black38)))),
-                ),
-                _renderUrl == "" ? Container() : dogImageContainer,
-              ]),
-            )));
-
-    return dogAvatar;
-    //return dogAvatar;
-    // return AnimatedOpacity(
-    //   // If the widget is visible, animate to 0.0 (invisible).
-    //   // If the widget is hidden, animate to 1.0 (fully visible).
-    //   opacity: _renderUrl == "" ? 1.0 : 1.0,
-    //   duration: Duration(milliseconds: 0),
-    //   // The green box must be a child of the AnimatedOpacity widget.
-    //   child: dogAvatar,
-    //   curve: Curves.slowMiddle,
-    // );
-
-    // This is an animated widget built into flutter.
-    // return AnimatedCrossFade(
-    //   // You pass it the starting widget and the ending widget.
-    //   firstChild: placeholderContainer,
-    //   secondChild: dogAvatar,
-    //   // Then, you pass it a ternary that should be based on your state
-    //   //
-    //   // If renderUrl is null tell the widget to use the placeholder,
-    //   // otherwise use the dogAvatar.
-    //   crossFadeState: _renderUrl == ""
-    //       ? CrossFadeState.showFirst
-    //       : CrossFadeState.showSecond,
-    //   // Finally, pass in the amount of time the fade should take.
-    //   duration: Duration(milliseconds: 2000),
-    //   firstCurve: Curves.easeOutCubic,
-    //   secondCurve: Curves.easeInCubic,
-    // );
-  }
-
-  Widget get placeholderContainer {
-    // Placeholder is a static container the same size as the dog image.
-    return ClipOval(
-      child: Container(
-        width: 115.0,
-        height: 115.0,
-        decoration: BoxDecoration(
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black54,
             ),
-          ],
-        ),
-        child: BackdropFilter(
-            filter: ui.ImageFilter.blur(sigmaX: 8, sigmaY: 8),
-            child: Container(
-                child: Icon(
-                  Icons.pets,
-                  color: Colors.white70,
-                  size: 45.0,
-                ),
-                decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    border: Border.all(width: 2.0, color: Colors.white70)))),
-      ),
-    );
+            child: toHero.child,
+          );
+        },
+        child: GestureDetector(
+            onTap: () {
+              showDogDetailPage();
+            },
+            child: ClipRRect(
+                borderRadius: new BorderRadius.circular(30.0),
+                child: Container(
+                  width: scrrenWidth - scrrenWidth / 7,
+                  height: scrrenWidth + scrrenWidth / 6,
+                  decoration: BoxDecoration(
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black54,
+                        blurRadius: 1.0,
+                      ),
+                    ],
+                    shape: BoxShape.rectangle,
+                    borderRadius: BorderRadius.circular(30.0),
+                    // image: DecorationImage(
+                    //   // Just like CSS's `imagesize` property.
+                    //   fit: BoxFit.cover,
+                    //   image: NetworkImage(_renderUrl ?? ''),
+                    //),
+                    //border: Border.all(width: 4.0, color: Colors.amber)
+                  ),
+                  child: Stack(children: <Widget>[
+                    Positioned(
+                      width: scrrenWidth - scrrenWidth / 7,
+                      height: scrrenWidth + scrrenWidth / 6,
+                      child: BackdropFilter(
+                          filter: ui.ImageFilter.blur(sigmaX: 3, sigmaY: 3),
+                          child: Container(
+                              child: Icon(
+                                Icons.pets,
+                                color: Colors.white,
+                                size: 140.0,
+                              ),
+                              decoration: BoxDecoration(
+                                  shape: BoxShape.rectangle,
+                                  borderRadius: BorderRadius.circular(30.0),
+                                  border: Border.all(
+                                      width: 2.0, color: Colors.black54)))),
+                    ),
+                    _renderUrl == "" ? Container() : dogImageContainer,
+                  ]),
+                ))));
+
+    //print("Getting dogImage = " + widget.dog.imageUrl);
+    return _dog.imageUrl == "" ? Container() : dogAvatar;
   }
 
   @override

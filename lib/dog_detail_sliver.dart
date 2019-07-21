@@ -87,13 +87,13 @@ class _DogDetailPageState extends State<DogDetailSliver>
           // Box decoration takes a gradient
           gradient: LinearGradient(
             // Where the linear gradient begins and ends
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
             // Add one stop for each color. Stops should increase from 0 to 1
             colors: [
               // Colors are easy thanks to Flutter's Colors class.
-              Colors.purple,
-              Colors.amber,
+              Colors.purple[600],
+              Colors.purple[600],
             ],
           ),
         ),
@@ -393,10 +393,10 @@ class MySliverAppBar extends SliverPersistentHeaderDelegate {
           ),
         ),
         AppBar(
-            backgroundColor: Colors.transparent, //No more green
-            elevation: 0.0, //Shadow gone
-            primary: true,
-          ), 
+          backgroundColor: Colors.transparent, //No more green
+          elevation: 0.0, //Shadow gone
+          primary: true,
+        ),
       ],
     );
   }

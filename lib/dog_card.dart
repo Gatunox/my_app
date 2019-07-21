@@ -26,7 +26,7 @@ class _DogCardState extends State<DogCard> with AutomaticKeepAliveClientMixin {
     // The height and width are arbitrary numbers for styling.
     return Container(
       width: 335.0,
-      height: 235.0,
+      height: 125.0,
       decoration: new BoxDecoration(
         boxShadow: [
           new BoxShadow(
@@ -35,10 +35,10 @@ class _DogCardState extends State<DogCard> with AutomaticKeepAliveClientMixin {
           ),
         ],
         borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(40),
-            topRight: Radius.circular(40),
-            bottomLeft: Radius.circular(40),
-            bottomRight: Radius.circular(40)),
+            topLeft: Radius.circular(30),
+            topRight: Radius.circular(30),
+            bottomLeft: Radius.circular(30),
+            bottomRight: Radius.circular(30)),
       ),
       child: Hero(
         tag: "dogCard" + _dog.id.toString(),
@@ -46,10 +46,10 @@ class _DogCardState extends State<DogCard> with AutomaticKeepAliveClientMixin {
           elevation: 5,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(40),
-                topRight: Radius.circular(40),
-                bottomLeft: Radius.circular(40),
-                bottomRight: Radius.circular(40)),
+                topLeft: Radius.circular(30),
+                topRight: Radius.circular(30),
+                bottomLeft: Radius.circular(30),
+                bottomRight: Radius.circular(30)),
           ),
           color: Colors.white,
           // Wrap children in a Padding widget in order to give padding.
@@ -140,7 +140,7 @@ class _DogCardState extends State<DogCard> with AutomaticKeepAliveClientMixin {
       child: Padding(
         padding: const EdgeInsets.only(left: 20.0, right: 5.0),
         child: Container(
-          height: 290.0,
+          height: 180.0,
           child: Stack(
             children: <Widget>[
               Positioned(

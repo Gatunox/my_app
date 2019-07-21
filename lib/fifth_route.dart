@@ -64,6 +64,7 @@ class _FifthRouteState extends State<FifthRoute>
   @override
   Widget build(BuildContext context) {
     final double scrrenWidth = MediaQuery.of(context).size.width;
+    final double scrrenHeight = MediaQuery.of(context).size.height;
     super.build(context);
     return Container(
       // Add box decoration
@@ -71,13 +72,12 @@ class _FifthRouteState extends State<FifthRoute>
         // Box decoration takes a gradient
         gradient: LinearGradient(
           // Where the linear gradient begins and ends
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
           // Add one stop for each color. Stops should increase from 0 to 1
           colors: [
-            // Colors are easy thanks to Flutter's Colors class.
-            Colors.purple,
-            Colors.amber,
+            Colors.purple[600],
+            Colors.amber[600],
           ],
         ),
       ),
@@ -86,42 +86,30 @@ class _FifthRouteState extends State<FifthRoute>
           Positioned(
               //Place it at the top, and not use the entire screen
               top: 0.0,
-              bottom: 0.0,
               left: 0.0,
-              width: 138.5,
               child: Container(
-                color: Colors.black12,
-                child: Padding(
-                  padding:
-                      const EdgeInsets.only(left: 6.0, top: 110, bottom: 20),
-                  child: new Column(),
+                width: scrrenWidth,
+                height: 120,
+                color: Colors.transparent,
+                child: AppBar(
+                  backgroundColor: Colors.transparent, //No more green
+                  elevation: 0.0, //Shadow gone
+                  primary: true,
                 ),
               )),
           Container(
-            height: scrrenWidth,
+            height: scrrenHeight,
             width: scrrenWidth,
-            padding: EdgeInsets.only(top: 80.0),
+            padding: EdgeInsets.only(top: 220.0, left: 0.0, right: 0),
             child: ListView.builder(
+              addAutomaticKeepAlives: true,
+              physics: const AlwaysScrollableScrollPhysics(),
               scrollDirection: Axis.horizontal,
-              physics: const AlwaysScrollableScrollPhysics (),
               // Must have an item count equal to the number of items!
               itemCount: widget.initialDoggos.length,
               // A callback that will return a widget.
               itemBuilder: (context, int index) {
-                //if (index == 0) {
-                  // return the header
-                  // return Container(
-                  //   height: 120,
-                  //   color: Colors.transparent,
-                  //   child: AppBar(
-                  //     title: Text("Dogs List"),
-                  //     backgroundColor: Colors.transparent, //No more green
-                  //     elevation: 0.0, //Shadow gone
-                  //   ),
-                  // );
-                // } else {
-                  return DogCardSliver(dog: widget.initialDoggos[index]);
-               // }
+                return DogCardSliver(dog: widget.initialDoggos[index]);
               },
             ),
           ),
@@ -133,4 +121,3 @@ class _FifthRouteState extends State<FifthRoute>
   @override
   bool get wantKeepAlive => true;
 }
-
