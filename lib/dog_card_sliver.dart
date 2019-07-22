@@ -48,8 +48,6 @@ class _DogCardState extends State<DogCardSliver>
     // A new container
     // The height and width are arbitrary numbers for styling.
     return Container(
-      width: scrrenWidth - 60,
-      height: 120.0,
       padding: const EdgeInsets.all(0.0),
       child: Hero(
         tag: "dogCard" + _dog.id.toString(),
@@ -152,25 +150,13 @@ class _DogCardState extends State<DogCardSliver>
     final double scrrenWidth = MediaQuery.of(context).size.width;
     final double scrrenHeight = MediaQuery.of(context).size.height;
     timeDilation = 1.0;
-    return
-        // GestureDetector(
-        //   onTap: () {
-        //     showDogDetailPage();
-        //   },
-        // child:
-        Container(
-      height: scrrenHeight,
+    return Container(
       width: scrrenWidth - 30,
       child: Padding(
         padding: const EdgeInsets.only(left: 15.0, right: 0.0),
         child: Container(
           child: Stack(
             children: <Widget>[
-              // Positioned(
-              //   top: 380.0,
-              //   left: 0.0,
-              //   child: dogCard,
-              // ),
               Positioned(top: 0.0, left: 0.0, child: dogImage),
             ],
           ),
@@ -218,27 +204,41 @@ class _DogCardState extends State<DogCardSliver>
   }
 
   Widget get dogImageContainer {
-    return Container(
-      decoration: BoxDecoration(
-          shape: BoxShape.rectangle,
-          borderRadius: BorderRadius.circular(30.0),
-          image: DecorationImage(
-            // Just like CSS's `imagesize` property.
+    final double scrrenWidth = MediaQuery.of(context).size.width;
+    final double scrrenHeight = MediaQuery.of(context).size.height;
+    return ClipRRect(
+      borderRadius: new BorderRadius.circular(30.0),
+      child: Stack(children: <Widget>[
+        Container(
+          height: scrrenHeight,
+          width: scrrenWidth - 30,
+          child: FittedBox(
             fit: BoxFit.cover,
-            image: NetworkImage(_renderUrl ?? ''),
+            child: FadeInImage.memoryNetwork(
+              placeholder: kTransparentImage,
+              image: _renderUrl,
+            ),
           ),
-          border: Border.all(width: 1.0, color: Colors.black45)),
-      // child: FadeInImage.memoryNetwork(
-      //     placeholder: kTransparentImage,
-      //     image: _renderUrl,
-      //   ),
+        ),
+        Container(
+          height: scrrenHeight,
+          width: scrrenWidth - 30,
+          decoration: BoxDecoration(
+              shape: BoxShape.rectangle,
+              borderRadius: BorderRadius.circular(30.0),
+              // image: DecorationImage(
+              //   // Just like CSS's `imagesize` property.
+              //   fit: BoxFit.cover,
+              //   image: NetworkImage(_renderUrl ?? ''),
+              // ),
+              border: Border.all(width: 1.0, color: Colors.black45)),
+        ),
+      ]),
     );
   }
 
   Widget get dogImage {
     final double scrrenWidth = MediaQuery.of(context).size.width;
-    //print("Call get dogImage");
-    // Containers define the size of its children.
     var dogAvatar = Hero(
         // The same code, except the Dog property lives on the widget in this file.
         tag: "dogImage" + _dog.id.toString(),
@@ -269,7 +269,7 @@ class _DogCardState extends State<DogCardSliver>
                 borderRadius: new BorderRadius.circular(30.0),
                 child: Container(
                   width: scrrenWidth - scrrenWidth / 7,
-                  height: scrrenWidth + scrrenWidth / 6,
+                  height: scrrenWidth + scrrenWidth / 7,
                   decoration: BoxDecoration(
                     boxShadow: [
                       BoxShadow(

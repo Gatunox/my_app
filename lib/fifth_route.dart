@@ -98,8 +98,6 @@ class _FifthRouteState extends State<FifthRoute>
                 ),
               )),
           Container(
-            height: scrrenHeight,
-            width: scrrenWidth,
             padding: EdgeInsets.only(top: 220.0, left: 0.0, right: 0),
             child: ListView.builder(
               addAutomaticKeepAlives: true,
