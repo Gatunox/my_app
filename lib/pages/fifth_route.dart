@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'dog_model.dart';
-import 'dog_card_sliver.dart';
+import 'package:my_app/styles/colors.dart';
+import 'package:my_app/model/dog_model.dart';
+import 'package:my_app/common/dog_card_sliver.dart';
 
 class FifthRoute extends StatefulWidget {
   FifthRoute({Key key, this.title}) : super(key: key);
@@ -67,7 +68,7 @@ class _FifthRouteState extends State<FifthRoute>
     final double scrrenHeight = MediaQuery.of(context).size.height;
     super.build(context);
     return Container(
-      // Add box decoration
+      //Add box decoration
       decoration: BoxDecoration(
         // Box decoration takes a gradient
         gradient: LinearGradient(
@@ -76,8 +77,8 @@ class _FifthRouteState extends State<FifthRoute>
           end: Alignment.bottomRight,
           // Add one stop for each color. Stops should increase from 0 to 1
           colors: [
-            Colors.purple[600],
-            Colors.amber[600],
+            backgroundColor,
+            backgroundColor,
           ],
         ),
       ),

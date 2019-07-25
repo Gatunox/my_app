@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'dog_detail_sliver.dart';
-import 'dog_model.dart';
+import 'package:my_app/pages/dog_detail_sliver.dart';
+import 'package:my_app/model/dog_model.dart';
 import 'dog_detail_enter_animations.dart';
 import 'package:flutter/scheduler.dart' show timeDilation;
 import 'dart:math' as math;
@@ -42,108 +42,6 @@ class _DogCardState extends State<DogCardSliver>
     super.dispose();
   }
 
-  Widget get dogCard {
-    final double scrrenWidth = MediaQuery.of(context).size.width;
-    final double scrrenHeight = MediaQuery.of(context).size.height;
-    // A new container
-    // The height and width are arbitrary numbers for styling.
-    return Container(
-      padding: const EdgeInsets.all(0.0),
-      child: Hero(
-        tag: "dogCard" + _dog.id.toString(),
-        child: GestureDetector(
-          onTap: () {
-            showDogDetailPage();
-          },
-          child: Card(
-            elevation: 1,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(30),
-                  topRight: Radius.circular(30),
-                  bottomLeft: Radius.circular(30),
-                  bottomRight: Radius.circular(30)),
-            ),
-            margin: const EdgeInsets.only(left: 0, right: 0),
-            color: Colors.white,
-            // Wrap children in a Padding widget in order to give padding.
-            child: Padding(
-              // The class that controls padding is called 'EdgeInsets'
-              // The EdgeInsets.only constructor is used to set
-              // padding explicitly to each side of the child.
-              padding: const EdgeInsets.only(
-                top: 10.0,
-                bottom: 10.0,
-                left: 20.0,
-              ),
-              // Column is another layout widget -- like stack -- that
-              // takes a list of widgets as children, and lays the
-              // widgets out from top to bottom.
-              child: Column(
-                // These alignment properties function exactly like
-                // CSS flexbox properties.
-                // The main axis of a column is the vertical axis,
-                // `MainAxisAlignment.spaceAround` is equivalent of
-                // CSS's 'justify-content: space-around' in a vertically
-                // laid out flexbox.
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                  RichText(
-                    text: TextSpan(
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                      children: <TextSpan>[
-                        TextSpan(
-                          text: widget.dog.name,
-                          style: TextStyle(
-                              fontFamily: 'Roboto',
-                              fontSize: 20.0,
-                              color: Colors.black.withOpacity(1.0)),
-                        ),
-                      ],
-                    ),
-                  ),
-                  RichText(
-                    text: TextSpan(
-                      children: <TextSpan>[
-                        TextSpan(
-                          text: widget.dog.location,
-                          style: TextStyle(
-                              fontFamily: 'Roboto',
-                              fontSize: 16.0,
-                              color: Colors.black.withOpacity(1.0)),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Row(
-                    children: <Widget>[
-                      Icon(
-                        Icons.star,
-                        color: Colors.purple,
-                      ),
-                      RichText(
-                        text: TextSpan(
-                          children: <TextSpan>[
-                            TextSpan(
-                              text: ': ${widget.dog.rating} / 10',
-                              style: TextStyle(
-                                  fontSize: 14.0,
-                                  color: Colors.black.withOpacity(1.0)),
-                            ),
-                          ],
-                        ),
-                      )
-                    ],
-                  )
-                ],
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -273,7 +171,7 @@ class _DogCardState extends State<DogCardSliver>
                   decoration: BoxDecoration(
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black54,
+                        color: Color(0xFF2A2D37),
                         blurRadius: 1.0,
                       ),
                     ],
@@ -302,7 +200,7 @@ class _DogCardState extends State<DogCardSliver>
                                   shape: BoxShape.rectangle,
                                   borderRadius: BorderRadius.circular(30.0),
                                   border: Border.all(
-                                      width: 2.0, color: Colors.black54)))),
+                                      width: 1.0, color: Colors.black54)))),
                     ),
                     _renderUrl == "" ? Container() : dogImageContainer,
                   ]),

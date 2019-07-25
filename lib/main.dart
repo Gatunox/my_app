@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:my_app/left_pane.dart';
-import 'package:my_app/center_pane.dart';
-import 'package:my_app/right_pane.dart';
-import 'package:my_app/second_route.dart';
-import 'package:my_app/third_route.dart';
-import 'package:my_app/forth_route.dart';
-import 'package:my_app/fifth_route.dart';
+import 'package:my_app/pages/left_pane.dart';
+import 'package:my_app/pages/center_pane.dart';
+import 'package:my_app/pages/right_pane.dart';
+import 'package:my_app/pages/second_route.dart';
+import 'package:my_app/pages/third_route.dart';
+import 'package:my_app/pages/forth_route.dart';
+import 'package:my_app/pages/fifth_route.dart';
 import 'package:my_app/splash_route.dart';
 
 void main() => runApp(MyApp());

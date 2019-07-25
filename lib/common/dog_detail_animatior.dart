@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'dog_detail_page.dart';
+import 'package:my_app/pages/dog_detail_page.dart';
 import 'dog_detail_enter_animations.dart';
-import 'dog_model.dart';
+import 'package:my_app/model/dog_model.dart';
 
 class DogDetailAnimator extends StatefulWidget {
   final Dog dog;

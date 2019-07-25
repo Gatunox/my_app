@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'dog_detail_enter_animations.dart';
-import 'dog_model.dart';
+import 'package:my_app/common/dog_detail_enter_animations.dart';
+import 'package:my_app/model/dog_model.dart';
 import 'dart:math' as math;
 import 'dart:ui' as ui;
 

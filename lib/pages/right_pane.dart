@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:my_app/styles/colors.dart';
 
-class LeftPage extends StatefulWidget {
-  LeftPage({Key key, this.title, this.controller}) : super(key: key);
+class RightPage extends StatefulWidget {
+  RightPage({Key key, this.title, this.controller}) : super(key: key);
 
   final String title;
   final PageController controller;
 
   @override
-  _LeftPageState createState() => _LeftPageState();
+  _RightPageState createState() => _RightPageState();
 }
 
-class _LeftPageState extends State<LeftPage>
+class _RightPageState extends State<RightPage>
     with AutomaticKeepAliveClientMixin {
   static const _duration = const Duration(milliseconds: 300);
   static const _curve = Curves.ease;
@@ -37,8 +38,8 @@ class _LeftPageState extends State<LeftPage>
           // Add one stop for each color. Stops should increase from 0 to 1
           colors: [
             // Colors are easy thanks to Flutter's Colors class.
-            Colors.purple,
-            Colors.amber,
+            backgroundColor,
+            backgroundColor,
           ],
         ),
       ),
@@ -63,7 +64,7 @@ class _LeftPageState extends State<LeftPage>
               onPressed: _incrementCounter,
               tooltip: 'Increment',
               child: Icon(Icons.add),
-              heroTag: "left_page_btn",
+              heroTag: "right_page_btn",
             ), 
             backgroundColor: Colors.transparent, 
           ),
@@ -74,17 +75,15 @@ class _LeftPageState extends State<LeftPage>
             right: 0.0,
             child: AppBar(
               title: Text(widget.title),
-              actions: <Widget>[
-                IconButton(
-                  icon: const Icon(Icons.arrow_forward_ios),
-                  tooltip: 'back to center',
-                  onPressed: () {
-                    print(widget.controller.page);
-                    widget.controller
-                        .animateToPage(1, duration: _duration, curve: _curve);
-                  },
-                ),
-              ],
+              leading: IconButton(
+                icon: const Icon(Icons.arrow_back_ios),
+                tooltip: 'back to center',
+                onPressed: () {
+                  print(widget.controller.page);
+                  widget.controller
+                      .animateToPage(1, duration: _duration, curve: _curve);
+                },
+              ),
               backgroundColor: Colors.transparent, //No more green
               elevation: 0.0, //Shadow gone
             ),

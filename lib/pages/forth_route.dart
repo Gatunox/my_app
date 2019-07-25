@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'dog_model.dart';
-import 'dog_card.dart';
+import 'package:my_app/styles/colors.dart';
+import 'package:my_app/model/dog_model.dart';
+import 'package:my_app/common/dog_card.dart';
 
 class ForthRoute extends StatefulWidget {
   ForthRoute({Key key, this.title}) : super(key: key);
@@ -76,8 +77,8 @@ class _ThirdRouteState extends State<ForthRoute>
           stops: [0.0, 1],
           colors: [
             // Colors are easy thanks to Flutter's Colors class.
-            Colors.purple,
-            Colors.amber,
+            backgroundColor,
+            backgroundColor,
           ],
         ),
       ),

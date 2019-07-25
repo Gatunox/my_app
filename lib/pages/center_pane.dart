@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:my_app/third_route.dart';
+import 'package:my_app/styles/colors.dart';
+import 'package:my_app/pages/third_route.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key key, this.title, this.controller}) : super(key: key);
@@ -50,8 +51,8 @@ class _HomePageState extends State<HomePage>
           // Add one stop for each color. Stops should increase from 0 to 1
           colors: [
             // Colors are easy thanks to Flutter's Colors class.
-            Colors.purple[600],
-            Colors.amber[600],
+            backgroundColor,
+            backgroundColor,
           ],
         ),
       ),
@@ -72,10 +73,10 @@ class _HomePageState extends State<HomePage>
                       Navigator.pushNamed(context, '/second');
                     },
                     elevation: 2,
-                    color: Colors.black38,
+                    color: Color(0xFF2A2D37),
                     padding: EdgeInsets.all(40),
                     shape: CircleBorder(
-                      side: BorderSide(color: Colors.black54, width: 2),
+                      side: BorderSide(color: Colors.black45, width: 2),
                     )
                   ),
                   RaisedButton(
@@ -102,10 +103,10 @@ class _HomePageState extends State<HomePage>
                       );
                     },
                     elevation: 2,
-                    color: Colors.black38,
+                    color: Color(0xFF2A2D37),
                     padding: EdgeInsets.all(40),
                     shape: CircleBorder(
-                      side: BorderSide(color: Colors.black54, width: 2),
+                      side: BorderSide(color: Colors.black45, width: 2),
                     )
                   ),
                   // SizedBox(
@@ -128,14 +129,14 @@ class _HomePageState extends State<HomePage>
                       textAlign: TextAlign.center,
                     ),
                     elevation: 2,
-                    color: Colors.black38,
+                    color: Color(0xFF2A2D37),
                     onPressed: () {
                       // Navigate to forth route when tapped.
                       Navigator.pushNamed(context, '/forth');
                     },
                     padding: EdgeInsets.all(40),
                     shape: CircleBorder(
-                      side: BorderSide(color: Colors.black54, width: 2),
+                      side: BorderSide(color: Colors.black45, width: 2),
                     )
                   ),
                   RaisedButton(
@@ -143,7 +144,7 @@ class _HomePageState extends State<HomePage>
                       Navigator.pushNamed(context, '/fifth');
                     },
                     elevation: 2,
-                    color: Colors.black38,
+                    color: Color(0xFF2A2D37),
                     child: Text(
                       "Open\nFour",
                       style: TextStyle(fontSize: 20),
@@ -151,7 +152,7 @@ class _HomePageState extends State<HomePage>
                     ),
                     padding: EdgeInsets.all(40),
                     shape: CircleBorder(
-                      side: BorderSide(color: Colors.black54, width: 2),
+                      side: BorderSide(color: Colors.black45, width: 2),
                     ),
                   ),
                 ],

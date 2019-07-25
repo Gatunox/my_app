@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'dog_detail_enter_animations.dart';
-import 'dog_model.dart';
+import 'package:my_app/common/dog_detail_enter_animations.dart';
+import 'package:my_app/model/dog_model.dart';
 import 'dart:math' as math;
 import 'dart:ui' as ui;
 
@@ -91,9 +91,8 @@ class _DogDetailPageState extends State<DogDetailSliver>
             end: Alignment.bottomRight,
             // Add one stop for each color. Stops should increase from 0 to 1
             colors: [
-              // Colors are easy thanks to Flutter's Colors class.
-              Colors.purple[600],
-              Colors.purple[600],
+              Color(0xFF1b202b),
+              Color(0xFF1b202b),
             ],
           ),
         ),
@@ -131,7 +130,7 @@ class _DogDetailPageState extends State<DogDetailSliver>
                           height: 715,
                           width: scrrenWidth,
                           decoration: BoxDecoration(
-                              color: Colors.white,
+                              color: Color(0xFF2A2D37),
                               shape: BoxShape.rectangle,
                               borderRadius: BorderRadius.circular(30.0),
                               border: Border.all(
@@ -168,8 +167,7 @@ class _DogDetailPageState extends State<DogDetailSliver>
                                         style: TextStyle(
                                             fontFamily: 'Roboto',
                                             fontSize: 20.0,
-                                            color:
-                                                Colors.black.withOpacity(1.0)),
+                                            color: Colors.white),
                                       ),
                                     ],
                                   ),
@@ -182,8 +180,7 @@ class _DogDetailPageState extends State<DogDetailSliver>
                                         style: TextStyle(
                                             fontFamily: 'Roboto',
                                             fontSize: 16.0,
-                                            color:
-                                                Colors.black.withOpacity(1.0)),
+                                            color: Colors.white),
                                       ),
                                     ],
                                   ),
@@ -192,7 +189,7 @@ class _DogDetailPageState extends State<DogDetailSliver>
                                   children: <Widget>[
                                     Icon(
                                       Icons.star,
-                                      color: Colors.purple,
+                                      color: Colors.purpleAccent,
                                     ),
                                     RichText(
                                       text: TextSpan(
@@ -201,8 +198,7 @@ class _DogDetailPageState extends State<DogDetailSliver>
                                             text: ': ${widget.dog.rating} / 10',
                                             style: TextStyle(
                                                 fontSize: 14.0,
-                                                color: Colors.black
-                                                    .withOpacity(1.0)),
+                                                color: Colors.white),
                                           ),
                                         ],
                                       ),
