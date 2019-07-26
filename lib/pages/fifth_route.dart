@@ -100,15 +100,12 @@ class _FifthRouteState extends State<FifthRoute>
               )),
           Container(
             padding: EdgeInsets.only(top: 220.0, left: 0.0, right: 0),
-            child: ListView.builder(
-              addAutomaticKeepAlives: true,
-              physics: const AlwaysScrollableScrollPhysics(),
-              scrollDirection: Axis.horizontal,
-              // Must have an item count equal to the number of items!
+            child: PageView.builder(
+              // store this controller in a State to save the carousel scroll position
               itemCount: widget.initialDoggos.length,
-              // A callback that will return a widget.
-              itemBuilder: (context, int index) {
-                return DogCardSliver(dog: widget.initialDoggos[index]);
+              controller: PageController(viewportFraction: 0.9),
+              itemBuilder: (BuildContext context, int itemIndex) {
+                return DogCardSliver(dog: widget.initialDoggos[itemIndex]);
               },
             ),
           ),

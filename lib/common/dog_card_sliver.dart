@@ -42,7 +42,6 @@ class _DogCardState extends State<DogCardSliver>
     super.dispose();
   }
 
-
   @override
   Widget build(BuildContext context) {
     final double scrrenWidth = MediaQuery.of(context).size.width;
@@ -51,11 +50,18 @@ class _DogCardState extends State<DogCardSliver>
     return Container(
       width: scrrenWidth - 30,
       child: Padding(
-        padding: const EdgeInsets.only(left: 15.0, right: 0.0),
+        padding: const EdgeInsets.only(left: 5.0, right: 0.0),
         child: Container(
           child: Stack(
             children: <Widget>[
-              Positioned(top: 0.0, left: 0.0, child: dogImage),
+              Positioned(
+                  top: 0.0,
+                  left: 0.0,
+                  child: Card(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30.0),
+                      ),
+                      child: dogImage)),
             ],
           ),
         ),
@@ -168,22 +174,6 @@ class _DogCardState extends State<DogCardSliver>
                 child: Container(
                   width: scrrenWidth - scrrenWidth / 7,
                   height: scrrenWidth + scrrenWidth / 7,
-                  decoration: BoxDecoration(
-                    boxShadow: [
-                      BoxShadow(
-                        color: Color(0xFF2A2D37),
-                        blurRadius: 1.0,
-                      ),
-                    ],
-                    shape: BoxShape.rectangle,
-                    borderRadius: BorderRadius.circular(30.0),
-                    // image: DecorationImage(
-                    //   // Just like CSS's `imagesize` property.
-                    //   fit: BoxFit.cover,
-                    //   image: NetworkImage(_renderUrl ?? ''),
-                    //),
-                    //border: Border.all(width: 4.0, color: Colors.amber)
-                  ),
                   child: Stack(children: <Widget>[
                     Positioned(
                       width: scrrenWidth - scrrenWidth / 7,
