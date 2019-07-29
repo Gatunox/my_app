@@ -1,60 +1,49 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/styles/colors.dart';
 import 'package:my_app/model/dog_model.dart';
+import 'package:my_app/model/data.dart';
 import 'package:my_app/common/dog_card_sliver.dart';
+import 'package:my_app/styles/colors.dart';
+import 'dart:math';
+
+import 'package:my_app/styles/colors.dart' as prefix0;
+
+const SCALE_FRACTION = 0.8;
+const FULL_SCALE = 1.0;
+const VIEWPORT_FRACTION = 0.9;
 
 class FifthRoute extends StatefulWidget {
   FifthRoute({Key key, this.title}) : super(key: key);
 
   final String title;
-  List<Dog> initialDoggos = []
-    ..add(Dog(
-        id: 1,
-        name: 'Ruby',
-        location: 'Portland, OR, USA',
-        description:
-            'Ruby is a very good girl. Yes: Fetch, loungin\'. No: Dogs who get on furniture.'))
-    ..add(Dog(
-        id: 2,
-        name: 'Rex',
-        location: 'Seattle, WA, USA',
-        description: 'Best in Show 1999'))
-    ..add(Dog(
-        id: 3,
-        name: 'Rod Stewart',
-        location: 'Prague, CZ',
-        description: 'Star good boy on international snooze team.'))
-    ..add(Dog(
-        id: 4,
-        name: 'Herbert',
-        location: 'Dallas, TX, USA',
-        description: 'A Very Good Boy'))
-    ..add(Dog(
-        id: 5,
-        name: 'Ruby',
-        location: 'Portland, OR, USA',
-        description:
-            'Ruby is a very good girl. Yes: Fetch, loungin\'. No: Dogs who get on furniture.'))
-    ..add(Dog(
-        id: 6,
-        name: 'Rex',
-        location: 'Seattle, WA, USA',
-        description: 'Best in Show 1999'))
-    ..add(Dog(
-        id: 7,
-        name: 'Rod Stewart',
-        location: 'Prague, CZ',
-        description: 'Star good boy on international snooze team.'))
-    ..add(Dog(
-        id: 8,
-        name: 'Herbert',
-        location: 'Dallas, TX, USA',
-        description: 'A Very Good Boy'))
-    ..add(Dog(
-        id: 9,
-        name: 'Buddy',
-        location: 'North Pole, Earth',
-        description: 'Self proclaimed human lover.'));
+
+  List<String> initialDogTypes = []
+    ..add('None')
+    ..add('A')
+    ..add('B')
+    ..add('C')
+    ..add('D')
+    ..add('E')
+    ..add('F')
+    ..add('G')
+    ..add('H')
+    ..add('I')
+    ..add('J')
+    ..add('K')
+    ..add('L')
+    ..add('M')
+    ..add('N')
+    ..add('O')
+    ..add('P')
+    ..add('Q')
+    ..add('R')
+    ..add('S')
+    ..add('T')
+    ..add('U')
+    ..add('V')
+    ..add('X')
+    ..add('W')
+    ..add('Z');
 
   @override
   _FifthRouteState createState() => _FifthRouteState();
@@ -62,6 +51,19 @@ class FifthRoute extends StatefulWidget {
 
 class _FifthRouteState extends State<FifthRoute>
     with AutomaticKeepAliveClientMixin {
+  double _page = 0.0;
+  int _currentPage = 0;
+  int _selectedItem = 0;
+
+  PageController _controller;
+
+  @override
+  void initState() {
+    _controller = PageController(
+        initialPage: _currentPage, viewportFraction: VIEWPORT_FRACTION);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     final double scrrenWidth = MediaQuery.of(context).size.width;
@@ -69,6 +71,8 @@ class _FifthRouteState extends State<FifthRoute>
     super.build(context);
     return Container(
       //Add box decoration
+      width: scrrenWidth,
+      height: scrrenHeight,
       decoration: BoxDecoration(
         // Box decoration takes a gradient
         gradient: LinearGradient(
@@ -85,6 +89,64 @@ class _FifthRouteState extends State<FifthRoute>
       child: Stack(
         children: <Widget>[
           Positioned(
+            top: 80.0,
+            left: 20.0,
+            child: RichText(
+              text: TextSpan(
+                children: <TextSpan>[
+                  TextSpan(
+                    text: "Dog Breeds",
+                    style: TextStyle(
+                        fontFamily: 'Roboto',
+                        fontSize: 35.0,
+                        color: Colors.white),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Positioned(
+            top: 160.0,
+            left: 20.0,
+            child: RichText(
+              text: TextSpan(
+                children: <TextSpan>[
+                  TextSpan(
+                    text: "Filter",
+                    style: fadedListTitle,
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Container(
+            child: NotificationListener<ScrollNotification>(
+              onNotification: (ScrollNotification notification) {
+                if (mounted) {
+                  setState(() {
+                    _page = _controller.page;
+                  });
+                }
+              },
+              child: PageView.builder(
+                onPageChanged: (pos) {
+                  setState(() {
+                    _currentPage = pos;
+                  });
+                },
+                itemCount: initialDoggos.length,
+                controller: _controller,
+                itemBuilder: (BuildContext context, int itemIndex) {
+                  //print((itemIndex - _page).abs());
+                  final scale = max(
+                      SCALE_FRACTION, (FULL_SCALE - (itemIndex - _page).abs()));
+                  return DogCardSliver(
+                      dog: initialDoggos[itemIndex], scale: scale);
+                },
+              ),
+            ),
+          ),
+          Positioned(
               //Place it at the top, and not use the entire screen
               top: 0.0,
               left: 0.0,
@@ -98,15 +160,31 @@ class _FifthRouteState extends State<FifthRoute>
                   primary: true,
                 ),
               )),
-          Container(
-            padding: EdgeInsets.only(top: 220.0, left: 0.0, right: 0),
-            child: PageView.builder(
-              // store this controller in a State to save the carousel scroll position
-              itemCount: widget.initialDoggos.length,
-              controller: PageController(viewportFraction: 0.9),
-              itemBuilder: (BuildContext context, int itemIndex) {
-                return DogCardSliver(dog: widget.initialDoggos[itemIndex]);
-              },
+          Positioned(
+            top: 120.0,
+            child: Container(
+              height: 100,
+              color: Colors.transparent,
+              padding: const EdgeInsets.only(top: 60.0),
+              width: scrrenWidth,
+              child: ListView.builder(
+                addAutomaticKeepAlives: true,
+                scrollDirection: Axis.horizontal,
+                physics: const AlwaysScrollableScrollPhysics(),
+                itemCount: widget.initialDogTypes.length,
+                // A callback that will return a widget.
+                itemBuilder: (context, int index) {
+                  return new LetterItem(
+                    widget: widget,
+                    currentIndex: index,
+                    selectedItem: _selectedItem,
+                    onTapTap: () {
+                      print("onTapTap onTapTap");
+                      onTapTap(index);
+                    },
+                  );
+                },
+              ),
             ),
           ),
         ],
@@ -116,4 +194,53 @@ class _FifthRouteState extends State<FifthRoute>
 
   @override
   bool get wantKeepAlive => true;
+
+  onTapTap(int index) {
+    print("calling setState");
+    setState(() {
+      _selectedItem = index;
+      print("_selectedItem = " + _selectedItem.toString());
+    });
+  }
+}
+
+class LetterItem extends StatelessWidget {
+  const LetterItem({
+    Key key,
+    @required this.widget,
+    @required this.currentIndex,
+    @required this.selectedItem,
+    @required this.onTapTap,
+  }) : super(key: key);
+
+  final FifthRoute widget;
+  final int currentIndex;
+  final int selectedItem;
+  final Function onTapTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        print("GestureDetector onTap");
+        onTapTap();
+      },
+      child: Container(
+        height: 80,
+        width: 50,
+        margin: EdgeInsets.only(left: 20.0, right: 0.0),
+        child: RichText(
+            text: TextSpan(
+          children: <TextSpan>[
+            TextSpan(
+              text: widget.initialDogTypes[currentIndex],
+              style: currentIndex == selectedItem
+                  ? selectedListItemStyle
+                  : unselectedListItemStyle,
+            ),
+          ],
+        )),
+      ),
+    );
+  }
 }

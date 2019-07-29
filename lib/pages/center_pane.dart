@@ -76,7 +76,7 @@ class _HomePageState extends State<HomePage>
                     color: Color(0xFF2A2D37),
                     padding: EdgeInsets.all(40),
                     shape: CircleBorder(
-                      side: BorderSide(color: Colors.black45, width: 2),
+                      side: BorderSide(color: Colors.purple, width: 2),
                     )
                   ),
                   RaisedButton(
@@ -106,7 +106,7 @@ class _HomePageState extends State<HomePage>
                     color: Color(0xFF2A2D37),
                     padding: EdgeInsets.all(40),
                     shape: CircleBorder(
-                      side: BorderSide(color: Colors.black45, width: 2),
+                      side: BorderSide(color: Colors.purple, width: 2),
                     )
                   ),
                   // SizedBox(
@@ -136,7 +136,7 @@ class _HomePageState extends State<HomePage>
                     },
                     padding: EdgeInsets.all(40),
                     shape: CircleBorder(
-                      side: BorderSide(color: Colors.black45, width: 2),
+                      side: BorderSide(color: Colors.purple, width: 2),
                     )
                   ),
                   RaisedButton(
@@ -152,7 +152,7 @@ class _HomePageState extends State<HomePage>
                     ),
                     padding: EdgeInsets.all(40),
                     shape: CircleBorder(
-                      side: BorderSide(color: Colors.black45, width: 2),
+                      side: BorderSide(color: Colors.purple, width: 2),
                     ),
                   ),
                 ],

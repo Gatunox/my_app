@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/pages/dog_detail_sliver.dart';
 import 'package:my_app/model/dog_model.dart';
+import 'package:my_app/styles/colors.dart';
 import 'dog_detail_enter_animations.dart';
 import 'package:flutter/scheduler.dart' show timeDilation;
 import 'dart:math' as math;
@@ -9,8 +10,9 @@ import 'package:transparent_image/transparent_image.dart';
 
 class DogCardSliver extends StatefulWidget {
   final Dog dog;
+  final double scale;
 
-  DogCardSliver({Key key, this.dog}) : super(key: key);
+  DogCardSliver({Key key, this.dog, this.scale}) : super(key: key);
 
   @override
   _DogCardState createState() => _DogCardState(dog);
@@ -47,22 +49,24 @@ class _DogCardState extends State<DogCardSliver>
     final double scrrenWidth = MediaQuery.of(context).size.width;
     final double scrrenHeight = MediaQuery.of(context).size.height;
     timeDilation = 1.0;
-    return Container(
-      width: scrrenWidth - 30,
-      child: Padding(
-        padding: const EdgeInsets.only(left: 5.0, right: 0.0),
-        child: Container(
-          child: Stack(
-            children: <Widget>[
-              Positioned(
-                  top: 0.0,
-                  left: 0.0,
-                  child: Card(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30.0),
-                      ),
-                      child: dogImage)),
-            ],
+    return Align(
+      alignment: Alignment.center,
+      child: Container(
+        child: Padding(
+          padding: const EdgeInsets.only(left: 0.0, right: 0.0),
+          child: Container(
+            width: (scrrenWidth - scrrenWidth / 7),
+            height: (scrrenWidth + scrrenWidth / 7) * widget.scale,
+            child: Stack(
+              children: <Widget>[
+                Card(
+                    color: backgroundColor,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30.0),
+                    ),
+                    child: dogImage),
+              ],
+            ),
           ),
         ),
       ),
@@ -114,8 +118,8 @@ class _DogCardState extends State<DogCardSliver>
       borderRadius: new BorderRadius.circular(30.0),
       child: Stack(children: <Widget>[
         Container(
-          height: scrrenHeight,
-          width: scrrenWidth - 30,
+          width: (scrrenWidth - scrrenWidth / 7),
+          height: (scrrenWidth + scrrenWidth / 7) * widget.scale,
           child: FittedBox(
             fit: BoxFit.cover,
             child: FadeInImage.memoryNetwork(
@@ -125,8 +129,8 @@ class _DogCardState extends State<DogCardSliver>
           ),
         ),
         Container(
-          height: scrrenHeight,
-          width: scrrenWidth - 30,
+          width: (scrrenWidth - scrrenWidth / 7),
+          height: (scrrenWidth + scrrenWidth / 7) * widget.scale,
           decoration: BoxDecoration(
               shape: BoxShape.rectangle,
               borderRadius: BorderRadius.circular(30.0),
@@ -135,7 +139,7 @@ class _DogCardState extends State<DogCardSliver>
               //   fit: BoxFit.cover,
               //   image: NetworkImage(_renderUrl ?? ''),
               // ),
-              border: Border.all(width: 1.0, color: Colors.black45)),
+              border: Border.all(width: 2.0, color: Colors.purple)),
         ),
       ]),
     );
@@ -170,31 +174,30 @@ class _DogCardState extends State<DogCardSliver>
               showDogDetailPage();
             },
             child: ClipRRect(
-                borderRadius: new BorderRadius.circular(30.0),
-                child: Container(
-                  width: scrrenWidth - scrrenWidth / 7,
-                  height: scrrenWidth + scrrenWidth / 7,
-                  child: Stack(children: <Widget>[
-                    Positioned(
-                      width: scrrenWidth - scrrenWidth / 7,
-                      height: scrrenWidth + scrrenWidth / 6,
-                      child: BackdropFilter(
-                          filter: ui.ImageFilter.blur(sigmaX: 3, sigmaY: 3),
-                          child: Container(
-                              child: Icon(
-                                Icons.pets,
-                                color: Colors.white,
-                                size: 140.0,
-                              ),
-                              decoration: BoxDecoration(
-                                  shape: BoxShape.rectangle,
-                                  borderRadius: BorderRadius.circular(30.0),
-                                  border: Border.all(
-                                      width: 1.0, color: Colors.black54)))),
-                    ),
-                    _renderUrl == "" ? Container() : dogImageContainer,
-                  ]),
-                ))));
+              borderRadius: new BorderRadius.circular(30.0),
+              child: Stack(children: <Widget>[
+                Positioned(
+                  child: BackdropFilter(
+                      filter: ui.ImageFilter.blur(sigmaX: 3, sigmaY: 3),
+                      child: Container(
+                          width: (scrrenWidth - scrrenWidth / 7),
+                          height:
+                              (scrrenWidth + scrrenWidth / 7) * widget.scale,
+                          child: Icon(
+                            Icons.pets,
+                            color: Colors.white,
+                            size: 140.0,
+                          ),
+                          decoration: BoxDecoration(
+                              shape: BoxShape.rectangle,
+                              color: foregroungColor,
+                              borderRadius: BorderRadius.circular(30.0),
+                              border: Border.all(
+                                  width: 2.0, color: Colors.purple)))),
+                ),
+                _renderUrl == "" ? Container() : dogImageContainer,
+              ]),
+            )));
 
     //print("Getting dogImage = " + widget.dog.imageUrl);
     return _dog.imageUrl == "" ? Container() : dogAvatar;

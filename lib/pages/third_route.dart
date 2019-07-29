@@ -1,60 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/styles/colors.dart';
 import 'package:my_app/model/dog_model.dart';
+import 'package:my_app/model/data.dart';
 import 'package:my_app/common/dog_card_compact.dart';
 
 class ThirdRoute extends StatefulWidget {
   ThirdRoute({Key key, this.title}) : super(key: key);
 
   final String title;
-  List<Dog> initialDoggos = []
-    ..add(Dog(
-        id: 1,
-        name: 'Ruby',
-        location: 'Portland, OR, USA',
-        description:
-            'Ruby is a very good girl. Yes: Fetch, loungin\'. No: Dogs who get on furniture.'))
-    ..add(Dog(
-        id: 2,
-        name: 'Rex',
-        location: 'Seattle, WA, USA',
-        description: 'Best in Show 1999'))
-    ..add(Dog(
-        id: 3,
-        name: 'Rod Stewart',
-        location: 'Prague, CZ',
-        description: 'Star good boy on international snooze team.'))
-    ..add(Dog(
-        id: 4,
-        name: 'Herbert',
-        location: 'Dallas, TX, USA',
-        description: 'A Very Good Boy'))
-    ..add(Dog(
-        id: 5,
-        name: 'Ruby',
-        location: 'Portland, OR, USA',
-        description:
-            'Ruby is a very good girl. Yes: Fetch, loungin\'. No: Dogs who get on furniture.'))
-    ..add(Dog(
-        id: 6,
-        name: 'Rex',
-        location: 'Seattle, WA, USA',
-        description: 'Best in Show 1999'))
-    ..add(Dog(
-        id: 7,
-        name: 'Rod Stewart',
-        location: 'Prague, CZ',
-        description: 'Star good boy on international snooze team.'))
-    ..add(Dog(
-        id: 8,
-        name: 'Herbert',
-        location: 'Dallas, TX, USA',
-        description: 'A Very Good Boy'))
-    ..add(Dog(
-        id: 9,
-        name: 'Buddy',
-        location: 'North Pole, Earth',
-        description: 'Self proclaimed human lover.'));
 
   @override
   _ThirdRouteState createState() => _ThirdRouteState();
@@ -104,7 +57,7 @@ class _ThirdRouteState extends State<ThirdRoute>
               // Must have an item count equal to the number of items!
               addAutomaticKeepAlives: true,
               physics: const AlwaysScrollableScrollPhysics(),
-              itemCount: widget.initialDoggos.length,
+              itemCount: initialDoggos.length,
               // A callback that will return a widget.
               itemBuilder: (context, int index) {
                 if (index == 0) {
@@ -119,7 +72,7 @@ class _ThirdRouteState extends State<ThirdRoute>
                     ),
                   );
                 } else {
-                  return DogCardCompact(dog: widget.initialDoggos[index]);
+                  return DogCardCompact(dog: initialDoggos[index]);
                 }
               },
             ),

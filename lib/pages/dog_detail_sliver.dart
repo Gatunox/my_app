@@ -127,7 +127,7 @@ class _DogDetailPageState extends State<DogDetailSliver>
                         elevation: 0,
                         child: Container(
                           margin: const EdgeInsets.only(top: 5.0),
-                          height: 715,
+                          height: 735,
                           width: scrrenWidth,
                           decoration: BoxDecoration(
                               color: Color(0xFF2A2D37),
@@ -265,7 +265,7 @@ class _DogDetailPageState extends State<DogDetailSliver>
                 //   ),
                 // ),
                 SliverPersistentHeader(
-                  delegate: MySliverAppBar(expandedHeight: 700.0, dog: _dog),
+                  delegate: MySliverAppBar(expandedHeight: 730.0, dog: _dog),
                   pinned: true,
                 ),
               ];
@@ -324,44 +324,47 @@ class MySliverAppBar extends SliverPersistentHeaderDelegate {
       fit: StackFit.expand,
       overflow: Overflow.visible,
       children: [
-        Hero(
-          // The same code, except the Dog property lives on the widget in this file.
-          tag: "dogImage" + dog.id.toString(),
-          flightShuttleBuilder: (
-            BuildContext flightContext,
-            Animation<double> animation,
-            HeroFlightDirection flightDirection,
-            BuildContext fromHeroContext,
-            BuildContext toHeroContext,
-          ) {
-            final Hero toHero = toHeroContext.widget;
-            return ScaleTransition(
-              scale: animation.drive(
-                Tween<double>(begin: 0.0, end: 1.0).chain(
-                  CurveTween(
-                    curve: Interval(0.0, 1.0, curve: PeakQuadraticCurve()),
+        SafeArea(
+          bottom: false,
+                  child: Hero(
+            // The same code, except the Dog property lives on the widget in this file.
+            tag: "dogImage" + dog.id.toString(),
+            flightShuttleBuilder: (
+              BuildContext flightContext,
+              Animation<double> animation,
+              HeroFlightDirection flightDirection,
+              BuildContext fromHeroContext,
+              BuildContext toHeroContext,
+            ) {
+              final Hero toHero = toHeroContext.widget;
+              return ScaleTransition(
+                scale: animation.drive(
+                  Tween<double>(begin: 0.0, end: 1.0).chain(
+                    CurveTween(
+                      curve: Interval(0.0, 1.0, curve: PeakQuadraticCurve()),
+                    ),
                   ),
                 ),
+                child: toHero.child,
+              );
+            },
+            child: Container(
+              margin: const EdgeInsets.only(bottom: 55.0),
+              // Use Box Decoration to make the image a circle
+              // and add an arbitrary shadow for styling.
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(30),
+                    topRight: Radius.circular(30),
+                    bottomLeft: Radius.circular(30),
+                    bottomRight: Radius.circular(30)),
+                shape: BoxShape.rectangle,
+                color: Colors.transparent,
+                // This is how you add an image to a Container's background.
+                image: DecorationImage(
+                    fit: BoxFit.cover, image: NetworkImage(dog.imageUrl ?? '')),
+                border: Border.all(width: 2.0, color: Colors.purple),
               ),
-              child: toHero.child,
-            );
-          },
-          child: Container(
-            margin: const EdgeInsets.only(bottom: 55.0),
-            // Use Box Decoration to make the image a circle
-            // and add an arbitrary shadow for styling.
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(30),
-                  topRight: Radius.circular(30),
-                  bottomLeft: Radius.circular(30),
-                  bottomRight: Radius.circular(30)),
-              shape: BoxShape.rectangle,
-              color: Colors.transparent,
-              // This is how you add an image to a Container's background.
-              image: DecorationImage(
-                  fit: BoxFit.cover, image: NetworkImage(dog.imageUrl ?? '')),
-              border: Border.all(width: 1.0, color: Colors.black54),
             ),
           ),
         ),
@@ -401,7 +404,7 @@ class MySliverAppBar extends SliverPersistentHeaderDelegate {
   double get maxExtent => expandedHeight;
 
   @override
-  double get minExtent => kToolbarHeight + 120;
+  double get minExtent => kToolbarHeight + 100;
 
   @override
   bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) => true;
