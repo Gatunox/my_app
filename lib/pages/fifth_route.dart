@@ -8,7 +8,7 @@ import 'dart:math';
 
 import 'package:my_app/styles/colors.dart' as prefix0;
 
-const SCALE_FRACTION = 0.8;
+const SCALE_FRACTION = 0.9;
 const FULL_SCALE = 1.0;
 const VIEWPORT_FRACTION = 0.9;
 
@@ -51,7 +51,7 @@ class FifthRoute extends StatefulWidget {
 
 class _FifthRouteState extends State<FifthRoute>
     with AutomaticKeepAliveClientMixin {
-  double _page = 0.0;
+  ValueNotifier<double> _page = ValueNotifier<double>(0.0);
   int _currentPage = 0;
   int _selectedItem = 0;
 
@@ -124,7 +124,8 @@ class _FifthRouteState extends State<FifthRoute>
               onNotification: (ScrollNotification notification) {
                 if (mounted) {
                   setState(() {
-                    _page = _controller.page;
+                    _page.value = _controller.page;
+                    //print(_controller.page);
                   });
                 }
               },
@@ -137,9 +138,12 @@ class _FifthRouteState extends State<FifthRoute>
                 itemCount: initialDoggos.length,
                 controller: _controller,
                 itemBuilder: (BuildContext context, int itemIndex) {
-                  //print((itemIndex - _page).abs());
-                  final scale = max(
-                      SCALE_FRACTION, (FULL_SCALE - (itemIndex - _page).abs()));
+                  //print((_page.value - itemIndex).abs());
+                  var scale = (1 -
+                      (((_page.value - itemIndex).abs() * 0.1)
+                          .clamp(0.0, 1.0)));
+                  //final scale =
+                  //    max(SCALE_FRACTION, (FULL_SCALE - (itemIndex - _page).abs()));
                   return DogCardSliver(
                       dog: initialDoggos[itemIndex], scale: scale);
                 },
@@ -226,20 +230,24 @@ class LetterItem extends StatelessWidget {
         onTapTap();
       },
       child: Container(
+        color: Colors.transparent,
         height: 80,
-        width: 50,
+        width: 45,
         margin: EdgeInsets.only(left: 20.0, right: 0.0),
-        child: RichText(
-            text: TextSpan(
-          children: <TextSpan>[
-            TextSpan(
-              text: widget.initialDogTypes[currentIndex],
-              style: currentIndex == selectedItem
-                  ? selectedListItemStyle
-                  : unselectedListItemStyle,
-            ),
-          ],
-        )),
+        child: Align(
+          alignment: Alignment.topCenter,
+          child: RichText(
+              text: TextSpan(
+            children: <TextSpan>[
+              TextSpan(
+                text: widget.initialDogTypes[currentIndex],
+                style: currentIndex == selectedItem
+                    ? selectedListItemStyle
+                    : unselectedListItemStyle,
+              ),
+            ],
+          )),
+        ),
       ),
     );
   }

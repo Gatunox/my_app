@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/common/dog_detail_enter_animations.dart';
 import 'package:my_app/model/dog_model.dart';
+import 'package:my_app/styles/colors.dart';
 import 'dart:math' as math;
 import 'dart:ui' as ui;
+
 
 class DogDetailSliver extends StatefulWidget {
   DogDetailSliver({Key key, this.dog, this.animation}) : super(key: key);
@@ -363,7 +365,7 @@ class MySliverAppBar extends SliverPersistentHeaderDelegate {
                 // This is how you add an image to a Container's background.
                 image: DecorationImage(
                     fit: BoxFit.cover, image: NetworkImage(dog.imageUrl ?? '')),
-                border: Border.all(width: 2.0, color: Colors.purple),
+                border: Border.all(width: 2.0, color: foregroungColor),
               ),
             ),
           ),
@@ -376,7 +378,7 @@ class MySliverAppBar extends SliverPersistentHeaderDelegate {
         Align(
           alignment: Alignment.bottomCenter,
           child: Padding(
-            padding: const EdgeInsets.only(bottom: 12.0),
+            padding: const EdgeInsets.all(8.0),
             child: Opacity(
               opacity: 1.0,
               //opacity: shrinkOffset / expandedHeight,
@@ -385,7 +387,7 @@ class MySliverAppBar extends SliverPersistentHeaderDelegate {
                 style: TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.w700,
-                  fontSize: 23,
+                  fontSize: 32,
                 ),
               ),
             ),

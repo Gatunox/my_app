@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/styles/colors.dart';
 import 'package:my_app/pages/third_route.dart';
+import 'package:my_app/styles/colors.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key key, this.title, this.controller}) : super(key: key);
@@ -76,7 +77,7 @@ class _HomePageState extends State<HomePage>
                     color: Color(0xFF2A2D37),
                     padding: EdgeInsets.all(40),
                     shape: CircleBorder(
-                      side: BorderSide(color: Colors.purple, width: 2),
+                      side: BorderSide(color: foregroungColor, width: 2),
                     )
                   ),
                   RaisedButton(
@@ -106,7 +107,7 @@ class _HomePageState extends State<HomePage>
                     color: Color(0xFF2A2D37),
                     padding: EdgeInsets.all(40),
                     shape: CircleBorder(
-                      side: BorderSide(color: Colors.purple, width: 2),
+                      side: BorderSide(color: foregroungColor, width: 2),
                     )
                   ),
                   // SizedBox(
@@ -136,7 +137,7 @@ class _HomePageState extends State<HomePage>
                     },
                     padding: EdgeInsets.all(40),
                     shape: CircleBorder(
-                      side: BorderSide(color: Colors.purple, width: 2),
+                      side: BorderSide(color: foregroungColor, width: 2),
                     )
                   ),
                   RaisedButton(
@@ -152,7 +153,7 @@ class _HomePageState extends State<HomePage>
                     ),
                     padding: EdgeInsets.all(40),
                     shape: CircleBorder(
-                      side: BorderSide(color: Colors.purple, width: 2),
+                      side: BorderSide(color: foregroungColor, width: 2),
                     ),
                   ),
                 ],
