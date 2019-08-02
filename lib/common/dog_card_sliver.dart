@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:my_app/pages/dog_detail_sliver.dart';
 import 'package:my_app/model/dog_model.dart';
 import 'package:my_app/styles/colors.dart';
@@ -53,20 +54,21 @@ class _DogCardState extends State<DogCardSliver>
       alignment: Alignment.center,
       child: Container(
         child: Padding(
-          padding: const EdgeInsets.only(left: 0.0, right: 0.0),
-          child: Container(
-            width: (scrrenWidth) * widget.scale,
-            height: (scrrenWidth) * widget.scale,
-            child: Stack(
-              children: <Widget>[
-                Card(
-                    color: backgroundColor,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30.0),
-                    ),
-                    child: dogImage),
-              ],
-            ),
+          padding: const EdgeInsets.all(0.0),
+          child: Stack(
+            children: <Widget>[
+              Card(
+                  elevation: 0,
+                  color: Colors.transparent,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30.0),
+                  ),
+                  child: Container(
+                      color: Colors.transparent,
+                      width: (scrrenWidth) * widget.scale,
+                      height: (scrrenWidth + 10) * widget.scale,
+                      child: dogImage)),
+            ],
           ),
         ),
       ),
@@ -90,7 +92,7 @@ class _DogCardState extends State<DogCardSliver>
               child: child,
             );
           },
-          transitionDuration: Duration(milliseconds: 500),
+          transitionDuration: Duration(milliseconds: 600),
         ),
       );
     }
@@ -138,34 +140,54 @@ class _DogCardState extends State<DogCardSliver>
               child: toHero.child,
             );
           },
-          child: Container(
-            width: (scrrenWidth) * widget.scale,
-            height: (scrrenWidth) * widget.scale,
-            child: FittedBox(
-              fit: BoxFit.cover,
-              child: FadeInImage.memoryNetwork(
-                placeholder: kTransparentImage,
-                image: _renderUrl,
+          child: ClipRRect(
+            borderRadius: new BorderRadius.only(
+                bottomLeft: const Radius.circular(30.0),
+                bottomRight: const Radius.circular(30),
+                topLeft: const Radius.circular(30),
+                topRight: const Radius.circular(30)),
+            child: Container(
+              width: (scrrenWidth / 1.1) * widget.scale,
+              height: (scrrenWidth / 1.1) * widget.scale,
+              child: FittedBox(
+                fit: BoxFit.cover,
+                child: FadeInImage.memoryNetwork(
+                  placeholder: kTransparentImage,
+                  image: _renderUrl,
+                ),
               ),
             ),
           ),
         ),
-        Container(
-          width: (scrrenWidth) * widget.scale,
-          height: (scrrenWidth) * widget.scale,
-          child: Align(
-            alignment: Alignment.bottomCenter,
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Material(
-                color: Colors.transparent,
-                child: Text(
-                  _dog.name,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.w700,
-                    fontSize: 40,
-                  ),
+        Align(
+          alignment: Alignment.bottomCenter,
+          child: Padding(
+            padding: const EdgeInsets.only(left: 8.0, right: 8.0, top: 8.0, bottom: 8.0),
+            child: ClipRRect(
+              borderRadius: new BorderRadius.only(
+                  bottomLeft: const Radius.circular(30.0),
+                  bottomRight: const Radius.circular(30),
+                  topLeft: const Radius.circular(30),
+                  topRight: const Radius.circular(30)),
+              child: Container(
+                width: (scrrenWidth),
+                child: Material(
+                  color: Colors.transparent,
+                  child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Text(
+                          _dog.name,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w700,
+                            fontSize: 24,
+                          ),
+                        ),
+                      ],
+                    ),
                 ),
               ),
             ),
@@ -202,6 +224,7 @@ class _DogCardState extends State<DogCardSliver>
         // child:
         GestureDetector(
             onTap: () {
+              HapticFeedback.lightImpact();
               showDogDetailPage();
             },
             child: ClipRRect(
@@ -211,8 +234,8 @@ class _DogCardState extends State<DogCardSliver>
                   child: BackdropFilter(
                       filter: ui.ImageFilter.blur(sigmaX: 3, sigmaY: 3),
                       child: Container(
-                          width: (scrrenWidth) * widget.scale,
-                          height: (scrrenWidth) * widget.scale,
+                          width: (scrrenWidth / 1.1) * widget.scale,
+                          height: (scrrenWidth / 1.1) * widget.scale,
                           child: Icon(
                             Icons.pets,
                             color: Colors.white,
@@ -220,7 +243,7 @@ class _DogCardState extends State<DogCardSliver>
                           ),
                           decoration: BoxDecoration(
                               shape: BoxShape.rectangle,
-                              color: foregroungColor,
+                              color: Colors.purple,
                               borderRadius: BorderRadius.circular(30.0),
                               border: Border.all(
                                   width: 2.0, color: foregroungColor)))),

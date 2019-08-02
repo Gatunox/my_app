@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:my_app/styles/colors.dart';
 import 'package:my_app/model/dog_model.dart';
 import 'package:my_app/model/data.dart';
@@ -54,13 +55,14 @@ class _FifthRouteState extends State<FifthRoute>
   ValueNotifier<double> _page = ValueNotifier<double>(0.0);
   int _currentPage = 0;
   int _selectedItem = 0;
+  double _viewportScale = 0.8;
 
   PageController _controller;
 
   @override
   void initState() {
     _controller = PageController(
-        initialPage: _currentPage, viewportFraction: VIEWPORT_FRACTION);
+        initialPage: _currentPage, viewportFraction: _viewportScale);
     super.initState();
   }
 
@@ -91,18 +93,38 @@ class _FifthRouteState extends State<FifthRoute>
           Positioned(
             top: 80.0,
             left: 20.0,
-            child: RichText(
-              text: TextSpan(
-                children: <TextSpan>[
-                  TextSpan(
-                    text: "Dog Breeds",
-                    style: TextStyle(
-                        fontFamily: 'Roboto',
-                        fontSize: 35.0,
-                        color: Colors.white),
+            child: Row(
+              children: <Widget>[
+                RichText(
+                  text: TextSpan(
+                    children: <TextSpan>[
+                      TextSpan(
+                        text: "Dog Breeds",
+                        style: TextStyle(
+                            fontFamily: 'Roboto',
+                            fontSize: 35.0,
+                            color: Colors.white),
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top:8.0, left: 4.0),
+                  child: RichText(
+                      text: TextSpan(
+                        children: <TextSpan>[
+                          TextSpan(
+                            text: initialDoggos.length.toString(),
+                            style: TextStyle(
+                                fontFamily: 'Roboto',
+                                fontSize: 20.0,
+                                color: Colors.purpleAccent),
+                          ),
+                        ],
+                      ),
+                    ),
+                ),
+              ],
             ),
           ),
           Positioned(
@@ -119,34 +141,42 @@ class _FifthRouteState extends State<FifthRoute>
               ),
             ),
           ),
-          Container(
-            child: NotificationListener<ScrollNotification>(
-              onNotification: (ScrollNotification notification) {
-                if (mounted) {
-                  setState(() {
-                    _page.value = _controller.page;
-                    //print(_controller.page);
-                  });
-                }
-              },
-              child: PageView.builder(
-                onPageChanged: (pos) {
-                  setState(() {
-                    _currentPage = pos;
-                  });
+          Positioned(
+            top: 0.0,
+            left: 0.0,
+            width: scrrenWidth,
+            height: scrrenHeight,
+            child: Container(
+              margin: const EdgeInsets.only(left: 0.0),
+              child: NotificationListener<ScrollNotification>(
+                onNotification: (ScrollNotification notification) {
+                  if (mounted) {
+                    setState(() {
+                      _page.value = _controller.page;
+                      // print("controller.page = " + _controller.page.toString());
+                    });
+                  }
                 },
-                itemCount: initialDoggos.length,
-                controller: _controller,
-                itemBuilder: (BuildContext context, int itemIndex) {
-                  //print((_page.value - itemIndex).abs());
-                  var scale = (1 -
-                      (((_page.value - itemIndex).abs() * 0.1)
-                          .clamp(0.0, 1.0)));
-                  //final scale =
-                  //    max(SCALE_FRACTION, (FULL_SCALE - (itemIndex - _page).abs()));
-                  return DogCardSliver(
-                      dog: initialDoggos[itemIndex], scale: scale);
-                },
+                child: PageView.builder(
+                  onPageChanged: (pos) {
+                    setState(() {
+                      _currentPage = pos;
+                      HapticFeedback.lightImpact();
+                    });
+                  },
+                  itemCount: initialDoggos.length,
+                  controller: _controller,
+                  itemBuilder: (BuildContext context, int itemIndex) {
+                    //print((_page.value - itemIndex).abs());
+                    var scale = (1 -
+                        (((_page.value - itemIndex).abs() * 0.15)
+                            .clamp(0.0, 1.0)));
+                    //final scale =
+                    //    max(SCALE_FRACTION, (FULL_SCALE - (itemIndex - _page).abs()));
+                    return DogCardSliver(
+                        dog: initialDoggos[itemIndex], scale: scale);
+                  },
+                ),
               ),
             ),
           ),
