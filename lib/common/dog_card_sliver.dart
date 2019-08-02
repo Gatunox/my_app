@@ -119,28 +119,29 @@ class _DogCardState extends State<DogCardSliver>
     return ClipRRect(
       borderRadius: new BorderRadius.circular(30.0),
       child: Stack(children: <Widget>[
-        Hero(
-          tag: "dogImage" + _dog.id.toString(),
-          flightShuttleBuilder: (
-            BuildContext flightContext,
-            Animation<double> animation,
-            HeroFlightDirection flightDirection,
-            BuildContext fromHeroContext,
-            BuildContext toHeroContext,
-          ) {
-            final Hero toHero = toHeroContext.widget;
-            return ScaleTransition(
-              scale: animation.drive(
-                Tween<double>(begin: 0.0, end: 1.0).chain(
-                  CurveTween(
-                    curve: Interval(0.0, 1.0, curve: PeakQuadraticCurve()),
-                  ),
-                ),
-              ),
-              child: toHero.child,
-            );
-          },
-          child: ClipRRect(
+        // Hero(
+        //   tag: "dogImage" + _dog.id.toString(),
+        //   flightShuttleBuilder: (
+        //     BuildContext flightContext,
+        //     Animation<double> animation,
+        //     HeroFlightDirection flightDirection,
+        //     BuildContext fromHeroContext,
+        //     BuildContext toHeroContext,
+        //   ) {
+        //     final Hero toHero = toHeroContext.widget;
+        //     return ScaleTransition(
+        //       scale: animation.drive(
+        //         Tween<double>(begin: 0.0, end: 1.0).chain(
+        //           CurveTween(
+        //             curve: Interval(0.0, 1.0, curve: PeakQuadraticCurve()),
+        //           ),
+        //         ),
+        //       ),
+        //       child: toHero.child,
+        //     );
+        //   },
+        //  child: 
+          ClipRRect(
             borderRadius: new BorderRadius.only(
                 bottomLeft: const Radius.circular(30.0),
                 bottomRight: const Radius.circular(30),
@@ -158,7 +159,7 @@ class _DogCardState extends State<DogCardSliver>
               ),
             ),
           ),
-        ),
+        //),
         Align(
           alignment: Alignment.bottomCenter,
           child: Padding(
@@ -199,29 +200,30 @@ class _DogCardState extends State<DogCardSliver>
 
   Widget get dogImage {
     final double scrrenWidth = MediaQuery.of(context).size.width;
-    var dogAvatar = //Hero(
-        // The same code, except the Dog property lives on the widget in this file.
-        // tag: "dogImage" + _dog.id.toString(),
-        // flightShuttleBuilder: (
-        //   BuildContext flightContext,
-        //   Animation<double> animation,
-        //   HeroFlightDirection flightDirection,
-        //   BuildContext fromHeroContext,
-        //   BuildContext toHeroContext,
-        // ) {
-        //   final Hero toHero = toHeroContext.widget;
-        //   return ScaleTransition(
-        //     scale: animation.drive(
-        //       Tween<double>(begin: 0.0, end: 1.0).chain(
-        //         CurveTween(
-        //           curve: Interval(0.0, 1.0, curve: PeakQuadraticCurve()),
-        //         ),
-        //       ),
-        //     ),
-        //     child: toHero.child,
-        //   );
-        // },
-        // child:
+    var dogAvatar = 
+     Hero(
+    //     // The same code, except the Dog property lives on the widget in this file.
+         tag: "dogImage" + _dog.id.toString(),
+        flightShuttleBuilder: (
+          BuildContext flightContext,
+          Animation<double> animation,
+          HeroFlightDirection flightDirection,
+          BuildContext fromHeroContext,
+          BuildContext toHeroContext,
+        ) {
+          final Hero toHero = toHeroContext.widget;
+          return ScaleTransition(
+            scale: animation.drive(
+              Tween<double>(begin: 0.0, end: 1.0).chain(
+                CurveTween(
+                  curve: Interval(0.0, 1.0, curve: PeakQuadraticCurve()),
+                ),
+              ),
+            ),
+            child: toHero.child,
+          );
+        },
+         child:
         GestureDetector(
             onTap: () {
               HapticFeedback.lightImpact();
@@ -250,7 +252,9 @@ class _DogCardState extends State<DogCardSliver>
                 ),
                 _renderUrl == "" ? Container() : dogImageContainer,
               ]),
-            ));
+            ))
+    )
+    ;
 
     //print("Getting dogImage = " + widget.dog.imageUrl);
     return _dog.imageUrl == "" ? Container() : dogAvatar;
@@ -264,14 +268,6 @@ class PeakQuadraticCurve extends Curve {
   @override
   double transform(double t) {
     assert(t >= 0.0 && t <= 1.0);
-    return -2 * math.pow(t, 2) + 2 * t + 1;
-  }
-}
-
-class ValleyQuadraticCurve extends Curve {
-  @override
-  double transform(double t) {
-    assert(t >= 0.0 && t <= 1.0);
-    return 1 * math.pow(t - 0.5, 2);
+    return -2 * math.pow(t, 1) + 2 * t + 1;
   }
 }

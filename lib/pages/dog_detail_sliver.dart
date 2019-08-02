@@ -30,25 +30,25 @@ class _DogDetailPageState extends State<DogDetailSliver>
     var dogAvatar = Hero(
         // The same code, except the Dog property lives on the widget in this file.
         tag: "dogImage" + _dog.id.toString(),
-        flightShuttleBuilder: (
-          BuildContext flightContext,
-          Animation<double> animation,
-          HeroFlightDirection flightDirection,
-          BuildContext fromHeroContext,
-          BuildContext toHeroContext,
-        ) {
-          final Hero toHero = toHeroContext.widget;
-          return ScaleTransition(
-            scale: animation.drive(
-              Tween<double>(begin: 0.0, end: 1.0).chain(
-                CurveTween(
-                  curve: Interval(0.0, 1.0, curve: PeakQuadraticCurve()),
-                ),
-              ),
-            ),
-            child: toHero.child,
-          );
-        },
+        // flightShuttleBuilder: (
+        //   BuildContext flightContext,
+        //   Animation<double> animation,
+        //   HeroFlightDirection flightDirection,
+        //   BuildContext fromHeroContext,
+        //   BuildContext toHeroContext,
+        // ) {
+        //   final Hero toHero = toHeroContext.widget;
+        //   return ScaleTransition(
+        //     scale: animation.drive(
+        //       Tween<double>(begin: 0.0, end: 1.0).chain(
+        //         CurveTween(
+        //           curve: Interval(0.0, 1.0, curve: PeakQuadraticCurve()),
+        //         ),
+        //       ),
+        //     ),
+        //     child: toHero.child,
+        //   );
+        // },
         child: Container(
           height: scrrenWidth + 84,
           width: scrrenWidth + 84,
@@ -378,7 +378,7 @@ class MySliverAppBar extends SliverPersistentHeaderDelegate {
         Align(
           alignment: Alignment.bottomCenter,
           child: Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(10.0),
             child: Opacity(
               opacity: 1.0,
               //opacity: shrinkOffset / expandedHeight,
@@ -387,7 +387,7 @@ class MySliverAppBar extends SliverPersistentHeaderDelegate {
                 style: TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.w700,
-                  fontSize: 32,
+                  fontSize: 26,
                 ),
               ),
             ),
