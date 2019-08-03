@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:my_app/styles/colors.dart';
-import 'package:my_app/model/dog_model.dart';
 import 'package:my_app/model/data.dart';
 import 'package:my_app/common/dog_card_sliver.dart';
 import 'package:my_app/styles/colors.dart';
-import 'dart:math';
-
-import 'package:my_app/styles/colors.dart' as prefix0;
 
 const SCALE_FRACTION = 0.9;
 const FULL_SCALE = 1.0;
@@ -55,7 +51,7 @@ class _FifthRouteState extends State<FifthRoute>
   ValueNotifier<double> _page = ValueNotifier<double>(0.0);
   int _currentPage = 0;
   int _selectedItem = 0;
-  double _viewportScale = 0.8;
+  double _viewportScale = 0.84;
 
   PageController _controller;
 
@@ -169,7 +165,7 @@ class _FifthRouteState extends State<FifthRoute>
                   itemBuilder: (BuildContext context, int itemIndex) {
                     //print((_page.value - itemIndex).abs());
                     var scale = (1 -
-                        (((_page.value - itemIndex).abs() * 0.15)
+                        (((_page.value - itemIndex).abs() * 0.1)
                             .clamp(0.0, 1.0)));
                     //final scale =
                     //    max(SCALE_FRACTION, (FULL_SCALE - (itemIndex - _page).abs()));

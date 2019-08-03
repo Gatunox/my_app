@@ -12,6 +12,8 @@ final Color foregroungColor87 = Color(0xDD3A3D37);
 
 final Color disableTextColor = Colors.white12;
 
+final Color darkerPurpleColor = Color(0xFF832d91);
+
 final selectedListItemStyle = TextStyle(
                 fontFamily: 'Roboto', fontSize: 18.0, color: Colors.white);
 final accentListItemStyle = TextStyle(

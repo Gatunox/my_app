@@ -7,9 +7,9 @@ class Dog {
   String location;
   String description;
   String imageUrl;
-  int height;
-  int weight;
-  int longevety;
+  String height;
+  String weight;
+  String longevety;
 
   int size;
   int grooming;
@@ -21,9 +21,12 @@ class Dog {
   // All dogs start out at 10, because they're good dogs.
   int rating = 10;
 
-  Dog({id, name, location, description})
+  Dog({id, name, height, weight, longevety, location, description})
       : this.id = id,
         this.name = name,
+        this.height = height,
+        this.weight = weight,
+        this.longevety = longevety,
         this.location = location,
         this.description = description;
 
