@@ -80,3 +80,6 @@ List<Dog> initialDoggos = []
       longevety: "12 to 14 years",
       location: 'North Pole, Earth',
       description: 'Self proclaimed human lover.'));
+
+List<Dog> duplicateDoggos = [];
+    
