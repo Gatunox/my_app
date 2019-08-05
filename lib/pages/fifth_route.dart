@@ -72,7 +72,7 @@ class _FifthRouteState extends State<FifthRoute>
     final double scrrenWidth = MediaQuery.of(context).size.width;
     final double scrrenHeight = MediaQuery.of(context).size.height;
     super.build(context);
-    print("-- Widget build --");
+    //print("-- Widget build --");
     return Container(
       //Add box decoration
       width: scrrenWidth,
@@ -248,7 +248,7 @@ class _FifthRouteState extends State<FifthRoute>
                                   .clamp(0.0, 1.0)));
                           //final scale =
                           //    max(SCALE_FRACTION, (FULL_SCALE - (itemIndex - _page).abs()));
-                          print("Creating = " + initialDoggos[itemIndex].name + ", at index " + itemIndex.toString());
+                          //print("Creating = " + initialDoggos[itemIndex].name + ", at index " + itemIndex.toString());
                           return DogCardSliver(
                               dog: initialDoggos[itemIndex], scale: scale);
                         },

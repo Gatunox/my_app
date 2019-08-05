@@ -62,7 +62,7 @@ class _DogDetailPageState extends State<DogDetailSliver>
             shape: BoxShape.rectangle,
             // This is how you add an image to a Container's background.
             image: DecorationImage(
-                fit: BoxFit.cover, image: NetworkImage(_dog.imageUrl ?? '')),
+                fit: BoxFit.cover, image: NetworkImage(_dog.https ?? '')),
             border: Border.all(width: 1.0, color: Colors.black54),
           ),
         ));
@@ -346,7 +346,7 @@ class MySliverAppBar extends SliverPersistentHeaderDelegate {
                 color: Colors.transparent,
                 // This is how you add an image to a Container's background.
                 image: DecorationImage(
-                    fit: BoxFit.cover, image: NetworkImage(dog.imageUrl ?? '')),
+                    fit: BoxFit.cover, image: NetworkImage(dog.https ?? '')),
                 border: Border.all(width: 2.0, color: foregroungColor),
               ),
             ),

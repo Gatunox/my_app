@@ -34,8 +34,8 @@ class _DogCardState extends State<DogCardSliver>
     );
     _controller.reset();
     _controller.forward();
-    renderDogPic();
-    print("DogCardSliver initState");
+    //renderDogPic();
+    //print("DogCardSliver initState");
   }
 
 
@@ -50,7 +50,7 @@ class _DogCardState extends State<DogCardSliver>
     final double scrrenWidth = MediaQuery.of(context).size.width;
     final double scrrenHeight = MediaQuery.of(context).size.height;
     timeDilation = 1.0;
-    print("DogCardSliver build = " + widget.dog.name);
+    //print("DogCardSliver build = " + widget.dog.name);
     return Align(
       alignment: Alignment.center,
       child: Container(
@@ -78,7 +78,7 @@ class _DogCardState extends State<DogCardSliver>
   }
 
   showDogDetailPage() {
-    bool showDetail = _renderUrl == "" ? false : true;
+    bool showDetail = widget.dog.https == "" ? false : true;
     if (showDetail) {
       setState(() {
         _isVisible = false;
@@ -120,7 +120,7 @@ class _DogCardState extends State<DogCardSliver>
   Widget get dogImageContainer {
     final double scrrenWidth = MediaQuery.of(context).size.width;
     final double scrrenHeight = MediaQuery.of(context).size.height;
-    print("dogImageContainer = " + widget.dog.name);
+    //print("dogImageContainer = " + widget.dog.name);
     return ClipRRect(
       borderRadius: new BorderRadius.circular(30.0),
       child: Stack(children: <Widget>[
@@ -162,7 +162,7 @@ class _DogCardState extends State<DogCardSliver>
                   fit: BoxFit.cover,
                   child: FadeInImage.memoryNetwork(
                     placeholder: kTransparentImage,
-                    image: _renderUrl,
+                    image: widget.dog.https,
                   ),
                 ),
               ),
@@ -216,7 +216,7 @@ class _DogCardState extends State<DogCardSliver>
 
   Widget get dogImage {
     final double scrrenWidth = MediaQuery.of(context).size.width;
-    print("dogImage = " + widget.dog.name);
+    //print("dogImage = " + widget.dog.name + ' , ' + widget.dog.https);
     var dogAvatar =
         //Hero(
         // tag: "dogImage" + _dog.id.toString(),
@@ -266,7 +266,7 @@ class _DogCardState extends State<DogCardSliver>
                                 Border.all(width: 2.0, color: Colors.purple))),
                   ),
                 ),
-                _renderUrl == "" ? Container() : dogImageContainer,
+                widget.dog.https == "" ? Container() : dogImageContainer,
               ]),
             ))
         //)
