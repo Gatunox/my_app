@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:my_app/styles/colors.dart';
 import 'package:my_app/model/data.dart';
@@ -61,7 +62,7 @@ class _FifthRouteState extends State<FifthRoute>
   void initState() {
     _editingController = TextEditingController();
     _controller = PageController(
-        initialPage: _currentPage, viewportFraction: _viewportScale);
+        initialPage: _currentPage, viewportFraction: _viewportScale, keepPage: false);
     duplicateDoggos.addAll(initialDoggos);
     super.initState();
   }
@@ -71,6 +72,7 @@ class _FifthRouteState extends State<FifthRoute>
     final double scrrenWidth = MediaQuery.of(context).size.width;
     final double scrrenHeight = MediaQuery.of(context).size.height;
     super.build(context);
+    print("-- Widget build --");
     return Container(
       //Add box decoration
       width: scrrenWidth,
@@ -108,7 +110,8 @@ class _FifthRouteState extends State<FifthRoute>
               Row(
                 children: <Widget>[
                   Padding(
-                    padding: const EdgeInsets.only(left:20.0, right: 0.0, top:4.0, bottom: 4.0),
+                    padding: const EdgeInsets.only(
+                        left: 20.0, right: 0.0, top: 4.0, bottom: 4.0),
                     child: RichText(
                       text: TextSpan(
                         children: <TextSpan>[
@@ -148,11 +151,12 @@ class _FifthRouteState extends State<FifthRoute>
                     child: Material(
                       color: backgroundColor,
                       child: Padding(
-                        padding: const EdgeInsets.only(left:20.0, right: 20.0, top:4.0, bottom: 4.0),
+                        padding: const EdgeInsets.only(
+                            left: 20.0, right: 20.0, top: 4.0, bottom: 4.0),
                         child: TextField(
                           onChanged: (value) {
-                            filterSearchResults(value);
                             print("Searching for = " + value);
+                            filterSearchResults(value);
                           },
                           controller: _editingController,
                           decoration: InputDecoration(
@@ -219,12 +223,14 @@ class _FifthRouteState extends State<FifthRoute>
                     margin: const EdgeInsets.only(top: 50.0),
                     child: NotificationListener<ScrollNotification>(
                       onNotification: (ScrollNotification notification) {
-                        if (mounted) {
-                          setState(() {
-                            _page.value = _controller.page;
-                            // print("controller.page = " + _controller.page.toString());
-                          });
-                        }
+                        SchedulerBinding.instance.addPostFrameCallback((_) {
+                          if (mounted) {
+                            setState(() {
+                              _page.value = _controller.page;
+                              // print("controller.page = " + _controller.page.toString());
+                            });
+                          }
+                        });
                       },
                       child: PageView.builder(
                         onPageChanged: (pos) {
@@ -242,6 +248,7 @@ class _FifthRouteState extends State<FifthRoute>
                                   .clamp(0.0, 1.0)));
                           //final scale =
                           //    max(SCALE_FRACTION, (FULL_SCALE - (itemIndex - _page).abs()));
+                          print("Creating = " + initialDoggos[itemIndex].name + ", at index " + itemIndex.toString());
                           return DogCardSliver(
                               dog: initialDoggos[itemIndex], scale: scale);
                         },
@@ -467,16 +474,18 @@ class _FifthRouteState extends State<FifthRoute>
   }
 
   void filterSearchResults(String query) {
-
-    if(query.isNotEmpty) {
+    if (query.isNotEmpty) {
+      setState(() {
+        initialDoggos.clear();
+      });
       List<Dog> dummyDoggos = List<Dog>();
       duplicateDoggos.forEach((item) {
-        if(initialDoggos.contains(query)) {
+        if (item.contains(query)) {
+          print(item.name);
           dummyDoggos.add(item);
         }
       });
       setState(() {
-        initialDoggos.clear();
         initialDoggos.addAll(dummyDoggos);
       });
       return;
@@ -487,6 +496,14 @@ class _FifthRouteState extends State<FifthRoute>
       });
     }
   }
+
+  @override
+  void dispose() {
+    _editingController.dispose();
+    _controller.dispose();
+    super.dispose();
+  }
+
 }
 
 class LetterItem extends StatelessWidget {

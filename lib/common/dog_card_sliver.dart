@@ -14,16 +14,15 @@ class DogCardSliver extends StatefulWidget {
   DogCardSliver({Key key, this.dog, this.scale}) : super(key: key);
 
   @override
-  _DogCardState createState() => _DogCardState(dog);
+  _DogCardState createState() => _DogCardState();
 }
 
 class _DogCardState extends State<DogCardSliver>
     with SingleTickerProviderStateMixin, AutomaticKeepAliveClientMixin {
-  _DogCardState(this._dog);
+  _DogCardState();
 
   bool _isVisible = true;
   String _renderUrl = "";
-  Dog _dog;
   AnimationController _controller;
 
   @override
@@ -36,7 +35,9 @@ class _DogCardState extends State<DogCardSliver>
     _controller.reset();
     _controller.forward();
     renderDogPic();
+    print("DogCardSliver initState");
   }
+
 
   @override
   void dispose() {
@@ -49,6 +50,7 @@ class _DogCardState extends State<DogCardSliver>
     final double scrrenWidth = MediaQuery.of(context).size.width;
     final double scrrenHeight = MediaQuery.of(context).size.height;
     timeDilation = 1.0;
+    print("DogCardSliver build = " + widget.dog.name);
     return Align(
       alignment: Alignment.center,
       child: Container(
@@ -86,7 +88,7 @@ class _DogCardState extends State<DogCardSliver>
         PageRouteBuilder(
           pageBuilder: (context, animation1, animation2) {
             return DogDetailSliver(
-                dog: _dog, animation: DogDetailsEnterAnimations(_controller));
+                dog: widget.dog, animation: DogDetailsEnterAnimations(_controller));
           },
           transitionsBuilder: (context, animation1, animation2, child) {
             return FadeTransition(
@@ -104,13 +106,13 @@ class _DogCardState extends State<DogCardSliver>
   // but this is a simpler way to explain Flutter basics
   void renderDogPic() async {
     // this makes the service call
-    await _dog.getImageUrl();
+    await widget.dog.getImageUrl();
     // setState tells Flutter to rerender anything that's been changed.
     // setState cannot be async, so we use a variable that can be overwritten
     if (mounted) {
       // Avoid calling `setState` if the widget is no longer in the widget tree.
       setState(() {
-        _renderUrl = _dog.imageUrl;
+        _renderUrl = widget.dog.imageUrl;
       });
     }
   }
@@ -118,6 +120,7 @@ class _DogCardState extends State<DogCardSliver>
   Widget get dogImageContainer {
     final double scrrenWidth = MediaQuery.of(context).size.width;
     final double scrrenHeight = MediaQuery.of(context).size.height;
+    print("dogImageContainer = " + widget.dog.name);
     return ClipRRect(
       borderRadius: new BorderRadius.circular(30.0),
       child: Stack(children: <Widget>[
@@ -145,7 +148,7 @@ class _DogCardState extends State<DogCardSliver>
         //  child:
         Container(
           child: Hero(
-            tag: "dogImage" + _dog.id.toString(),
+            tag: "dogImage" + widget.dog.id.toString(),
             child: ClipRRect(
               borderRadius: new BorderRadius.only(
                   bottomLeft: const Radius.circular(30.0),
@@ -169,7 +172,7 @@ class _DogCardState extends State<DogCardSliver>
         //),
         Container(
           child: Hero(
-            tag: "dogName" + _dog.name.toString(),
+            tag: "dogName" + widget.dog.name.toString(),
             child: Align(
               alignment: Alignment.bottomCenter,
               child: Padding(
@@ -190,7 +193,7 @@ class _DogCardState extends State<DogCardSliver>
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                           Text(
-                            _dog.name,
+                            widget.dog.name,
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               color: Colors.white,
@@ -213,6 +216,7 @@ class _DogCardState extends State<DogCardSliver>
 
   Widget get dogImage {
     final double scrrenWidth = MediaQuery.of(context).size.width;
+    print("dogImage = " + widget.dog.name);
     var dogAvatar =
         //Hero(
         // tag: "dogImage" + _dog.id.toString(),
@@ -269,7 +273,7 @@ class _DogCardState extends State<DogCardSliver>
         ;
 
     //print("Getting dogImage = " + widget.dog.imageUrl);
-    return _dog.imageUrl == "" ? Container() : dogAvatar;
+    return widget.dog.imageUrl == "" ? Container() : dogAvatar;
   }
 
   @override
