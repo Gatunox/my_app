@@ -49,8 +49,8 @@ class _DogDetailPageState extends State<DogDetailSliver>
         //   );
         // },
         child: Container(
-          height: scrrenWidth + 84,
-          width: scrrenWidth + 84,
+          height: scrrenWidth,
+          width: scrrenWidth,
           // Use Box Decoration to make the image a circle
           // and add an arbitrary shadow for styling.
           decoration: BoxDecoration(
@@ -112,7 +112,7 @@ class _DogDetailPageState extends State<DogDetailSliver>
             //       )),
             // ),
             body: Padding(
-              padding: const EdgeInsets.all(0.0),
+              padding: const EdgeInsets.only(top:10.0, bottom: 0.0, left: 0.0, right: 0.0),
               child: Align(
                 alignment: Alignment.bottomLeft,
                 child: ClipRRect(
@@ -199,54 +199,6 @@ class _DogDetailPageState extends State<DogDetailSliver>
             headerSliverBuilder:
                 (BuildContext context, bool innerBoxIsScrolled) {
               return <Widget>[
-                // SliverAppBar(
-                //   elevation: 0,
-                //   expandedHeight: 600.0,
-                //   floating: false,
-                //   pinned: true,
-                //   backgroundColor: Colors.transparent,
-                //   flexibleSpace: FlexibleSpaceBar(
-                //     centerTitle: true,
-                //     title: Container(
-
-                //         // Use Box Decoration to make the image a circle
-                //         // and add an arbitrary shadow for styling.
-                //         decoration: BoxDecoration(
-                //           borderRadius: BorderRadius.only(
-                //               topLeft: Radius.circular(40),
-                //               topRight: Radius.circular(40),
-                //               bottomLeft: Radius.circular(40),
-                //               bottomRight: Radius.circular(40)),
-                //           shape: BoxShape.rectangle,
-
-                //           // This is how you add an image to a Container's background.
-                //         ),
-                //         child: Text("Collapsing Toolbar",
-                //             style: TextStyle(
-                //               color: Colors.white,
-                //               fontSize: 16.0,
-                //             ))),
-                //     background: Container(
-                //       margin: const EdgeInsets.only(bottom: 60.0),
-                //       // Use Box Decoration to make the image a circle
-                //       // and add an arbitrary shadow for styling.
-                //       decoration: BoxDecoration(
-                //         borderRadius: BorderRadius.only(
-                //             topLeft: Radius.circular(40),
-                //             topRight: Radius.circular(40),
-                //             bottomLeft: Radius.circular(40),
-                //             bottomRight: Radius.circular(40)),
-                //         shape: BoxShape.rectangle,
-                //         color: Colors.transparent,
-                //         // This is how you add an image to a Container's background.
-                //         image: DecorationImage(
-                //             fit: BoxFit.cover,
-                //             image: NetworkImage(_dog.imageUrl ?? '')),
-                //         border: Border.all(width: 1.0, color: Colors.black54),
-                //       ),
-                //     ),
-                //   ),
-                // ),
                 SliverPersistentHeader(
                   delegate: MySliverAppBar(expandedHeight: 730.0, dog: _dog),
                   pinned: true,
@@ -304,6 +256,8 @@ class MySliverAppBar extends SliverPersistentHeaderDelegate {
   @override
   Widget build(
       BuildContext context, double shrinkOffset, bool overlapsContent) {
+        final double scrrenWidth = MediaQuery.of(context).size.width;
+    final double scrrenHeigh = MediaQuery.of(context).size.height;
     return Stack(
       fit: StackFit.expand,
       overflow: Overflow.visible,
@@ -333,7 +287,7 @@ class MySliverAppBar extends SliverPersistentHeaderDelegate {
               );
             },
             child: Container(
-              margin: const EdgeInsets.only(bottom: 55.0),
+              margin: const EdgeInsets.only(bottom: 40.0),
               // Use Box Decoration to make the image a circle
               // and add an arbitrary shadow for styling.
               decoration: BoxDecoration(
@@ -363,24 +317,28 @@ class MySliverAppBar extends SliverPersistentHeaderDelegate {
             child: Container(
               child: Align(
                 alignment: Alignment.bottomCenter,
-                child: Padding(
-                  padding: const EdgeInsets.all(12.0),
-                  child: Opacity(
-                    opacity: 1.0,
-                    //opacity: shrinkOffset / expandedHeight,
+                child: Container(
+                    color: Colors.transparent,
+                    width: (scrrenWidth),
                     child: Material(
                       color: Colors.transparent,
-                      child: Text(
-                        dog.name,
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w700,
-                          fontSize: 26,
-                        ),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Text(
+                            dog.name,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w700,
+                              fontSize: 24,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ),
-                ),
               ),
             ),
           ),

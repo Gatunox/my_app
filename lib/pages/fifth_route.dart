@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:my_app/styles/colors.dart';
-import 'package:my_app/model/data.dart';
 import 'package:my_app/common/dog_card_sliver.dart';
 import 'package:my_app/styles/colors.dart';
+import 'package:my_app/model/data.dart';
 import 'package:my_app/model/dog_model.dart';
 
 const SCALE_FRACTION = 0.9;
@@ -16,33 +17,7 @@ class FifthRoute extends StatefulWidget {
 
   final String title;
 
-  List<String> initialDogTypes = []
-    ..add('None')
-    ..add('A')
-    ..add('B')
-    ..add('C')
-    ..add('D')
-    ..add('E')
-    ..add('F')
-    ..add('G')
-    ..add('H')
-    ..add('I')
-    ..add('J')
-    ..add('K')
-    ..add('L')
-    ..add('M')
-    ..add('N')
-    ..add('O')
-    ..add('P')
-    ..add('Q')
-    ..add('R')
-    ..add('S')
-    ..add('T')
-    ..add('U')
-    ..add('V')
-    ..add('X')
-    ..add('W')
-    ..add('Z');
+
 
   @override
   _FifthRouteState createState() => _FifthRouteState();
@@ -60,10 +35,14 @@ class _FifthRouteState extends State<FifthRoute>
 
   @override
   void initState() {
+    duplicateDoggos.clear();
+    duplicateDoggos.addAll(initialDoggos);
+    //print("-- _FifthRouteState initState --");
     _editingController = TextEditingController();
     _controller = PageController(
-        initialPage: _currentPage, viewportFraction: _viewportScale, keepPage: false);
-    duplicateDoggos.addAll(initialDoggos);
+        initialPage: _currentPage,
+        viewportFraction: _viewportScale,
+        keepPage: false);
     super.initState();
   }
 
@@ -108,10 +87,11 @@ class _FifthRouteState extends State<FifthRoute>
                 ],
               ),
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Padding(
                     padding: const EdgeInsets.only(
-                        left: 20.0, right: 0.0, top: 4.0, bottom: 4.0),
+                        left: 20.0, right: 0.0, top: 8.0, bottom: 0.0),
                     child: RichText(
                       text: TextSpan(
                         children: <TextSpan>[
@@ -132,7 +112,9 @@ class _FifthRouteState extends State<FifthRoute>
                       text: TextSpan(
                         children: <TextSpan>[
                           TextSpan(
-                            text: initialDoggos.length.toString(),
+                            text: duplicateDoggos.length.toString() +
+                                " / " +
+                                initialDoggos.length.toString(),
                             style: TextStyle(
                                 fontFamily: 'Roboto',
                                 fontSize: 20.0,
@@ -140,6 +122,25 @@ class _FifthRouteState extends State<FifthRoute>
                           ),
                         ],
                       ),
+                    ),
+                  ),
+                  Spacer(),
+                  Padding(
+                    padding: const EdgeInsets.only(
+                        left: 0.0, right: 10.0, top: 8.0, bottom: 0.0),
+                    child: Icon(
+                      Icons.view_week,
+                      color: unselectedIconColor,
+                      size: 24.0,
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(
+                        left: .0, right: 20.0, top: 8.0, bottom: 0.0),
+                    child: Icon(
+                      FontAwesomeIcons.filter,
+                      color: unselectedIconColor,
+                      size: 20.0,
                     ),
                   ),
                 ],
@@ -152,75 +153,82 @@ class _FifthRouteState extends State<FifthRoute>
                       color: backgroundColor,
                       child: Padding(
                         padding: const EdgeInsets.only(
-                            left: 20.0, right: 20.0, top: 4.0, bottom: 4.0),
+                            left: 20.0, right: 20.0, top: 8.0, bottom: 8.0),
                         child: TextField(
                           onChanged: (value) {
                             print("Searching for = " + value);
                             filterSearchResults(value);
                           },
+                          autocorrect: false,
                           controller: _editingController,
                           decoration: InputDecoration(
                               labelText: "Search",
-                              hintText: "Search",
+                              hintText: "Breed Name",
                               prefixIcon: Icon(Icons.search),
                               border: OutlineInputBorder(
                                   borderRadius:
-                                      BorderRadius.all(Radius.circular(25.0)))),
+                                      BorderRadius.all(Radius.circular(15.0)))),
                         ),
                       ),
                     ),
                   ),
                 ],
               ),
-              Row(
-                children: <Widget>[
-                  RichText(
-                    text: TextSpan(
-                      children: <TextSpan>[
-                        TextSpan(
-                          text: "Filter",
-                          style: fadedListTitle,
-                        ),
-                      ],
+              Padding(
+                padding: const EdgeInsets.only(
+                    left: 20.0, right: 20.0, top: 8.0, bottom: 8.0),
+                child: Row(
+                  children: <Widget>[
+                    RichText(
+                      text: TextSpan(
+                        children: <TextSpan>[
+                          TextSpan(
+                            text: "Filter",
+                            style: unselectedListItemStyle,
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(
+                    left: 0.0, right: 0.0, top: 8.0, bottom: 8.0),
+                child: Row(
+                  children: <Widget>[
+                    Container(
+                      height: 60,
+                      width: scrrenWidth,
+                      color: Colors.transparent,
+                      child: ListView.builder(
+                        addAutomaticKeepAlives: true,
+                        scrollDirection: Axis.horizontal,
+                        physics: const AlwaysScrollableScrollPhysics(),
+                        itemCount: dogIndex.length,
+                        // A callback that will return a widget.
+                        itemBuilder: (context, int index) {
+                          return new LetterItem(
+                            widget: widget,
+                            currentIndex: index,
+                            selectedItem: _selectedItem,
+                            onTapTap: () {
+                              print("onTapTap onTapTap");
+                              onTapTap(index);
+                            },
+                          );
+                        },
+                      ),
+                    ),
+                  ],
+                ),
               ),
               Row(
                 children: <Widget>[
                   Container(
-                    height: 20,
+                    height: scrrenWidth + scrrenWidth / 10,
                     width: scrrenWidth,
-                    color: Colors.transparent,
-                    padding: const EdgeInsets.only(top: 0.0),
-                    child: ListView.builder(
-                      addAutomaticKeepAlives: true,
-                      scrollDirection: Axis.horizontal,
-                      physics: const AlwaysScrollableScrollPhysics(),
-                      itemCount: widget.initialDogTypes.length,
-                      // A callback that will return a widget.
-                      itemBuilder: (context, int index) {
-                        return new LetterItem(
-                          widget: widget,
-                          currentIndex: index,
-                          selectedItem: _selectedItem,
-                          onTapTap: () {
-                            print("onTapTap onTapTap");
-                            onTapTap(index);
-                          },
-                        );
-                      },
-                    ),
-                  ),
-                ],
-              ),
-
-              Row(
-                children: <Widget>[
-                  Container(
-                    height: scrrenWidth + 50,
-                    width: scrrenWidth,
-                    margin: const EdgeInsets.only(top: 50.0),
+                    margin: const EdgeInsets.only(top: 0.0),
                     child: NotificationListener<ScrollNotification>(
                       onNotification: (ScrollNotification notification) {
                         SchedulerBinding.instance.addPostFrameCallback((_) {
@@ -239,222 +247,21 @@ class _FifthRouteState extends State<FifthRoute>
                             HapticFeedback.lightImpact();
                           });
                         },
-                        itemCount: initialDoggos.length,
+                        itemCount: duplicateDoggos.length,
                         controller: _controller,
                         itemBuilder: (BuildContext context, int itemIndex) {
                           //print((_page.value - itemIndex).abs());
                           var scale = (1 -
                               (((_page.value - itemIndex).abs() * 0.1)
                                   .clamp(0.0, 1.0)));
-                          //final scale =
-                          //    max(SCALE_FRACTION, (FULL_SCALE - (itemIndex - _page).abs()));
-                          //print("Creating = " + initialDoggos[itemIndex].name + ", at index " + itemIndex.toString());
                           return DogCardSliver(
-                              dog: initialDoggos[itemIndex], scale: scale);
+                              dog: duplicateDoggos[itemIndex], scale: scale);
                         },
                       ),
                     ),
                   ),
                 ],
               ),
-              Row(
-                children: <Widget>[
-                  RichText(
-                    text: TextSpan(
-                      children: <TextSpan>[
-                        TextSpan(
-                          text: "Dog Breeds",
-                          style: TextStyle(
-                              fontFamily: 'Roboto',
-                              fontSize: 35.0,
-                              color: Colors.white),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 8.0, left: 4.0),
-                    child: RichText(
-                      text: TextSpan(
-                        children: <TextSpan>[
-                          TextSpan(
-                            text: initialDoggos.length.toString(),
-                            style: TextStyle(
-                                fontFamily: 'Roboto',
-                                fontSize: 20.0,
-                                color: Colors.purpleAccent),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              Row(
-                children: <Widget>[
-                  RichText(
-                    text: TextSpan(
-                      children: <TextSpan>[
-                        TextSpan(
-                          text: "Filter",
-                          style: fadedListTitle,
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-              Row(
-                children: <Widget>[
-                  Container(
-                    height: 20,
-                    width: scrrenWidth,
-                    color: Colors.transparent,
-                    padding: const EdgeInsets.only(top: 0.0),
-                    child: ListView.builder(
-                      addAutomaticKeepAlives: true,
-                      scrollDirection: Axis.horizontal,
-                      physics: const AlwaysScrollableScrollPhysics(),
-                      itemCount: widget.initialDogTypes.length,
-                      // A callback that will return a widget.
-                      itemBuilder: (context, int index) {
-                        return new LetterItem(
-                          widget: widget,
-                          currentIndex: index,
-                          selectedItem: _selectedItem,
-                          onTapTap: () {
-                            print("onTapTap onTapTap");
-                            onTapTap(index);
-                          },
-                        );
-                      },
-                    ),
-                  ),
-                ],
-              ),
-
-              //   Stack(
-              //     children: <Widget>[
-              //       Positioned(
-              //         top: 80.0,
-              //         left: 20.0,
-              //         child: Row(
-              //           children: <Widget>[
-              //             RichText(
-              //               text: TextSpan(
-              //                 children: <TextSpan>[
-              //                   TextSpan(
-              //                     text: "Dog Breeds",
-              //                     style: TextStyle(
-              //                         fontFamily: 'Roboto',
-              //                         fontSize: 35.0,
-              //                         color: Colors.white),
-              //                   ),
-              //                 ],
-              //               ),
-              //             ),
-              //             Padding(
-              //               padding: const EdgeInsets.only(top: 8.0, left: 4.0),
-              //               child: RichText(
-              //                 text: TextSpan(
-              //                   children: <TextSpan>[
-              //                     TextSpan(
-              //                       text: initialDoggos.length.toString(),
-              //                       style: TextStyle(
-              //                           fontFamily: 'Roboto',
-              //                           fontSize: 20.0,
-              //                           color: Colors.purpleAccent),
-              //                     ),
-              //                   ],
-              //                 ),
-              //               ),
-              //             ),
-              //           ],
-              //         ),
-              //       ),
-              //       Positioned(
-              //         top: 160.0,
-              //         left: 20.0,
-              //         child: RichText(
-              //           text: TextSpan(
-              //             children: <TextSpan>[
-              //               TextSpan(
-              //                 text: "Filter",
-              //                 style: fadedListTitle,
-              //               ),
-              //             ],
-              //           ),
-              //         ),
-              //       ),
-              //       Positioned(
-              //         top: 0.0,
-              //         left: 0.0,
-              //         width: scrrenWidth,
-              //         height: scrrenHeight,
-              //         child: Container(
-              //           margin: const EdgeInsets.only(left: 0.0),
-              //           child: NotificationListener<ScrollNotification>(
-              //             onNotification: (ScrollNotification notification) {
-              //               if (mounted) {
-              //                 setState(() {
-              //                   _page.value = _controller.page;
-              //                   // print("controller.page = " + _controller.page.toString());
-              //                 });
-              //               }
-              //             },
-              //             child: PageView.builder(
-              //               onPageChanged: (pos) {
-              //                 setState(() {
-              //                   _currentPage = pos;
-              //                   HapticFeedback.lightImpact();
-              //                 });
-              //               },
-              //               itemCount: initialDoggos.length,
-              //               controller: _controller,
-              //               itemBuilder: (BuildContext context, int itemIndex) {
-              //                 //print((_page.value - itemIndex).abs());
-              //                 var scale = (1 -
-              //                     (((_page.value - itemIndex).abs() * 0.1)
-              //                         .clamp(0.0, 1.0)));
-              //                 //final scale =
-              //                 //    max(SCALE_FRACTION, (FULL_SCALE - (itemIndex - _page).abs()));
-              //                 return DogCardSliver(
-              //                     dog: initialDoggos[itemIndex], scale: scale);
-              //               },
-              //             ),
-              //           ),
-              //         ),
-              //       ),
-
-              //       Positioned(
-              //         top: 120.0,
-              //         child: Container(
-              //           height: 100,
-              //           color: Colors.transparent,
-              //           padding: const EdgeInsets.only(top: 60.0),
-              //           width: scrrenWidth,
-              //           child: ListView.builder(
-              //             addAutomaticKeepAlives: true,
-              //             scrollDirection: Axis.horizontal,
-              //             physics: const AlwaysScrollableScrollPhysics(),
-              //             itemCount: widget.initialDogTypes.length,
-              //             // A callback that will return a widget.
-              //             itemBuilder: (context, int index) {
-              //               return new LetterItem(
-              //                 widget: widget,
-              //                 currentIndex: index,
-              //                 selectedItem: _selectedItem,
-              //                 onTapTap: () {
-              //                   print("onTapTap onTapTap");
-              //                   onTapTap(index);
-              //                 },
-              //               );
-              //             },
-              //           ),
-              //         ),
-              //       ),
-              //     ],
-              //   ),
             ],
           ),
         ),
@@ -475,24 +282,22 @@ class _FifthRouteState extends State<FifthRoute>
 
   void filterSearchResults(String query) {
     if (query.isNotEmpty) {
-      setState(() {
-        initialDoggos.clear();
-      });
+      duplicateDoggos.clear();
       List<Dog> dummyDoggos = List<Dog>();
-      duplicateDoggos.forEach((item) {
+      initialDoggos.forEach((item) {
         if (item.contains(query)) {
           print(item.name);
           dummyDoggos.add(item);
         }
       });
       setState(() {
-        initialDoggos.addAll(dummyDoggos);
+        duplicateDoggos.addAll(dummyDoggos);
       });
       return;
     } else {
       setState(() {
-        initialDoggos.clear();
-        initialDoggos.addAll(duplicateDoggos);
+        duplicateDoggos.clear();
+        duplicateDoggos.addAll(initialDoggos);
       });
     }
   }
@@ -503,7 +308,6 @@ class _FifthRouteState extends State<FifthRoute>
     _controller.dispose();
     super.dispose();
   }
-
 }
 
 class LetterItem extends StatelessWidget {
@@ -522,29 +326,45 @@ class LetterItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double leftMargin = 0;
+    double rightMargin = 0;
+
+    leftMargin = currentIndex == 0 ? 20.0 : 2.0;
+    rightMargin = currentIndex == dogIndex.length - 1 ? 20.0 : 2.0;
     return GestureDetector(
       onTap: () {
         print("GestureDetector onTap");
         onTapTap();
       },
       child: Container(
-        color: Colors.transparent,
-        height: 80,
-        width: 45,
-        margin: EdgeInsets.only(left: 20.0, right: 0.0),
-        child: Align(
-          alignment: Alignment.topCenter,
-          child: RichText(
-              text: TextSpan(
-            children: <TextSpan>[
-              TextSpan(
-                text: widget.initialDogTypes[currentIndex],
-                style: currentIndex == selectedItem
-                    ? selectedListItemStyle
-                    : unselectedListItemStyle,
-              ),
-            ],
-          )),
+        margin: EdgeInsets.only(
+            left: leftMargin, top: 2.0, right: rightMargin, bottom: 2.0),
+        child: ClipRRect(
+          borderRadius: new BorderRadius.only(
+              bottomLeft: const Radius.circular(15.0),
+              bottomRight: const Radius.circular(15.0),
+              topLeft: const Radius.circular(15.0),
+              topRight: const Radius.circular(15.0)),
+          child: Container(
+            color: currentIndex == selectedItem
+                ? darkerPurpleColor
+                : foregroungColor45,
+            width: 60,
+            child: Align(
+              alignment: Alignment.center,
+              child: RichText(
+                  text: TextSpan(
+                children: <TextSpan>[
+                  TextSpan(
+                    text: dogIndex[currentIndex],
+                    style: currentIndex == selectedItem
+                        ? selectedListItemStyle
+                        : unselectedListItemStyle,
+                  ),
+                ],
+              )),
+            ),
+          ),
         ),
       ),
     );

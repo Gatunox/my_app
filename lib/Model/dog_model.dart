@@ -4,13 +4,15 @@ import 'dart:io';
 class Dog {
   int id;
   String name;
+  String group;
+  String height;
+  String weight;
+  String https;
+
   String location;
   String description;
   String imageUrl;
-  String height;
-  String weight;
   String longevety;
-  String https;
 
   int size;
   int grooming;
