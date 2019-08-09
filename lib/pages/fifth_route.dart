@@ -17,8 +17,6 @@ class FifthRoute extends StatefulWidget {
 
   final String title;
 
-
-
   @override
   _FifthRouteState createState() => _FifthRouteState();
 }
@@ -29,6 +27,7 @@ class _FifthRouteState extends State<FifthRoute>
   int _currentPage = 0;
   int _selectedItem = 0;
   double _viewportScale = 0.84;
+  bool _isLetterIndexVisible = false;
 
   TextEditingController _editingController;
   PageController _controller;
@@ -125,22 +124,35 @@ class _FifthRouteState extends State<FifthRoute>
                     ),
                   ),
                   Spacer(),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                        left: 0.0, right: 10.0, top: 8.0, bottom: 0.0),
-                    child: Icon(
-                      Icons.view_week,
-                      color: unselectedIconColor,
-                      size: 24.0,
+                  GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        _isLetterIndexVisible = !_isLetterIndexVisible;
+                      });
+                      print("Icons.view_week GestureDetector onTap");
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                          left: 0.0, right: 10.0, top: 8.0, bottom: 0.0),
+                      child: Icon(
+                        Icons.view_week,
+                        color: _isLetterIndexVisible ? Colors.purple : unselectedIconColor,
+                        size: 30.0,
+                      ),
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                        left: .0, right: 20.0, top: 8.0, bottom: 0.0),
-                    child: Icon(
-                      FontAwesomeIcons.filter,
-                      color: unselectedIconColor,
-                      size: 20.0,
+                  GestureDetector(
+                    onTap: () {
+                      print("FontAwesomeIcons.filter GestureDetector onTap");
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                          left: .0, right: 20.0, top: 8.0, bottom: 0.0),
+                      child: Icon(
+                        FontAwesomeIcons.filter,
+                        color: unselectedIconColor,
+                        size: 18.0,
+                      ),
                     ),
                   ),
                 ],
@@ -174,53 +186,57 @@ class _FifthRouteState extends State<FifthRoute>
                   ),
                 ],
               ),
-              Padding(
-                padding: const EdgeInsets.only(
-                    left: 20.0, right: 20.0, top: 8.0, bottom: 8.0),
-                child: Row(
-                  children: <Widget>[
-                    RichText(
-                      text: TextSpan(
-                        children: <TextSpan>[
-                          TextSpan(
-                            text: "Filter",
-                            style: unselectedListItemStyle,
-                          ),
-                        ],
+              // Padding(
+              //   padding: const EdgeInsets.only(
+              //       left: 20.0, right: 20.0, top: 8.0, bottom: 8.0),
+              //   child: Row(
+              //     children: <Widget>[
+              //       RichText(
+              //         text: TextSpan(
+              //           children: <TextSpan>[
+              //             TextSpan(
+              //               text: "Filter",
+              //               style: unselectedListItemStyle,
+              //             ),
+              //           ],
+              //         ),
+              //       ),
+              //     ],
+              //   ),
+              // ),
+              AnimatedOpacity(
+                opacity: _isLetterIndexVisible ? 1.0 : 0.0,
+                duration: Duration(milliseconds: 250),
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                      left: 0.0, right: 0.0, top: 48.0, bottom: 8.0),
+                  child: Row(
+                    children: <Widget>[
+                      Container(
+                        height: 60,
+                        width: scrrenWidth,
+                        color: Colors.transparent,
+                        child: ListView.builder(
+                          addAutomaticKeepAlives: true,
+                          scrollDirection: Axis.horizontal,
+                          physics: const AlwaysScrollableScrollPhysics(),
+                          itemCount: dogIndex.length,
+                          // A callback that will return a widget.
+                          itemBuilder: (context, int index) {
+                            return new LetterItem(
+                              widget: widget,
+                              currentIndex: index,
+                              selectedItem: _selectedItem,
+                              onTapTap: () {
+                                print("onTapTap onTapTap");
+                                onTapTap(index);
+                              },
+                            );
+                          },
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(
-                    left: 0.0, right: 0.0, top: 8.0, bottom: 8.0),
-                child: Row(
-                  children: <Widget>[
-                    Container(
-                      height: 60,
-                      width: scrrenWidth,
-                      color: Colors.transparent,
-                      child: ListView.builder(
-                        addAutomaticKeepAlives: true,
-                        scrollDirection: Axis.horizontal,
-                        physics: const AlwaysScrollableScrollPhysics(),
-                        itemCount: dogIndex.length,
-                        // A callback that will return a widget.
-                        itemBuilder: (context, int index) {
-                          return new LetterItem(
-                            widget: widget,
-                            currentIndex: index,
-                            selectedItem: _selectedItem,
-                            onTapTap: () {
-                              print("onTapTap onTapTap");
-                              onTapTap(index);
-                            },
-                          );
-                        },
-                      ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
               Row(
