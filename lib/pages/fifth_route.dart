@@ -7,6 +7,7 @@ import 'package:my_app/common/dog_card_sliver.dart';
 import 'package:my_app/styles/colors.dart';
 import 'package:my_app/model/data.dart';
 import 'package:my_app/model/dog_model.dart';
+import 'package:my_app/styles/colors.dart' as prefix0;
 
 const SCALE_FRACTION = 0.9;
 const FULL_SCALE = 1.0;
@@ -28,6 +29,7 @@ class _FifthRouteState extends State<FifthRoute>
   int _selectedItem = 0;
   double _viewportScale = 0.84;
   bool _isLetterIndexVisible = false;
+  bool _isFilterVisible = false;
 
   TextEditingController _editingController;
   PageController _controller;
@@ -72,6 +74,40 @@ class _FifthRouteState extends State<FifthRoute>
         child: SafeArea(
           child: Column(
             children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.only(
+                    left: 0.0, right: 0.0, top: 0.0, bottom: 0.0),
+                child: AnimatedContainer(
+                  curve: Curves.fastOutSlowIn,
+                  height: _isFilterVisible ? scrrenHeight / 1.4 : 0,
+                  duration: Duration(milliseconds: 500),
+                  child: Container(
+                    margin: EdgeInsets.only(
+                        left: 0.0, top: 2.0, right: 0.0, bottom: 2.0),
+                    child: ClipRRect(
+                      borderRadius: new BorderRadius.only(
+                          bottomLeft: const Radius.circular(30.0),
+                          bottomRight: const Radius.circular(30.0),
+                          topLeft: const Radius.circular(30.0),
+                          topRight: const Radius.circular(30.0)),
+                      child: Container(
+                        color: foregroungColor45,
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: RichText(
+                              text: TextSpan(
+                            children: <TextSpan>[
+                              TextSpan(
+                                text: "B",
+                              ),
+                            ],
+                          )),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
               Row(
                 children: <Widget>[
                   Container(
@@ -105,24 +141,6 @@ class _FifthRouteState extends State<FifthRoute>
                       ),
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 8.0, left: 4.0),
-                    child: RichText(
-                      text: TextSpan(
-                        children: <TextSpan>[
-                          TextSpan(
-                            text: duplicateDoggos.length.toString() +
-                                " / " +
-                                initialDoggos.length.toString(),
-                            style: TextStyle(
-                                fontFamily: 'Roboto',
-                                fontSize: 20.0,
-                                color: Colors.purpleAccent),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
                   Spacer(),
                   GestureDetector(
                     onTap: () {
@@ -136,13 +154,18 @@ class _FifthRouteState extends State<FifthRoute>
                           left: 0.0, right: 10.0, top: 8.0, bottom: 0.0),
                       child: Icon(
                         Icons.view_week,
-                        color: _isLetterIndexVisible ? Colors.purple : unselectedIconColor,
+                        color: _isLetterIndexVisible
+                            ? Colors.purple
+                            : unselectedIconColor,
                         size: 30.0,
                       ),
                     ),
                   ),
                   GestureDetector(
                     onTap: () {
+                      setState(() {
+                        _isFilterVisible = !_isFilterVisible;
+                      });
                       print("FontAwesomeIcons.filter GestureDetector onTap");
                     },
                     child: Padding(
@@ -150,8 +173,51 @@ class _FifthRouteState extends State<FifthRoute>
                           left: .0, right: 20.0, top: 8.0, bottom: 0.0),
                       child: Icon(
                         FontAwesomeIcons.filter,
-                        color: unselectedIconColor,
+                        color: _isFilterVisible
+                            ? Colors.purple
+                            : unselectedIconColor,
                         size: 18.0,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.only(top: 2.0, left: 24.0),
+                    child: RichText(
+                      text: TextSpan(
+                        children: <TextSpan>[
+                          TextSpan(
+                            text: "Showing ",
+                            style: TextStyle(
+                                fontFamily: 'Roboto',
+                                fontSize: 16.0,
+                                color: unselectedButtomTextColor),
+                          ),
+                          TextSpan(
+                            text: duplicateDoggos.length.toString(),
+                            style: TextStyle(
+                                fontFamily: 'Roboto',
+                                fontSize: 16.0,
+                                color: Colors.purpleAccent),
+                          ),
+                          TextSpan(
+                            text: " of ",
+                            style: TextStyle(
+                                fontFamily: 'Roboto',
+                                fontSize: 16.0,
+                                color: unselectedButtomTextColor),
+                          ),
+                          TextSpan(
+                            text: initialDoggos.length.toString(),
+                            style: TextStyle(
+                                fontFamily: 'Roboto',
+                                fontSize: 16.0,
+                                color: Colors.purpleAccent),
+                          ),
+                        ],
                       ),
                     ),
                   ),
@@ -162,10 +228,10 @@ class _FifthRouteState extends State<FifthRoute>
                   Container(
                     width: scrrenWidth,
                     child: Material(
-                      color: backgroundColor,
+                      color: Colors.transparent,
                       child: Padding(
                         padding: const EdgeInsets.only(
-                            left: 20.0, right: 20.0, top: 8.0, bottom: 8.0),
+                            left: 20.0, right: 20.0, top: 30.0, bottom: 8.0),
                         child: TextField(
                           onChanged: (value) {
                             print("Searching for = " + value);
@@ -204,12 +270,14 @@ class _FifthRouteState extends State<FifthRoute>
               //     ],
               //   ),
               // ),
+              
               AnimatedOpacity(
+                curve: Curves.fastOutSlowIn,
                 opacity: _isLetterIndexVisible ? 1.0 : 0.0,
-                duration: Duration(milliseconds: 250),
+                duration: Duration(milliseconds: 500),
                 child: Padding(
                   padding: const EdgeInsets.only(
-                      left: 0.0, right: 0.0, top: 48.0, bottom: 8.0),
+                      left: 0.0, right: 0.0, top: 4.0, bottom: 8.0),
                   child: Row(
                     children: <Widget>[
                       Container(
@@ -239,10 +307,11 @@ class _FifthRouteState extends State<FifthRoute>
                   ),
                 ),
               ),
+
               Row(
                 children: <Widget>[
                   Container(
-                    height: scrrenWidth + scrrenWidth / 10,
+                    height: scrrenWidth + scrrenWidth / 20,
                     width: scrrenWidth,
                     margin: const EdgeInsets.only(top: 0.0),
                     child: NotificationListener<ScrollNotification>(

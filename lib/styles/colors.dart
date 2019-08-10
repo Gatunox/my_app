@@ -16,6 +16,7 @@ final Color unselectedButtomTextColor = Color(0xFF72757C);
 final Color unselectedIconColor = Color(0xFF72757C);
 
 final Color darkerPurpleColor = Color(0xFF832d91);
+final Color darkCardBackgoundColor = Color(0xFF292D30);
 
 final selectedListItemStyle = TextStyle(
                 fontFamily: 'Roboto', fontSize: 18.0, fontWeight: FontWeight.bold, color: Colors.white);
