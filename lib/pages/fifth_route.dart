@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:my_app/Model/data.dart' as prefix1;
 import 'package:my_app/styles/colors.dart';
 import 'package:my_app/common/dog_card_sliver.dart';
 import 'package:my_app/styles/colors.dart';
@@ -28,7 +29,7 @@ class _FifthRouteState extends State<FifthRoute>
   int _currentPage = 0;
   int _selectedItem = 0;
   double _viewportScale = 0.84;
-  bool _isLetterIndexVisible = false;
+  bool _isLetterIndexVisible = true;
   bool _isFilterVisible = false;
 
   TextEditingController _editingController;
@@ -149,15 +150,18 @@ class _FifthRouteState extends State<FifthRoute>
                       });
                       print("Icons.view_week GestureDetector onTap");
                     },
-                    child: Padding(
-                      padding: const EdgeInsets.only(
-                          left: 0.0, right: 10.0, top: 8.0, bottom: 0.0),
-                      child: Icon(
-                        Icons.view_week,
-                        color: _isLetterIndexVisible
-                            ? Colors.purple
-                            : unselectedIconColor,
-                        size: 30.0,
+                    child: Container(
+                      color: Colors.transparent,
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                            left: 10.0, right: 8.0, top: 8.0, bottom: 0.0),
+                        child: Icon(
+                          Icons.view_week,
+                          color: _isLetterIndexVisible
+                              ? Colors.white
+                              : Colors.white24,
+                          size: 30.0,
+                        ),
                       ),
                     ),
                   ),
@@ -168,15 +172,17 @@ class _FifthRouteState extends State<FifthRoute>
                       });
                       print("FontAwesomeIcons.filter GestureDetector onTap");
                     },
-                    child: Padding(
-                      padding: const EdgeInsets.only(
-                          left: .0, right: 20.0, top: 8.0, bottom: 0.0),
-                      child: Icon(
-                        FontAwesomeIcons.filter,
-                        color: _isFilterVisible
-                            ? Colors.purple
-                            : unselectedIconColor,
-                        size: 18.0,
+                    child: Container(
+                      color: Colors.transparent,
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                            left: 8.0, right: 25.0, top: 8.0, bottom: 0.0),
+                        child: Icon(
+                          _isFilterVisible ? Icons.close : Icons.add,
+                          color:
+                              _isFilterVisible ? Colors.white : Colors.white24,
+                          size: _isFilterVisible ? 30.0 : 30.0,
+                        ),
                       ),
                     ),
                   ),
@@ -194,7 +200,7 @@ class _FifthRouteState extends State<FifthRoute>
                             style: TextStyle(
                                 fontFamily: 'Roboto',
                                 fontSize: 16.0,
-                                color: unselectedButtomTextColor),
+                                color: Colors.white70),
                           ),
                           TextSpan(
                             text: duplicateDoggos.length.toString(),
@@ -208,7 +214,7 @@ class _FifthRouteState extends State<FifthRoute>
                             style: TextStyle(
                                 fontFamily: 'Roboto',
                                 fontSize: 16.0,
-                                color: unselectedButtomTextColor),
+                                color: Colors.white70),
                           ),
                           TextSpan(
                             text: initialDoggos.length.toString(),
@@ -270,7 +276,7 @@ class _FifthRouteState extends State<FifthRoute>
               //     ],
               //   ),
               // ),
-              
+
               AnimatedOpacity(
                 curve: Curves.fastOutSlowIn,
                 opacity: _isLetterIndexVisible ? 1.0 : 0.0,
@@ -359,10 +365,25 @@ class _FifthRouteState extends State<FifthRoute>
 
   onTapTap(int index) {
     print("calling setState");
-    setState(() {
-      _selectedItem = index;
-      print("_selectedItem = " + _selectedItem.toString());
-    });
+    int currentPage = _controller.page.round();
+    int totalLength = prefix1.initialDoggos.length - 1;
+    int goToPage = 0;
+
+    _selectedItem = index;
+    if (index > totalLength)
+      goToPage = totalLength;
+    else
+      goToPage = index;
+    int delta = (currentPage - goToPage).abs();
+    double durationRatio = (delta / totalLength);
+    double duration = 5000 * durationRatio;
+    //print("delta value = " + delta.toString());
+    //print("durationRatio value = " + durationRatio.toString());
+    //print("duration value = " + duration.toString());
+    _controller.animateToPage(goToPage,
+        duration: Duration(milliseconds: duration.round()),
+        curve: Curves.fastOutSlowIn);
+    setState(() {});
   }
 
   void filterSearchResults(String query) {
