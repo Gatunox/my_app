@@ -38,7 +38,6 @@ class _DogCardState extends State<DogCardSliver>
     //print("DogCardSliver initState");
   }
 
-
   @override
   void dispose() {
     _controller.dispose();
@@ -88,7 +87,8 @@ class _DogCardState extends State<DogCardSliver>
         PageRouteBuilder(
           pageBuilder: (context, animation1, animation2) {
             return DogDetailSliver(
-                dog: widget.dog, animation: DogDetailsEnterAnimations(_controller));
+                dog: widget.dog,
+                animation: DogDetailsEnterAnimations(_controller));
           },
           transitionsBuilder: (context, animation1, animation2, child) {
             return FadeTransition(
@@ -178,22 +178,21 @@ class _DogCardState extends State<DogCardSliver>
               child: Padding(
                 padding: const EdgeInsets.only(
                     left: 8.0, right: 8.0, top: 8.0, bottom: 8.0),
-                child: ClipRRect(
-                  borderRadius: new BorderRadius.only(
-                      bottomLeft: const Radius.circular(30.0),
-                      bottomRight: const Radius.circular(30),
-                      topLeft: const Radius.circular(30),
-                      topRight: const Radius.circular(30)),
-                  child: Container(
-                    width: (scrrenWidth),
-                    child: Material(
-                      color: Colors.transparent,
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Text(
+                child: Material(
+                  color: Colors.transparent,
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Container(
+                        color: Colors.transparent,
+                        width: 300.0,
+                        height: 35.0,
+                        child: FittedBox(
+                          fit: BoxFit.scaleDown,
+                          child: Text(
                             widget.dog.name,
+                            overflow: TextOverflow.ellipsis,
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               color: Colors.white,
@@ -201,9 +200,9 @@ class _DogCardState extends State<DogCardSliver>
                               fontSize: 24,
                             ),
                           ),
-                        ],
+                        ),
                       ),
-                    ),
+                    ],
                   ),
                 ),
               ),

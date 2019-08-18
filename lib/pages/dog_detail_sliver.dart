@@ -112,7 +112,8 @@ class _DogDetailPageState extends State<DogDetailSliver>
             //       )),
             // ),
             body: Padding(
-              padding: const EdgeInsets.only(top:10.0, bottom: 0.0, left: 0.0, right: 0.0),
+              padding: const EdgeInsets.only(
+                  top: 10.0, bottom: 0.0, left: 0.0, right: 0.0),
               child: Align(
                 alignment: Alignment.bottomLeft,
                 child: ClipRRect(
@@ -256,7 +257,7 @@ class MySliverAppBar extends SliverPersistentHeaderDelegate {
   @override
   Widget build(
       BuildContext context, double shrinkOffset, bool overlapsContent) {
-        final double scrrenWidth = MediaQuery.of(context).size.width;
+    final double scrrenWidth = MediaQuery.of(context).size.width;
     final double scrrenHeigh = MediaQuery.of(context).size.height;
     return Stack(
       fit: StackFit.expand,
@@ -314,20 +315,36 @@ class MySliverAppBar extends SliverPersistentHeaderDelegate {
         Container(
           child: Hero(
             tag: "dogName" + dog.name.toString(),
+            flightShuttleBuilder: (
+              BuildContext flightContext,
+              Animation<double> animation,
+              HeroFlightDirection flightDirection,
+              BuildContext fromHeroContext,
+              BuildContext toHeroContext,
+            ) {
+              return DefaultTextStyle(
+                style: DefaultTextStyle.of(toHeroContext).style,
+                child: toHeroContext.widget,
+              );
+            },
             child: Container(
               child: Align(
                 alignment: Alignment.bottomCenter,
-                child: Container(
-                    color: Colors.transparent,
-                    width: (scrrenWidth),
-                    child: Material(
-                      color: Colors.transparent,
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Text(
+                child: Material(
+                  color: Colors.transparent,
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Container(
+                        color: Colors.transparent,
+                        width: 300.0,
+                        height: 35.0,
+                        child: FittedBox(
+                          fit: BoxFit.scaleDown,
+                          child: Text(
                             dog.name,
+                            overflow: TextOverflow.ellipsis,
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               color: Colors.white,
@@ -335,10 +352,11 @@ class MySliverAppBar extends SliverPersistentHeaderDelegate {
                               fontSize: 24,
                             ),
                           ),
-                        ],
+                        ),
                       ),
-                    ),
+                    ],
                   ),
+                ),
               ),
             ),
           ),

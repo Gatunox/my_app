@@ -31,6 +31,7 @@ class _FifthRouteState extends State<FifthRoute>
   double _viewportScale = 0.84;
   bool _isLetterIndexVisible = true;
   bool _isFilterVisible = false;
+  static bool _keyValueSet = false;
 
   TextEditingController _editingController;
   PageController _controller;
@@ -74,6 +75,7 @@ class _FifthRouteState extends State<FifthRoute>
       child: SingleChildScrollView(
         child: SafeArea(
           child: Column(
+            mainAxisSize: MainAxisSize.max,
             children: <Widget>[
               Padding(
                 padding: const EdgeInsets.only(
@@ -178,7 +180,7 @@ class _FifthRouteState extends State<FifthRoute>
                         padding: const EdgeInsets.only(
                             left: 8.0, right: 25.0, top: 8.0, bottom: 0.0),
                         child: Icon(
-                          _isFilterVisible ? Icons.close : Icons.add,
+                          _isFilterVisible ? Icons.expand_less  : Icons.expand_more,
                           color:
                               _isFilterVisible ? Colors.white : Colors.white24,
                           size: _isFilterVisible ? 30.0 : 30.0,
@@ -196,31 +198,17 @@ class _FifthRouteState extends State<FifthRoute>
                       text: TextSpan(
                         children: <TextSpan>[
                           TextSpan(
-                            text: "Showing ",
-                            style: TextStyle(
-                                fontFamily: 'Roboto',
-                                fontSize: 16.0,
-                                color: Colors.white70),
-                          ),
-                          TextSpan(
                             text: duplicateDoggos.length.toString(),
                             style: TextStyle(
                                 fontFamily: 'Roboto',
-                                fontSize: 16.0,
+                                fontSize: 26.0,
                                 color: Colors.purpleAccent),
                           ),
                           TextSpan(
-                            text: " of ",
+                            text: " Results ",
                             style: TextStyle(
                                 fontFamily: 'Roboto',
-                                fontSize: 16.0,
-                                color: Colors.white70),
-                          ),
-                          TextSpan(
-                            text: initialDoggos.length.toString(),
-                            style: TextStyle(
-                                fontFamily: 'Roboto',
-                                fontSize: 16.0,
+                                fontSize: 26.0,
                                 color: Colors.purpleAccent),
                           ),
                         ],
@@ -283,7 +271,7 @@ class _FifthRouteState extends State<FifthRoute>
                 duration: Duration(milliseconds: 500),
                 child: Padding(
                   padding: const EdgeInsets.only(
-                      left: 0.0, right: 0.0, top: 4.0, bottom: 8.0),
+                      left: 0.0, right: 0.0, top: 8.0, bottom: 8.0),
                   child: Row(
                     children: <Widget>[
                       Container(
@@ -313,7 +301,6 @@ class _FifthRouteState extends State<FifthRoute>
                   ),
                 ),
               ),
-
               Row(
                 children: <Widget>[
                   Container(
@@ -353,6 +340,24 @@ class _FifthRouteState extends State<FifthRoute>
                   ),
                 ],
               ),
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.end,
+              //   mainAxisSize: MainAxisSize.max,
+              //   children: <Widget>[
+              //     Padding(
+              //       padding: const EdgeInsets.only(
+              //           left: 0.0, right: 0.0, top: 20.0, bottom: 8.0),
+              //       child: ConstrainedBox(
+              //         //constraints: BoxConstraints.expand(),
+              //         constraints: new BoxConstraints(minWidth: 300.0, minHeight: 100.0, maxWidth: 300.0, maxHeight: 100.0),
+              //         child: Container(
+              //           width: 500,
+              //           color: Colors.purple,
+              //           )
+              //       ),
+              //     ),
+              //   ],
+              // ),
             ],
           ),
         ),
@@ -365,43 +370,49 @@ class _FifthRouteState extends State<FifthRoute>
 
   onTapTap(int index) {
     print("calling setState");
-    int currentPage = _controller.page.round();
-    int totalLength = prefix1.initialDoggos.length - 1;
-    int goToPage = 0;
+    setState(() {
+      int currentPage = _controller.page.round();
+      int totalLength = prefix1.initialDoggos.length - 1;
+      int goToPage = 0;
 
-    _selectedItem = index;
-    if (index > totalLength)
-      goToPage = totalLength;
-    else
-      goToPage = index;
-    int delta = (currentPage - goToPage).abs();
-    double durationRatio = (delta / totalLength);
-    double duration = 5000 * durationRatio;
-    //print("delta value = " + delta.toString());
-    //print("durationRatio value = " + durationRatio.toString());
-    //print("duration value = " + duration.toString());
-    _controller.animateToPage(goToPage,
-        duration: Duration(milliseconds: duration.round()),
-        curve: Curves.fastOutSlowIn);
-    setState(() {});
+      _selectedItem = index;
+      if (index > totalLength)
+        goToPage = totalLength;
+      else
+        goToPage = index;
+      int delta = (currentPage - goToPage).abs();
+      double durationRatio = (delta / totalLength);
+      double duration = 10000 * durationRatio;
+      //print("delta value = " + delta.toString());
+      //print("durationRatio value = " + durationRatio.toString());
+      //print("duration value = " + duration.toString());
+      _controller.animateToPage(goToPage,
+          duration: Duration(milliseconds: duration.round()),
+          curve: Curves.fastOutSlowIn);
+    });
   }
 
   void filterSearchResults(String query) {
     if (query.isNotEmpty) {
       duplicateDoggos.clear();
+      _keyValueSet = false;
       List<Dog> dummyDoggos = List<Dog>();
       initialDoggos.forEach((item) {
         if (item.contains(query)) {
-          print(item.name);
+          //print(item.name);
           dummyDoggos.add(item);
+          if (_keyValueSet == false) {
+            _keyValueSet = true;
+            _selectedItem = item.id - 1;
+          }
         }
       });
       setState(() {
         duplicateDoggos.addAll(dummyDoggos);
       });
-      return;
     } else {
       setState(() {
+        _selectedItem = 0;
         duplicateDoggos.clear();
         duplicateDoggos.addAll(initialDoggos);
       });
@@ -462,7 +473,7 @@ class LetterItem extends StatelessWidget {
                   text: TextSpan(
                 children: <TextSpan>[
                   TextSpan(
-                    text: dogIndex[currentIndex],
+                    text: dogIndex[currentIndex].value,
                     style: currentIndex == selectedItem
                         ? selectedListItemStyle
                         : unselectedListItemStyle,

@@ -5,6 +5,8 @@ import 'package:flutter/scheduler.dart' show timeDilation;
 import 'dart:math' as math;
 import 'dart:ui' as ui;
 
+import 'package:my_app/styles/colors.dart';
+
 class DogCard extends StatefulWidget {
   final Dog dog;
 
@@ -26,31 +28,20 @@ class _DogCardState extends State<DogCard> with AutomaticKeepAliveClientMixin {
     return Container(
       width: 335.0,
       height: 125.0,
-      decoration: new BoxDecoration(
-        boxShadow: [
-          new BoxShadow(
-            color: Colors.black12,
-            blurRadius: 1.0,
-          ),
-        ],
-        borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(30),
-            topRight: Radius.circular(30),
-            bottomLeft: Radius.circular(30),
-            bottomRight: Radius.circular(30)),
-      ),
       child: Hero(
         tag: "dogCard" + _dog.id.toString(),
         child: Card(
           elevation: 5,
           shape: RoundedRectangleBorder(
+            side: BorderSide(color: darkerPurpleColor, width: 1.0),
             borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(30),
-                topRight: Radius.circular(30),
-                bottomLeft: Radius.circular(30),
-                bottomRight: Radius.circular(30)),
+                topLeft: Radius.circular(20),
+                topRight: Radius.circular(20),
+                bottomLeft: Radius.circular(20),
+                bottomRight: Radius.circular(20)),
+              
           ),
-          color: Colors.white,
+          color: foregroungColor54,
           // Wrap children in a Padding widget in order to give padding.
           child: Padding(
             // The class that controls padding is called 'EdgeInsets'
@@ -83,7 +74,7 @@ class _DogCardState extends State<DogCard> with AutomaticKeepAliveClientMixin {
                         style: TextStyle(
                             fontFamily: 'Roboto',
                             fontSize: 20.0,
-                            color: Colors.black.withOpacity(1.0)),
+                            color: Colors.white),
                       ),
                     ],
                   ),
@@ -96,7 +87,7 @@ class _DogCardState extends State<DogCard> with AutomaticKeepAliveClientMixin {
                         style: TextStyle(
                             fontFamily: 'Roboto',
                             fontSize: 16.0,
-                            color: Colors.black.withOpacity(1.0)),
+                            color: Colors.white),
                       ),
                     ],
                   ),
@@ -114,7 +105,7 @@ class _DogCardState extends State<DogCard> with AutomaticKeepAliveClientMixin {
                             text: ': ${widget.dog.rating} / 10',
                             style: TextStyle(
                                 fontSize: 14.0,
-                                color: Colors.black.withOpacity(1.0)),
+                                color: Colors.white),
                           ),
                         ],
                       ),
@@ -143,7 +134,7 @@ class _DogCardState extends State<DogCard> with AutomaticKeepAliveClientMixin {
           child: Stack(
             children: <Widget>[
               Positioned(
-                top: 45.0,
+                top: 25.0,
                 left: 50.0,
                 child: dogCard,
               ),
@@ -204,13 +195,13 @@ class _DogCardState extends State<DogCard> with AutomaticKeepAliveClientMixin {
     return Container(
         decoration: BoxDecoration(
             shape: BoxShape.rectangle,
-            borderRadius: BorderRadius.circular(30.0),
+            borderRadius: BorderRadius.circular(20.0),
             image: DecorationImage(
               // Just like CSS's `imagesize` property.
               fit: BoxFit.cover,
               image: NetworkImage(_renderUrl ?? ''),
             ),
-            border: Border.all(width: 2.0, color: Colors.black45)));
+            border: Border.all(width: 1.0, color: foregroungColor)));
   }
 
   Widget get dogImage {
@@ -242,19 +233,14 @@ class _DogCardState extends State<DogCard> with AutomaticKeepAliveClientMixin {
         //   return Opacity(opacity: 0.2, child: child);
         // },
         child: ClipRRect(
-            borderRadius: new BorderRadius.circular(30.0),
+            borderRadius: new BorderRadius.circular(20.0),
             child: Container(
               width: 110.0,
               height: 110.0,
               decoration: BoxDecoration(
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black54,
-                    blurRadius: 1.0,
-                  ),
-                ],
+                color: darkerPurpleColor,
                 shape: BoxShape.rectangle,
-                borderRadius: BorderRadius.circular(30.0),
+                //borderRadius: BorderRadius.circular(30.0),
                 // image: DecorationImage(
                 //   // Just like CSS's `imagesize` property.
                 //   fit: BoxFit.cover,
@@ -266,19 +252,13 @@ class _DogCardState extends State<DogCard> with AutomaticKeepAliveClientMixin {
                 Positioned(
                   width: 110.0,
                   height: 110.0,
-                  child: BackdropFilter(
-                      filter: ui.ImageFilter.blur(sigmaX: 3, sigmaY: 3),
-                      child: Container(
-                          child: Icon(
-                            Icons.pets,
-                            color: Colors.white,
-                            size: 45.0,
-                          ),
-                          decoration: BoxDecoration(
-                              shape: BoxShape.rectangle,
-                              borderRadius: BorderRadius.circular(30.0),
-                              border: Border.all(
-                                  width: 2.0, color: Colors.black54)))),
+                  child: Container(
+                    child: Icon(
+                      Icons.pets,
+                      color: Colors.white,
+                      size: 45.0,
+                    ),
+                  ),
                 ),
                 _renderUrl == "" ? Container() : dogImageContainer,
               ]),
@@ -315,33 +295,33 @@ class _DogCardState extends State<DogCard> with AutomaticKeepAliveClientMixin {
     // );
   }
 
-  Widget get placeholderContainer {
-    // Placeholder is a static container the same size as the dog image.
-    return ClipOval(
-      child: Container(
-        width: 115.0,
-        height: 115.0,
-        decoration: BoxDecoration(
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black54,
-            ),
-          ],
-        ),
-        child: BackdropFilter(
-            filter: ui.ImageFilter.blur(sigmaX: 8, sigmaY: 8),
-            child: Container(
-                child: Icon(
-                  Icons.pets,
-                  color: Colors.white70,
-                  size: 45.0,
-                ),
-                decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    border: Border.all(width: 2.0, color: Colors.white70)))),
-      ),
-    );
-  }
+  // Widget get placeholderContainer {
+  //   // Placeholder is a static container the same size as the dog image.
+  //   return ClipOval(
+  //     child: Container(
+  //       width: 115.0,
+  //       height: 115.0,
+  //       decoration: BoxDecoration(
+  //         boxShadow: [
+  //           BoxShadow(
+  //             color: Colors.black54,
+  //           ),
+  //         ],
+  //       ),
+  //       child: BackdropFilter(
+  //           filter: ui.ImageFilter.blur(sigmaX: 8, sigmaY: 8),
+  //           child: Container(
+  //               child: Icon(
+  //                 Icons.pets,
+  //                 color: Colors.white70,
+  //                 size: 45.0,
+  //               ),
+  //               decoration: BoxDecoration(
+  //                   shape: BoxShape.circle,
+  //                   border: Border.all(width: 2.0, color: Colors.white70)))),
+  //     ),
+  //   );
+  // }
 
   @override
   bool get wantKeepAlive => true;

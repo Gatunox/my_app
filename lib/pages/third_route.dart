@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/styles/colors.dart';
-import 'package:my_app/model/dog_model.dart';
 import 'package:my_app/model/data.dart';
 import 'package:my_app/common/dog_card_compact.dart';
+import 'package:my_app/styles/colors.dart' as prefix0;
 
 class ThirdRoute extends StatefulWidget {
   ThirdRoute({Key key, this.title}) : super(key: key);
@@ -44,7 +44,7 @@ class _ThirdRouteState extends State<ThirdRoute>
               left: 0.0,
               width: 138.5,
               child: Container(
-                color: Colors.black12,
+                color: prefix0.foregroungColor54,
                 child: Padding(
                   padding:
                       const EdgeInsets.only(left: 6.0, top: 110, bottom: 20),
@@ -53,7 +53,11 @@ class _ThirdRouteState extends State<ThirdRoute>
               )),
           Container(
             padding: EdgeInsets.only(top: 0.0),
-            child: ListView.builder(
+            child: ListView.separated(
+              separatorBuilder: (context, index) => Divider(
+                height: 20,
+                color: foregroungColor12,
+              ),
               // Must have an item count equal to the number of items!
               addAutomaticKeepAlives: true,
               physics: const AlwaysScrollableScrollPhysics(),
@@ -85,4 +89,3 @@ class _ThirdRouteState extends State<ThirdRoute>
   @override
   bool get wantKeepAlive => true;
 }
-
