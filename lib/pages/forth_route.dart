@@ -57,9 +57,10 @@ class _ThirdRouteState extends State<ForthRoute>
                       elevation: 0.0, //Shadow gone
                     ),
                   );
-                } else {
-                  return DogCard(dog: initialDoggos[index]);
                 }
+                index -= 1; 
+                return DogCard(dog: initialDoggos[index]);
+                
               },
             ),
             //child: DogCard(dog: widget.initialDoggos[1]), // New code

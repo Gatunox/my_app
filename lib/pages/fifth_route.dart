@@ -9,6 +9,7 @@ import 'package:my_app/styles/colors.dart';
 import 'package:my_app/model/data.dart';
 import 'package:my_app/model/dog_model.dart';
 import 'package:my_app/styles/colors.dart' as prefix0;
+import 'package:my_app/styles/size_config.dart';
 
 const SCALE_FRACTION = 0.9;
 const FULL_SCALE = 1.0;
@@ -51,6 +52,7 @@ class _FifthRouteState extends State<FifthRoute>
 
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
     final double scrrenWidth = MediaQuery.of(context).size.width;
     final double scrrenHeight = MediaQuery.of(context).size.height;
     super.build(context);
@@ -382,7 +384,7 @@ class _FifthRouteState extends State<FifthRoute>
         goToPage = index;
       int delta = (currentPage - goToPage).abs();
       double durationRatio = (delta / totalLength);
-      double duration = 10000 * durationRatio;
+      double duration = 20000 * durationRatio;
       //print("delta value = " + delta.toString());
       //print("durationRatio value = " + durationRatio.toString());
       //print("duration value = " + duration.toString());

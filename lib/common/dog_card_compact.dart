@@ -42,7 +42,7 @@ class _DogCardState extends State<DogCardCompact>
                 bottomLeft: Radius.circular(20),
                 bottomRight: Radius.circular(20)),
           ),
-          margin: const EdgeInsets.only(left: 4, right: 4),
+          margin: const EdgeInsets.only(left: 10, right: 10),
           color: foregroungColor54,
           // Wrap children in a Padding widget in order to give padding.
           child: Padding(
@@ -52,7 +52,7 @@ class _DogCardState extends State<DogCardCompact>
             padding: const EdgeInsets.only(
               top: 10.0,
               bottom: 10.0,
-              left: 20.0,
+              left: 22.0,
             ),
             // Column is another layout widget -- like stack -- that
             // takes a list of widgets as children, and lays the
@@ -129,14 +129,15 @@ class _DogCardState extends State<DogCardCompact>
         showDogDetailPage();
       },
       child: Padding(
-        padding: const EdgeInsets.only(left: 18.0, right: 5.0),
+        padding: const EdgeInsets.only(left: 10.0, right: 0.0),
         child: Container(
           height: 121.0,
           child: Stack(
             children: <Widget>[
               Positioned(
                 top: 0.0,
-                left: 116.0,
+                left: 130.0,
+                right: 0.0,
                 child: dogCard,
               ),
               //Positioned(top: 0.0, child: placeholderContainer),
@@ -195,14 +196,15 @@ class _DogCardState extends State<DogCardCompact>
   Widget get dogImageContainer {
     return Container(
         decoration: BoxDecoration(
-            shape: BoxShape.rectangle,
-            borderRadius: BorderRadius.circular(20.0),
-            image: DecorationImage(
-              // Just like CSS's `imagesize` property.
-              fit: BoxFit.cover,
-              image: NetworkImage(_renderUrl ?? ''),
-            ),
-            border: Border.all(width: 1.0, color: foregroungColor)));
+      shape: BoxShape.rectangle,
+      borderRadius: BorderRadius.circular(20.0),
+      image: DecorationImage(
+        // Just like CSS's `imagesize` property.
+        fit: BoxFit.cover,
+        image: NetworkImage(_renderUrl ?? ''),
+      ),
+      //border: Border.all(width: 2.0, color: backgroundColor),
+    ));
   }
 
   Widget get dogImage {
@@ -251,7 +253,7 @@ class _DogCardState extends State<DogCardCompact>
                 //   fit: BoxFit.cover,
                 //   image: NetworkImage(_renderUrl ?? ''),
                 //),
-                //border: Border.all(width: 4.0, color: Colors.amber)
+                //border: Border.all(width: 1.0, color: Colors.amber)
               ),
               child: Stack(children: <Widget>[
                 Positioned(

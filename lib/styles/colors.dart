@@ -16,6 +16,12 @@ final Color unselectedButtomTextColor = Color(0xFF72757C);
 final Color unselectedIconColor = Color(0xFF72757C);
 
 final Color darkerPurpleColor = Color(0xFF832d91);
+final Color darkerPurpleColor12 = Color(0x1F832d91);
+final Color darkerPurpleColor26 = Color(0x42832d91);
+final Color darkerPurpleColor38 = Color(0x61832d91);
+final Color darkerPurpleColor45 = Color(0x73832d91);
+final Color darkerPurpleColor54 = Color(0x8A832d91);
+final Color darkerPurpleColor87 = Color(0xDD832d91);
 final Color darkCardBackgoundColor = Color(0xFF292D30);
 
 final selectedListItemStyle = TextStyle(

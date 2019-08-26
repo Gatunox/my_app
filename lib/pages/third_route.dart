@@ -42,9 +42,9 @@ class _ThirdRouteState extends State<ThirdRoute>
               top: 0.0,
               bottom: 0.0,
               left: 0.0,
-              width: 138.5,
+              width: 140,
               child: Container(
-                color: prefix0.foregroungColor54,
+                color: prefix0.darkerPurpleColor54,
                 child: Padding(
                   padding:
                       const EdgeInsets.only(left: 6.0, top: 110, bottom: 20),
@@ -56,7 +56,7 @@ class _ThirdRouteState extends State<ThirdRoute>
             child: ListView.separated(
               separatorBuilder: (context, index) => Divider(
                 height: 20,
-                color: foregroungColor12,
+                color: Colors.transparent,
               ),
               // Must have an item count equal to the number of items!
               addAutomaticKeepAlives: true,
@@ -75,9 +75,9 @@ class _ThirdRouteState extends State<ThirdRoute>
                       elevation: 0.0, //Shadow gone
                     ),
                   );
-                } else {
-                  return DogCardCompact(dog: initialDoggos[index]);
-                }
+                } 
+                index -= 1;
+                return DogCardCompact(dog: initialDoggos[index]);
               },
             ),
           ),
