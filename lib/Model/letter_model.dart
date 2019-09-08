@@ -6,9 +6,6 @@ class Letter {
   String value;
   bool enabled;
 
-  // All dogs start out at 10, because they're good dogs.
-  int rating = 10;
-
   Letter({id, value, enabled})
       : this.id = id,
         this.value = value,

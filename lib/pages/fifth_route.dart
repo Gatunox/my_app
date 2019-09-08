@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:my_app/Model/data.dart' as prefix1;
 import 'package:my_app/styles/colors.dart';
 import 'package:my_app/common/dog_card_sliver.dart';
-import 'package:my_app/styles/colors.dart';
 import 'package:my_app/model/data.dart';
 import 'package:my_app/model/dog_model.dart';
-import 'package:my_app/styles/colors.dart' as prefix0;
 import 'package:my_app/styles/size_config.dart';
 
 const SCALE_FRACTION = 0.9;
@@ -32,6 +28,7 @@ class _FifthRouteState extends State<FifthRoute>
   double _viewportScale = 0.84;
   bool _isLetterIndexVisible = true;
   bool _isFilterVisible = false;
+  bool _onPageChanged = true;
   static bool _keyValueSet = false;
 
   TextEditingController _editingController;
@@ -41,6 +38,7 @@ class _FifthRouteState extends State<FifthRoute>
   void initState() {
     duplicateDoggos.clear();
     duplicateDoggos.addAll(initialDoggos);
+    generateMap();
     //print("-- _FifthRouteState initState --");
     _editingController = TextEditingController();
     _controller = PageController(
@@ -96,7 +94,7 @@ class _FifthRouteState extends State<FifthRoute>
                           topLeft: const Radius.circular(30.0),
                           topRight: const Radius.circular(30.0)),
                       child: Container(
-                        color: foregroungColor45,
+                        color: backgroundColor,
                         child: Align(
                           alignment: Alignment.center,
                           child: RichText(
@@ -182,7 +180,9 @@ class _FifthRouteState extends State<FifthRoute>
                         padding: const EdgeInsets.only(
                             left: 8.0, right: 25.0, top: 8.0, bottom: 0.0),
                         child: Icon(
-                          _isFilterVisible ? Icons.expand_less  : Icons.expand_more,
+                          _isFilterVisible
+                              ? Icons.expand_less
+                              : Icons.expand_more,
                           color:
                               _isFilterVisible ? Colors.white : Colors.white24,
                           size: _isFilterVisible ? 30.0 : 30.0,
@@ -248,25 +248,6 @@ class _FifthRouteState extends State<FifthRoute>
                   ),
                 ],
               ),
-              // Padding(
-              //   padding: const EdgeInsets.only(
-              //       left: 20.0, right: 20.0, top: 8.0, bottom: 8.0),
-              //   child: Row(
-              //     children: <Widget>[
-              //       RichText(
-              //         text: TextSpan(
-              //           children: <TextSpan>[
-              //             TextSpan(
-              //               text: "Filter",
-              //               style: unselectedListItemStyle,
-              //             ),
-              //           ],
-              //         ),
-              //       ),
-              //     ],
-              //   ),
-              // ),
-
               AnimatedOpacity(
                 curve: Curves.fastOutSlowIn,
                 opacity: _isLetterIndexVisible ? 1.0 : 0.0,
@@ -292,7 +273,7 @@ class _FifthRouteState extends State<FifthRoute>
                               currentIndex: index,
                               selectedItem: _selectedItem,
                               onTapTap: () {
-                                print("onTapTap onTapTap");
+                                //print("onTapTap onTapTap");
                                 onTapTap(index);
                               },
                             );
@@ -315,7 +296,7 @@ class _FifthRouteState extends State<FifthRoute>
                           if (mounted) {
                             setState(() {
                               _page.value = _controller.page;
-                              // print("controller.page = " + _controller.page.toString());
+                              //print("controller.page = " + _controller.page.toString());
                             });
                           }
                         });
@@ -325,6 +306,25 @@ class _FifthRouteState extends State<FifthRoute>
                           setState(() {
                             _currentPage = pos;
                             HapticFeedback.lightImpact();
+                            if (_onPageChanged) {
+                               print(
+                                   "Current Page = " + _currentPage.toString());
+                              // print("Dpg Breed Name = " +
+                              //     duplicateDoggos[_currentPage].dog_name);
+                              // String letter = "";
+                              // print("Selected item = " +
+                              //     _selectedItem.toString());
+                              // letter = dogIndex[_selectedItem].value;
+                              // print("Selected letter = " + letter);
+                              String searhLetter =
+                                  dogIndexMap[_currentPage].toString();
+                              int changeToItem = dogIndex.indexWhere((letter) =>
+                                  letter.value.startsWith(searhLetter));
+                              _selectedItem = changeToItem;
+                              print("onPageChanged");
+                              print(searhLetter);
+                              print(changeToItem);
+                            }
                           });
                         },
                         itemCount: duplicateDoggos.length,
@@ -332,7 +332,7 @@ class _FifthRouteState extends State<FifthRoute>
                         itemBuilder: (BuildContext context, int itemIndex) {
                           //print((_page.value - itemIndex).abs());
                           var scale = (1 -
-                              (((_page.value - itemIndex).abs() * 0.1)
+                              (((_page.value - itemIndex).abs() * 0.05)
                                   .clamp(0.0, 1.0)));
                           return DogCardSliver(
                               dog: duplicateDoggos[itemIndex], scale: scale);
@@ -342,24 +342,6 @@ class _FifthRouteState extends State<FifthRoute>
                   ),
                 ],
               ),
-              // Row(
-              //   mainAxisAlignment: MainAxisAlignment.end,
-              //   mainAxisSize: MainAxisSize.max,
-              //   children: <Widget>[
-              //     Padding(
-              //       padding: const EdgeInsets.only(
-              //           left: 0.0, right: 0.0, top: 20.0, bottom: 8.0),
-              //       child: ConstrainedBox(
-              //         //constraints: BoxConstraints.expand(),
-              //         constraints: new BoxConstraints(minWidth: 300.0, minHeight: 100.0, maxWidth: 300.0, maxHeight: 100.0),
-              //         child: Container(
-              //           width: 500,
-              //           color: Colors.purple,
-              //           )
-              //       ),
-              //     ),
-              //   ],
-              // ),
             ],
           ),
         ),
@@ -374,29 +356,36 @@ class _FifthRouteState extends State<FifthRoute>
     print("calling setState");
     setState(() {
       int currentPage = _controller.page.round();
-      int totalLength = prefix1.initialDoggos.length - 1;
+      int totalLength = initialDoggos.length - 1;
       int goToPage = 0;
+      String letter = dogIndex[index].value;
+
+      //print("Selected index = " + index.toString());
+      //print("Selected letter = " + letter);
+      //print("Jumping to = " + dogLetterMap[letter].toString());
 
       _selectedItem = index;
-      if (index > totalLength)
-        goToPage = totalLength;
-      else
-        goToPage = index;
+      goToPage = dogLetterMap[letter];
       int delta = (currentPage - goToPage).abs();
       double durationRatio = (delta / totalLength);
-      double duration = 20000 * durationRatio;
+      double duration = totalLength * 65.0 * durationRatio;
       //print("delta value = " + delta.toString());
       //print("durationRatio value = " + durationRatio.toString());
       //print("duration value = " + duration.toString());
-      _controller.animateToPage(goToPage,
+      _onPageChanged = false;
+      Future<void> future = _controller.animateToPage(goToPage,
           duration: Duration(milliseconds: duration.round()),
-          curve: Curves.fastOutSlowIn);
+          curve: Curves.easeOut);
+      future
+          .then((void _void) => handleValue())
+          .catchError((error) => handleError(error));
+      //_controller.jumpToPage(goToPage);
     });
   }
 
   void filterSearchResults(String query) {
+    duplicateDoggos.clear();
     if (query.isNotEmpty) {
-      duplicateDoggos.clear();
       _keyValueSet = false;
       List<Dog> dummyDoggos = List<Dog>();
       initialDoggos.forEach((item) {
@@ -405,20 +394,21 @@ class _FifthRouteState extends State<FifthRoute>
           dummyDoggos.add(item);
           if (_keyValueSet == false) {
             _keyValueSet = true;
-            _selectedItem = item.id - 1;
+            //_selectedItem = item.id - 1;
           }
         }
       });
       setState(() {
         duplicateDoggos.addAll(dummyDoggos);
+        generateMap();
       });
     } else {
       setState(() {
-        _selectedItem = 0;
-        duplicateDoggos.clear();
         duplicateDoggos.addAll(initialDoggos);
+        generateMap();
       });
     }
+    print("Current Page = " + _currentPage.toString());
   }
 
   @override
@@ -426,6 +416,15 @@ class _FifthRouteState extends State<FifthRoute>
     _editingController.dispose();
     _controller.dispose();
     super.dispose();
+  }
+
+  handleError(error) {
+    print("Future Handle Error = " + error.toString());
+  }
+
+  handleValue() {
+    _onPageChanged = true;
+    print("Future Handle Done");
   }
 }
 
@@ -445,15 +444,29 @@ class LetterItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String letterValue = dogIndex[currentIndex].value;
     double leftMargin = 0;
     double rightMargin = 0;
+    Color color = foregroungColor12;
+    TextStyle textStyle = disabledListItemStyle;
 
     leftMargin = currentIndex == 0 ? 20.0 : 2.0;
     rightMargin = currentIndex == dogIndex.length - 1 ? 20.0 : 2.0;
+    if (dogLetterMap.containsKey(letterValue)) {
+      dogIndex[currentIndex].enabled = true;
+      color =
+          currentIndex == selectedItem ? darkerPurpleColor : foregroungColor45;
+      textStyle = currentIndex == selectedItem
+          ? selectedListItemStyle
+          : unselectedListItemStyle;
+    }
+
     return GestureDetector(
       onTap: () {
-        print("GestureDetector onTap");
-        onTapTap();
+        //print("GestureDetector onTap");
+        if (dogIndex[currentIndex].enabled) {
+          onTapTap();
+        }
       },
       child: Container(
         margin: EdgeInsets.only(
@@ -465,9 +478,7 @@ class LetterItem extends StatelessWidget {
               topLeft: const Radius.circular(15.0),
               topRight: const Radius.circular(15.0)),
           child: Container(
-            color: currentIndex == selectedItem
-                ? darkerPurpleColor
-                : foregroungColor45,
+            color: color,
             width: 60,
             child: Align(
               alignment: Alignment.center,
@@ -475,10 +486,8 @@ class LetterItem extends StatelessWidget {
                   text: TextSpan(
                 children: <TextSpan>[
                   TextSpan(
-                    text: dogIndex[currentIndex].value,
-                    style: currentIndex == selectedItem
-                        ? selectedListItemStyle
-                        : unselectedListItemStyle,
+                    text: letterValue,
+                    style: textStyle,
                   ),
                 ],
               )),
