@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
@@ -36,6 +38,7 @@ class _FifthRouteState extends State<FifthRoute>
 
   @override
   void initState() {
+    loadDodBreeds();
     duplicateDoggos.clear();
     duplicateDoggos.addAll(initialDoggos);
     generateMap();
@@ -307,8 +310,8 @@ class _FifthRouteState extends State<FifthRoute>
                             _currentPage = pos;
                             HapticFeedback.lightImpact();
                             if (_onPageChanged) {
-                               print(
-                                   "Current Page = " + _currentPage.toString());
+                              print(
+                                  "Current Page = " + _currentPage.toString());
                               // print("Dpg Breed Name = " +
                               //     duplicateDoggos[_currentPage].dog_name);
                               // String letter = "";
@@ -383,7 +386,38 @@ class _FifthRouteState extends State<FifthRoute>
     });
   }
 
+  Future loadDodBreeds() async {
+    var before = new DateTime.now();
+    var content = await rootBundle.loadString("data/dog_breeds.json");
+    var collection = json.decode(content);
+
+    setState(() {
+      initialDoggos.clear();
+      duplicateDoggos.clear();
+      collection.forEach((element) => initialDoggos.add(Dog(
+            id: int.parse('${element["id"]}'),
+            name: '${element["name"]}',
+            height: '${element["height"]}',
+            weight: '${element["weight"]}',
+            longevety: '${element["longevety"]}',
+            location: '${element["location"]}',
+            description: '${element["description"]}',
+            https: '${element["https"]}',
+          )));
+      duplicateDoggos.addAll(initialDoggos);
+      generateMap();
+      var after = new DateTime.now();
+      print("Elapsed Time = " +
+          (after.millisecondsSinceEpoch - before.millisecondsSinceEpoch)
+              .toString());
+      print("Elements = " + collection.length.toString());
+    });
+  }
+
   void filterSearchResults(String query) {
+    // FIXME: After applying filder the first item must be selected
+    // TODO: Remember previos selection before filter so we can return to it once filter is clear
+
     duplicateDoggos.clear();
     if (query.isNotEmpty) {
       _keyValueSet = false;

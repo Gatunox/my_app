@@ -110,19 +110,6 @@ class _HomePageState extends State<HomePage>
                       side: BorderSide(color: foregroungColor, width: 2),
                     )
                   ),
-                  // SizedBox(
-                  //   width: 500,
-                  //   height: 75,
-                  //   child: GestureDetector(
-                  //     onTap: _onButtonTap,
-                  //     child: FlareActor(
-                  //       'assets/Super-cool-button.flr',
-                  //       animation: _animationName,
-                  //       fit: BoxFit.fitWidth,
-                  //       callback: _onFlareCompleted,
-                  //     ),
-                  //   ),
-                  // ),
                   RaisedButton(
                     child: Text(
                       'Open\nThree',
