@@ -335,10 +335,10 @@ class _FifthRouteState extends State<FifthRoute>
                         itemBuilder: (BuildContext context, int itemIndex) {
                           //print((_page.value - itemIndex).abs());
                           var scale = (1 -
-                              (((_page.value - itemIndex).abs() * 0.05)
+                              (((_page.value - itemIndex).abs() * 0.1)
                                   .clamp(0.0, 1.0)));
                           return DogCardSliver(
-                              dog: duplicateDoggos[itemIndex], scale: scale);
+                              breed: duplicateDoggos[itemIndex], scale: scale);
                         },
                       ),
                     ),
@@ -387,30 +387,22 @@ class _FifthRouteState extends State<FifthRoute>
   }
 
   Future loadDodBreeds() async {
-    var before = new DateTime.now();
-    var content = await rootBundle.loadString("data/dog_breeds.json");
-    var collection = json.decode(content);
+    DateTime before = new DateTime.now();
+    String content = await rootBundle.loadString("data/dog_breeds.json");
+    List collection = json.decode(content);
+    List<Breed> breeds = collection.map((json) => Breed.fromJson(json)).toList();
 
     setState(() {
       initialDoggos.clear();
       duplicateDoggos.clear();
-      collection.forEach((element) => initialDoggos.add(Dog(
-            id: int.parse('${element["id"]}'),
-            name: '${element["name"]}',
-            height: '${element["height"]}',
-            weight: '${element["weight"]}',
-            longevety: '${element["longevety"]}',
-            location: '${element["location"]}',
-            description: '${element["description"]}',
-            https: '${element["https"]}',
-          )));
+      initialDoggos.addAll(breeds);
       duplicateDoggos.addAll(initialDoggos);
       generateMap();
-      var after = new DateTime.now();
+      DateTime after = new DateTime.now();
       print("Elapsed Time = " +
           (after.millisecondsSinceEpoch - before.millisecondsSinceEpoch)
               .toString());
-      print("Elements = " + collection.length.toString());
+      print("Elements = " + breeds.length.toString());
     });
   }
 
@@ -421,7 +413,7 @@ class _FifthRouteState extends State<FifthRoute>
     duplicateDoggos.clear();
     if (query.isNotEmpty) {
       _keyValueSet = false;
-      List<Dog> dummyDoggos = List<Dog>();
+      List<Breed> dummyDoggos = List<Breed>();
       initialDoggos.forEach((item) {
         if (item.contains(query)) {
           //print(item.name);

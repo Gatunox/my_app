@@ -4,20 +4,20 @@ import 'dog_detail_enter_animations.dart';
 import 'package:my_app/model/dog_model.dart';
 
 class DogDetailAnimator extends StatefulWidget {
-  final Dog dog;
+  final Breed breed;
 
-  DogDetailAnimator({Key key, this.dog}) : super(key: key);
+  DogDetailAnimator({Key key, this.breed}) : super(key: key);
 
   @override
-  _DogDetailAnimator createState() => new _DogDetailAnimator(dog);
+  _DogDetailAnimator createState() => new _DogDetailAnimator(breed);
 }
 
 class _DogDetailAnimator extends State<DogDetailAnimator>
     with SingleTickerProviderStateMixin {
 
-  _DogDetailAnimator(this._dog);
+  _DogDetailAnimator(this._breed);
 
-  Dog _dog;
+  Breed _breed;
   AnimationController _controller;
 
   @override
@@ -39,6 +39,6 @@ class _DogDetailAnimator extends State<DogDetailAnimator>
 
   @override
   Widget build(BuildContext context) {
-    return DogDetailPage(dog: _dog, animation: DogDetailsEnterAnimations(_controller));
+    return DogDetailPage(breed: _breed, animation: DogDetailsEnterAnimations(_controller));
   }
 }

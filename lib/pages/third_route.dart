@@ -77,7 +77,7 @@ class _ThirdRouteState extends State<ThirdRoute>
                   );
                 } 
                 index -= 1;
-                return DogCardCompact(dog: initialDoggos[index]);
+                return DogCardCompact(breed: initialDoggos[index]);
               },
             ),
           ),

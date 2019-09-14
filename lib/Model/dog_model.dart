@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
-class Dog {
+class Breed {
   int id;
   String name;
   String group;
@@ -24,7 +24,7 @@ class Dog {
   // All dogs start out at 10, because they're good dogs.
   int rating = 10;
 
-  Dog({id, name, height, weight, longevety, location, description, https})
+  Breed({id, name, height, weight, longevety, location, description, https})
       : this.id = id,
         this.name = name,
         this.height = height,
@@ -78,7 +78,7 @@ class Dog {
   bool operator ==(other) {
     if (identical(this, other)) return true;
     if (other.runtimeType != runtimeType) return false;
-    final Dog otherDog = other;
+    final Breed otherDog = other;
     return otherDog.id == id &&
         otherDog.name == name &&
         otherDog.location == location &&
@@ -100,4 +100,14 @@ class Dog {
     if (identical(this, other)) return true;
     return name.contains(other);
   }
+
+  Breed.fromJson(Map<String, dynamic> json)
+      : id = json["id"],
+        name = json["name"],
+        height = json["height"],
+        weight = json["weight"],
+        longevety = json["longevety"],
+        location = json["location"],
+        description = json["description"],
+        https = json["https"];
 }

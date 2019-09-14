@@ -5,20 +5,20 @@ import 'dart:math' as math;
 import 'dart:ui' as ui;
 
 class DogDetailPage extends StatefulWidget {
-  DogDetailPage({Key key, this.dog, this.animation}) : super(key: key);
+  DogDetailPage({Key key, this.breed, this.animation}) : super(key: key);
 
-  final Dog dog;
+  final Breed breed;
   final DogDetailsEnterAnimations animation;
 
   @override
-  _DogDetailPageState createState() => _DogDetailPageState(dog, animation);
+  _DogDetailPageState createState() => _DogDetailPageState(breed, animation);
 }
 
 class _DogDetailPageState extends State<DogDetailPage>
     with AutomaticKeepAliveClientMixin {
-  _DogDetailPageState(this._dog, this._animation);
+  _DogDetailPageState(this._breed, this._animation);
 
-  Dog _dog;
+  Breed _breed;
   DogDetailsEnterAnimations _animation;
 
   Widget get dogImage {
@@ -27,7 +27,7 @@ class _DogDetailPageState extends State<DogDetailPage>
     // Containers define the size of its children.
     var dogAvatar = Hero(
         // The same code, except the Dog property lives on the widget in this file.
-        tag: "dogImage" + _dog.id.toString(),
+        tag: "dogImage" + _breed.id.toString(),
         flightShuttleBuilder: (
           BuildContext flightContext,
           Animation<double> animation,
@@ -61,13 +61,13 @@ class _DogDetailPageState extends State<DogDetailPage>
             shape: BoxShape.rectangle,
             // This is how you add an image to a Container's background.
             image: DecorationImage(
-                fit: BoxFit.cover, image: NetworkImage(_dog.imageUrl ?? '')),
+                fit: BoxFit.cover, image: NetworkImage(_breed.imageUrl ?? '')),
             border: Border.all(width: 1.0, color: Colors.black54),
           ),
         ));
 
     //print("Getting dogImage = " + widget.dog.imageUrl);
-    return widget.dog.imageUrl == "" ? Container() : dogAvatar;
+    return widget.breed.imageUrl == "" ? Container() : dogAvatar;
   }
 
   // The rating section that says ★ 10/10.
@@ -82,7 +82,7 @@ class _DogDetailPageState extends State<DogDetailPage>
           Icons.star,
           size: 40.0,
         ),
-        Text(' ${widget.dog.rating} / 10',
+        Text(' ${widget.breed.rating} / 10',
             style: Theme.of(context).textTheme.display2),
       ],
     );
@@ -131,7 +131,7 @@ class _DogDetailPageState extends State<DogDetailPage>
           child: Align(
             alignment: Alignment.bottomLeft,
             child: Hero(
-              tag: "dogCard" + _dog.id.toString(),
+              tag: "dogCard" + _breed.id.toString(),
               child: ClipRRect(
                   borderRadius: new BorderRadius.only(
                       topLeft: Radius.circular(40.0),

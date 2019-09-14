@@ -6,20 +6,20 @@ import 'dart:math' as math;
 import 'dart:ui' as ui;
 
 class DogDetailSliver extends StatefulWidget {
-  DogDetailSliver({Key key, this.dog, this.animation}) : super(key: key);
+  DogDetailSliver({Key key, this.breed, this.animation}) : super(key: key);
 
-  final Dog dog;
+  final Breed breed;
   final DogDetailsEnterAnimations animation;
 
   @override
-  _DogDetailPageState createState() => _DogDetailPageState(dog, animation);
+  _DogDetailPageState createState() => _DogDetailPageState(breed, animation);
 }
 
 class _DogDetailPageState extends State<DogDetailSliver>
     with AutomaticKeepAliveClientMixin {
-  _DogDetailPageState(this._dog, this._animation);
+  _DogDetailPageState(this._breed, this._animation);
 
-  Dog _dog;
+  Breed _breed;
   DogDetailsEnterAnimations _animation;
 
   Widget get dogImage {
@@ -28,7 +28,7 @@ class _DogDetailPageState extends State<DogDetailSliver>
     // Containers define the size of its children.
     var dogAvatar = Hero(
         // The same code, except the Dog property lives on the widget in this file.
-        tag: "dogImage" + _dog.id.toString(),
+        tag: "dogImage" + _breed.id.toString(),
         // flightShuttleBuilder: (
         //   BuildContext flightContext,
         //   Animation<double> animation,
@@ -62,13 +62,13 @@ class _DogDetailPageState extends State<DogDetailSliver>
             shape: BoxShape.rectangle,
             // This is how you add an image to a Container's background.
             image: DecorationImage(
-                fit: BoxFit.cover, image: NetworkImage(_dog.https ?? '')),
+                fit: BoxFit.cover, image: NetworkImage(_breed.https ?? '')),
             border: Border.all(width: 1.0, color: Colors.black54),
           ),
         ));
 
     //print("Getting dogImage = " + widget.dog.imageUrl);
-    return widget.dog.imageUrl == "" ? Container() : dogAvatar;
+    return widget.breed.imageUrl == "" ? Container() : dogAvatar;
   }
 
   Future<void> executeAfterBuild() async {
@@ -161,7 +161,7 @@ class _DogDetailPageState extends State<DogDetailSliver>
                                 text: TextSpan(
                                   children: <TextSpan>[
                                     TextSpan(
-                                      text: widget.dog.location,
+                                      text: widget.breed.location,
                                       style: TextStyle(
                                           fontFamily: 'Roboto',
                                           fontSize: 16.0,
@@ -180,7 +180,7 @@ class _DogDetailPageState extends State<DogDetailSliver>
                                     text: TextSpan(
                                       children: <TextSpan>[
                                         TextSpan(
-                                          text: ': ${widget.dog.rating} / 10',
+                                          text: ': ${widget.breed.rating} / 10',
                                           style: TextStyle(
                                               fontSize: 14.0,
                                               color: Colors.white),
@@ -201,7 +201,7 @@ class _DogDetailPageState extends State<DogDetailSliver>
                 (BuildContext context, bool innerBoxIsScrolled) {
               return <Widget>[
                 SliverPersistentHeader(
-                  delegate: MySliverAppBar(expandedHeight: 730.0, dog: _dog),
+                  delegate: MySliverAppBar(expandedHeight: 730.0, breed: _breed),
                   pinned: true,
                 ),
               ];
@@ -250,9 +250,9 @@ class PeakQuadraticCurve extends Curve {
 
 class MySliverAppBar extends SliverPersistentHeaderDelegate {
   final double expandedHeight;
-  final Dog dog;
+  final Breed breed;
 
-  MySliverAppBar({@required this.expandedHeight, @required this.dog});
+  MySliverAppBar({@required this.expandedHeight, @required this.breed});
 
   @override
   Widget build(
@@ -267,7 +267,7 @@ class MySliverAppBar extends SliverPersistentHeaderDelegate {
           bottom: false,
           child: Hero(
             // The same code, except the Dog property lives on the widget in this file.
-            tag: "dogImage" + dog.id.toString(),
+            tag: "dogImage" + breed.id.toString(),
             flightShuttleBuilder: (
               BuildContext flightContext,
               Animation<double> animation,
@@ -301,7 +301,7 @@ class MySliverAppBar extends SliverPersistentHeaderDelegate {
                 color: Colors.transparent,
                 // This is how you add an image to a Container's background.
                 image: DecorationImage(
-                    fit: BoxFit.cover, image: NetworkImage(dog.https ?? '')),
+                    fit: BoxFit.cover, image: NetworkImage(breed.https ?? '')),
                 border: Border.all(width: 2.0, color: foregroungColor),
               ),
             ),
@@ -314,7 +314,7 @@ class MySliverAppBar extends SliverPersistentHeaderDelegate {
         // ),
         Container(
           child: Hero(
-            tag: "dogName" + dog.name.toString(),
+            tag: "dogName" + breed.name.toString(),
             flightShuttleBuilder: (
               BuildContext flightContext,
               Animation<double> animation,
@@ -343,7 +343,7 @@ class MySliverAppBar extends SliverPersistentHeaderDelegate {
                         child: FittedBox(
                           fit: BoxFit.scaleDown,
                           child: Text(
-                            dog.name,
+                            breed.name,
                             overflow: TextOverflow.ellipsis,
                             textAlign: TextAlign.center,
                             style: TextStyle(

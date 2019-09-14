@@ -59,7 +59,7 @@ class _ThirdRouteState extends State<ForthRoute>
                   );
                 }
                 index -= 1; 
-                return DogCard(dog: initialDoggos[index]);
+                return DogCard(breed: initialDoggos[index]);
                 
               },
             ),

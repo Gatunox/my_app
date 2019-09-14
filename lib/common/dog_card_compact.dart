@@ -8,20 +8,20 @@ import 'dart:ui' as ui;
 import 'package:my_app/styles/colors.dart';
 
 class DogCardCompact extends StatefulWidget {
-  final Dog dog;
+  final Breed breed;
 
-  DogCardCompact({Key key, this.dog}) : super(key: key);
+  DogCardCompact({Key key, this.breed}) : super(key: key);
 
   @override
-  _DogCardState createState() => _DogCardState(dog);
+  _DogCardState createState() => _DogCardState(breed);
 }
 
 class _DogCardState extends State<DogCardCompact>
     with AutomaticKeepAliveClientMixin {
   String _renderUrl = "";
-  Dog _dog;
+  Breed _breed;
 
-  _DogCardState(this._dog);
+  _DogCardState(this._breed);
 
   Widget get dogCard {
     // A new container
@@ -31,7 +31,7 @@ class _DogCardState extends State<DogCardCompact>
       height: 120.5,
       padding: const EdgeInsets.all(0.0),
       child: Hero(
-        tag: "dogCard" + _dog.id.toString(),
+        tag: "dogCard" + _breed.id.toString(),
         child: Card(
           elevation: 1,
           shape: RoundedRectangleBorder(
@@ -72,7 +72,7 @@ class _DogCardState extends State<DogCardCompact>
                     style: TextStyle(fontWeight: FontWeight.bold),
                     children: <TextSpan>[
                       TextSpan(
-                        text: widget.dog.name,
+                        text: widget.breed.name,
                         style: TextStyle(
                             fontFamily: 'Roboto',
                             fontSize: 18.0,
@@ -85,7 +85,7 @@ class _DogCardState extends State<DogCardCompact>
                   text: TextSpan(
                     children: <TextSpan>[
                       TextSpan(
-                        text: widget.dog.location,
+                        text: widget.breed.location,
                         style: TextStyle(
                             fontFamily: 'Roboto',
                             fontSize: 14.0,
@@ -104,7 +104,7 @@ class _DogCardState extends State<DogCardCompact>
                       text: TextSpan(
                         children: <TextSpan>[
                           TextSpan(
-                            text: ': ${widget.dog.rating} / 10',
+                            text: ': ${widget.breed.rating} / 10',
                             style:
                                 TextStyle(fontSize: 14.0, color: Colors.white),
                           ),
@@ -156,7 +156,7 @@ class _DogCardState extends State<DogCardCompact>
         context,
         PageRouteBuilder(
           pageBuilder: (context, animation1, animation2) {
-            return DogDetailAnimator(dog: _dog);
+            return DogDetailAnimator(breed: _breed);
           },
           transitionsBuilder: (context, animation1, animation2, child) {
             return FadeTransition(
@@ -182,13 +182,13 @@ class _DogCardState extends State<DogCardCompact>
   // but this is a simpler way to explain Flutter basics
   void renderDogPic() async {
     // this makes the service call
-    await _dog.getImageUrl();
+    await _breed.getImageUrl();
     // setState tells Flutter to rerender anything that's been changed.
     // setState cannot be async, so we use a variable that can be overwritten
     if (mounted) {
       // Avoid calling `setState` if the widget is no longer in the widget tree.
       setState(() {
-        _renderUrl = _dog.imageUrl;
+        _renderUrl = _breed.imageUrl;
       });
     }
   }
@@ -212,7 +212,7 @@ class _DogCardState extends State<DogCardCompact>
     //   print("renderUrl:" + renderUrl);
 
     var dogAvatar = Hero(
-        tag: "dogImage" + _dog.id.toString(),
+        tag: "dogImage" + _breed.id.toString(),
 
         // flightShuttleBuilder: (
         //   BuildContext flightContext,

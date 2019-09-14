@@ -8,10 +8,10 @@ import 'dart:math' as math;
 import 'package:transparent_image/transparent_image.dart';
 
 class DogCardSliver extends StatefulWidget {
-  final Dog dog;
+  final Breed breed;
   final double scale;
 
-  DogCardSliver({Key key, this.dog, this.scale}) : super(key: key);
+  DogCardSliver({Key key, this.breed, this.scale}) : super(key: key);
 
   @override
   _DogCardState createState() => _DogCardState();
@@ -77,7 +77,7 @@ class _DogCardState extends State<DogCardSliver>
   }
 
   showDogDetailPage() {
-    bool showDetail = widget.dog.https == "" ? false : true;
+    bool showDetail = widget.breed.https == "" ? false : true;
     if (showDetail) {
       setState(() {
         _isVisible = false;
@@ -87,7 +87,7 @@ class _DogCardState extends State<DogCardSliver>
         PageRouteBuilder(
           pageBuilder: (context, animation1, animation2) {
             return DogDetailSliver(
-                dog: widget.dog,
+                breed: widget.breed,
                 animation: DogDetailsEnterAnimations(_controller));
           },
           transitionsBuilder: (context, animation1, animation2, child) {
@@ -106,13 +106,13 @@ class _DogCardState extends State<DogCardSliver>
   // but this is a simpler way to explain Flutter basics
   void renderDogPic() async {
     // this makes the service call
-    await widget.dog.getImageUrl();
+    await widget.breed.getImageUrl();
     // setState tells Flutter to rerender anything that's been changed.
     // setState cannot be async, so we use a variable that can be overwritten
     if (mounted) {
       // Avoid calling `setState` if the widget is no longer in the widget tree.
       setState(() {
-        _renderUrl = widget.dog.imageUrl;
+        _renderUrl = widget.breed.imageUrl;
       });
     }
   }
@@ -148,7 +148,7 @@ class _DogCardState extends State<DogCardSliver>
         //  child:
         Container(
           child: Hero(
-            tag: "dogImage" + widget.dog.id.toString(),
+            tag: "dogImage" + widget.breed.id.toString(),
             child: ClipRRect(
               borderRadius: new BorderRadius.only(
                   bottomLeft: const Radius.circular(30.0),
@@ -162,7 +162,7 @@ class _DogCardState extends State<DogCardSliver>
                   fit: BoxFit.cover,
                   child: FadeInImage.memoryNetwork(
                     placeholder: kTransparentImage,
-                    image: widget.dog.https,
+                    image: widget.breed.https,
                   ),
                 ),
               ),
@@ -172,7 +172,7 @@ class _DogCardState extends State<DogCardSliver>
         //),
         Container(
           child: Hero(
-            tag: "dogName" + widget.dog.name.toString(),
+            tag: "dogName" + widget.breed.name.toString(),
             child: Align(
               alignment: Alignment.bottomCenter,
               child: Padding(
@@ -191,7 +191,7 @@ class _DogCardState extends State<DogCardSliver>
                         child: FittedBox(
                           fit: BoxFit.scaleDown,
                           child: Text(
-                            widget.dog.name,
+                            widget.breed.name,
                             overflow: TextOverflow.ellipsis,
                             textAlign: TextAlign.center,
                             style: TextStyle(
@@ -265,14 +265,14 @@ class _DogCardState extends State<DogCardSliver>
                                 Border.all(width: 2.0, color: Colors.purple))),
                   ),
                 ),
-                widget.dog.https == "" ? Container() : dogImageContainer,
+                widget.breed.https == "" ? Container() : dogImageContainer,
               ]),
             ))
         //)
         ;
 
     //print("Getting dogImage = " + widget.dog.imageUrl);
-    return widget.dog.imageUrl == "" ? Container() : dogAvatar;
+    return widget.breed.imageUrl == "" ? Container() : dogAvatar;
   }
 
   @override
