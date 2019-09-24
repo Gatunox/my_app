@@ -57,6 +57,7 @@ class _FifthRouteState extends State<FifthRoute>
     final double scrrenWidth = MediaQuery.of(context).size.width;
     final double scrrenHeight = MediaQuery.of(context).size.height;
     super.build(context);
+    //print("-- Widget build --");
     return Container(
       //Add box decoration
       width: scrrenWidth,
@@ -77,7 +78,7 @@ class _FifthRouteState extends State<FifthRoute>
       child: SingleChildScrollView(
         child: SafeArea(
             child: FutureBuilder<List<Breed>>(
-          future: breeds, 
+          future: breeds, // a previously-obtained Future<String> or null
           builder: (BuildContext context, AsyncSnapshot<List<Breed>> snapshot) {
             switch (snapshot.connectionState) {
               case ConnectionState.none:

@@ -120,7 +120,7 @@ class Breed {
       List<Breed> breeds =
           collection.map((json) => Breed.fromJson(json)).toList();
 
-      // await Future.delayed(Duration(seconds: 3));
+//      await Future.delayed(Duration(seconds: 3));
       
       return breeds;
     } else {
