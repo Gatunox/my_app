@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:http/http.dart' as http;
 
 class Breed {
   int id;
@@ -110,4 +111,21 @@ class Breed {
         location = json["location"],
         description = json["description"],
         https = json["https"];
+        
+  static Future<List<Breed>> load() async {
+    http.Response response =
+        await http.get('https://dogos-9d19d.firebaseio.com/breeds.json');
+    if (response.statusCode == 200) {
+      List collection = json.decode(response.body);
+      List<Breed> breeds =
+          collection.map((json) => Breed.fromJson(json)).toList();
+
+      // await Future.delayed(Duration(seconds: 3));
+      
+      return breeds;
+    } else {
+      // TODO: We need to recover data from local cached info.
+      print("Request failed with status: ${response.statusCode}.");
+    }
+  }
 }

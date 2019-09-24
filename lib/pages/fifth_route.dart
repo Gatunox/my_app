@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
+import 'package:http/http.dart' as http;
 import 'package:my_app/styles/colors.dart';
 import 'package:my_app/common/dog_card_sliver.dart';
 import 'package:my_app/model/data.dart';
@@ -32,23 +33,22 @@ class _FifthRouteState extends State<FifthRoute>
   bool _isFilterVisible = false;
   bool _onPageChanged = true;
   static bool _keyValueSet = false;
+  Future<List<Breed>> breeds;
 
   TextEditingController _editingController;
   PageController _controller;
 
   @override
   void initState() {
-    loadDodBreeds();
-    duplicateDoggos.clear();
-    duplicateDoggos.addAll(initialDoggos);
-    generateMap();
-    //print("-- _FifthRouteState initState --");
+    print("initState");
+    super.initState();
+    breeds = Breed.load();
+
     _editingController = TextEditingController();
     _controller = PageController(
         initialPage: _currentPage,
         viewportFraction: _viewportScale,
         keepPage: false);
-    super.initState();
   }
 
   @override
@@ -57,7 +57,6 @@ class _FifthRouteState extends State<FifthRoute>
     final double scrrenWidth = MediaQuery.of(context).size.width;
     final double scrrenHeight = MediaQuery.of(context).size.height;
     super.build(context);
-    //print("-- Widget build --");
     return Container(
       //Add box decoration
       width: scrrenWidth,
@@ -77,277 +76,303 @@ class _FifthRouteState extends State<FifthRoute>
       ),
       child: SingleChildScrollView(
         child: SafeArea(
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.only(
-                    left: 0.0, right: 0.0, top: 0.0, bottom: 0.0),
-                child: AnimatedContainer(
-                  curve: Curves.fastOutSlowIn,
-                  height: _isFilterVisible ? scrrenHeight / 1.4 : 0,
-                  duration: Duration(milliseconds: 500),
-                  child: Container(
-                    margin: EdgeInsets.only(
-                        left: 0.0, top: 2.0, right: 0.0, bottom: 2.0),
-                    child: ClipRRect(
-                      borderRadius: new BorderRadius.only(
-                          bottomLeft: const Radius.circular(30.0),
-                          bottomRight: const Radius.circular(30.0),
-                          topLeft: const Radius.circular(30.0),
-                          topRight: const Radius.circular(30.0)),
-                      child: Container(
-                        color: backgroundColor,
-                        child: Align(
-                          alignment: Alignment.center,
-                          child: RichText(
-                              text: TextSpan(
-                            children: <TextSpan>[
-                              TextSpan(
-                                text: "B",
+            child: FutureBuilder<List<Breed>>(
+          future: breeds, 
+          builder: (BuildContext context, AsyncSnapshot<List<Breed>> snapshot) {
+            switch (snapshot.connectionState) {
+              case ConnectionState.none:
+              case ConnectionState.active:
+              case ConnectionState.waiting:
+                return Container(
+                    width: scrrenWidth,
+                    height: scrrenHeight,
+                    child: Center(child:CircularProgressIndicator()));
+              case ConnectionState.done:
+                initialDoggos.clear();
+                duplicateDoggos.clear();
+                initialDoggos.addAll(snapshot.data);
+                duplicateDoggos.addAll(initialDoggos);
+                generateMap();
+                if (snapshot.hasError) return Text('Error: ${snapshot.error}');
+                return Column(
+                  mainAxisSize: MainAxisSize.max,
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          left: 0.0, right: 0.0, top: 0.0, bottom: 0.0),
+                      child: AnimatedContainer(
+                        curve: Curves.fastOutSlowIn,
+                        height: _isFilterVisible ? scrrenHeight / 1.4 : 0,
+                        duration: Duration(milliseconds: 500),
+                        child: Container(
+                          margin: EdgeInsets.only(
+                              left: 0.0, top: 2.0, right: 0.0, bottom: 2.0),
+                          child: ClipRRect(
+                            borderRadius: new BorderRadius.only(
+                                bottomLeft: const Radius.circular(30.0),
+                                bottomRight: const Radius.circular(30.0),
+                                topLeft: const Radius.circular(30.0),
+                                topRight: const Radius.circular(30.0)),
+                            child: Container(
+                              color: backgroundColor,
+                              child: Align(
+                                alignment: Alignment.center,
+                                child: RichText(
+                                    text: TextSpan(
+                                  children: <TextSpan>[
+                                    TextSpan(
+                                      text: "B",
+                                    ),
+                                  ],
+                                )),
                               ),
-                            ],
-                          )),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              Row(
-                children: <Widget>[
-                  Container(
-                    width: scrrenWidth,
-                    height: 40,
-                    child: AppBar(
-                      backgroundColor: Colors.transparent, //No more green
-                      elevation: 0.0, //Shadow gone
-                      primary: true,
-                    ),
-                  ),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.only(
-                        left: 20.0, right: 0.0, top: 8.0, bottom: 0.0),
-                    child: RichText(
-                      text: TextSpan(
-                        children: <TextSpan>[
-                          TextSpan(
-                            text: "Dog Breeds",
-                            style: TextStyle(
-                                fontFamily: 'Roboto',
-                                fontSize: 35.0,
-                                color: Colors.white),
+                            ),
                           ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Spacer(),
-                  GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        _isLetterIndexVisible = !_isLetterIndexVisible;
-                      });
-                      print("Icons.view_week GestureDetector onTap");
-                    },
-                    child: Container(
-                      color: Colors.transparent,
-                      child: Padding(
-                        padding: const EdgeInsets.only(
-                            left: 10.0, right: 8.0, top: 8.0, bottom: 0.0),
-                        child: Icon(
-                          Icons.view_week,
-                          color: _isLetterIndexVisible
-                              ? Colors.white
-                              : Colors.white24,
-                          size: 30.0,
                         ),
                       ),
                     ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        _isFilterVisible = !_isFilterVisible;
-                      });
-                      print("FontAwesomeIcons.filter GestureDetector onTap");
-                    },
-                    child: Container(
-                      color: Colors.transparent,
-                      child: Padding(
-                        padding: const EdgeInsets.only(
-                            left: 8.0, right: 25.0, top: 8.0, bottom: 0.0),
-                        child: Icon(
-                          _isFilterVisible
-                              ? Icons.expand_less
-                              : Icons.expand_more,
-                          color:
-                              _isFilterVisible ? Colors.white : Colors.white24,
-                          size: _isFilterVisible ? 30.0 : 30.0,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              Row(
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.only(top: 2.0, left: 24.0),
-                    child: RichText(
-                      text: TextSpan(
-                        children: <TextSpan>[
-                          TextSpan(
-                            text: duplicateDoggos.length.toString(),
-                            style: TextStyle(
-                                fontFamily: 'Roboto',
-                                fontSize: 26.0,
-                                color: Colors.purpleAccent),
+                    Row(
+                      children: <Widget>[
+                        Container(
+                          width: scrrenWidth,
+                          height: 40,
+                          child: AppBar(
+                            backgroundColor: Colors.transparent, //No more green
+                            elevation: 0.0, //Shadow gone
+                            primary: true,
                           ),
-                          TextSpan(
-                            text: " Results ",
-                            style: TextStyle(
-                                fontFamily: 'Roboto',
-                                fontSize: 26.0,
-                                color: Colors.purpleAccent),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              left: 20.0, right: 0.0, top: 8.0, bottom: 0.0),
+                          child: RichText(
+                            text: TextSpan(
+                              children: <TextSpan>[
+                                TextSpan(
+                                  text: "Dog Breeds",
+                                  style: TextStyle(
+                                      fontFamily: 'Roboto',
+                                      fontSize: 35.0,
+                                      color: Colors.white),
+                                ),
+                              ],
+                            ),
                           ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              Row(
-                children: <Widget>[
-                  Container(
-                    width: scrrenWidth,
-                    child: Material(
-                      color: Colors.transparent,
-                      child: Padding(
-                        padding: const EdgeInsets.only(
-                            left: 20.0, right: 20.0, top: 30.0, bottom: 8.0),
-                        child: TextField(
-                          onChanged: (value) {
-                            print("Searching for = " + value);
-                            filterSearchResults(value);
-                          },
-                          autocorrect: false,
-                          controller: _editingController,
-                          decoration: InputDecoration(
-                              labelText: "Search",
-                              hintText: "Breed Name",
-                              prefixIcon: Icon(Icons.search),
-                              border: OutlineInputBorder(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(15.0)))),
                         ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              AnimatedOpacity(
-                curve: Curves.fastOutSlowIn,
-                opacity: _isLetterIndexVisible ? 1.0 : 0.0,
-                duration: Duration(milliseconds: 500),
-                child: Padding(
-                  padding: const EdgeInsets.only(
-                      left: 0.0, right: 0.0, top: 8.0, bottom: 8.0),
-                  child: Row(
-                    children: <Widget>[
-                      Container(
-                        height: 60,
-                        width: scrrenWidth,
-                        color: Colors.transparent,
-                        child: ListView.builder(
-                          addAutomaticKeepAlives: true,
-                          scrollDirection: Axis.horizontal,
-                          physics: const AlwaysScrollableScrollPhysics(),
-                          itemCount: dogIndex.length,
-                          // A callback that will return a widget.
-                          itemBuilder: (context, int index) {
-                            return new LetterItem(
-                              widget: widget,
-                              currentIndex: index,
-                              selectedItem: _selectedItem,
-                              onTapTap: () {
-                                //print("onTapTap onTapTap");
-                                onTapTap(index);
-                              },
-                            );
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Row(
-                children: <Widget>[
-                  Container(
-                    height: scrrenWidth + scrrenWidth / 20,
-                    width: scrrenWidth,
-                    margin: const EdgeInsets.only(top: 0.0),
-                    child: NotificationListener<ScrollNotification>(
-                      onNotification: (ScrollNotification notification) {
-                        SchedulerBinding.instance.addPostFrameCallback((_) {
-                          if (mounted) {
+                        Spacer(),
+                        GestureDetector(
+                          onTap: () {
                             setState(() {
-                              _page.value = _controller.page;
-                              //print("controller.page = " + _controller.page.toString());
+                              _isLetterIndexVisible = !_isLetterIndexVisible;
                             });
-                          }
-                        });
-                      },
-                      child: PageView.builder(
-                        onPageChanged: (pos) {
-                          setState(() {
-                            _currentPage = pos;
-                            HapticFeedback.lightImpact();
-                            if (_onPageChanged) {
-                              print(
-                                  "Current Page = " + _currentPage.toString());
-                              // print("Dpg Breed Name = " +
-                              //     duplicateDoggos[_currentPage].dog_name);
-                              // String letter = "";
-                              // print("Selected item = " +
-                              //     _selectedItem.toString());
-                              // letter = dogIndex[_selectedItem].value;
-                              // print("Selected letter = " + letter);
-                              String searhLetter =
-                                  dogIndexMap[_currentPage].toString();
-                              int changeToItem = dogIndex.indexWhere((letter) =>
-                                  letter.value.startsWith(searhLetter));
-                              _selectedItem = changeToItem;
-                              print("onPageChanged");
-                              print(searhLetter);
-                              print(changeToItem);
-                            }
-                          });
-                        },
-                        itemCount: duplicateDoggos.length,
-                        controller: _controller,
-                        itemBuilder: (BuildContext context, int itemIndex) {
-                          //print((_page.value - itemIndex).abs());
-                          var scale = (1 -
-                              (((_page.value - itemIndex).abs() * 0.1)
-                                  .clamp(0.0, 1.0)));
-                          return DogCardSliver(
-                              breed: duplicateDoggos[itemIndex], scale: scale);
-                        },
+                            print("Icons.view_week GestureDetector onTap");
+                          },
+                          child: Container(
+                            color: Colors.transparent,
+                            child: Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 10.0,
+                                  right: 8.0,
+                                  top: 8.0,
+                                  bottom: 0.0),
+                              child: Icon(
+                                Icons.view_week,
+                                color: _isLetterIndexVisible
+                                    ? Colors.white
+                                    : Colors.white24,
+                                size: 30.0,
+                              ),
+                            ),
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              _isFilterVisible = !_isFilterVisible;
+                            });
+                            print(
+                                "FontAwesomeIcons.filter GestureDetector onTap");
+                          },
+                          child: Container(
+                            color: Colors.transparent,
+                            child: Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 8.0,
+                                  right: 25.0,
+                                  top: 8.0,
+                                  bottom: 0.0),
+                              child: Icon(
+                                _isFilterVisible
+                                    ? Icons.expand_less
+                                    : Icons.expand_more,
+                                color: _isFilterVisible
+                                    ? Colors.white
+                                    : Colors.white24,
+                                size: _isFilterVisible ? 30.0 : 30.0,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.only(top: 2.0, left: 24.0),
+                          child: RichText(
+                            text: TextSpan(
+                              children: <TextSpan>[
+                                TextSpan(
+                                  text: duplicateDoggos.length.toString(),
+                                  style: TextStyle(
+                                      fontFamily: 'Roboto',
+                                      fontSize: 26.0,
+                                      color: Colors.purpleAccent),
+                                ),
+                                TextSpan(
+                                  text: " Results ",
+                                  style: TextStyle(
+                                      fontFamily: 'Roboto',
+                                      fontSize: 26.0,
+                                      color: Colors.purpleAccent),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: <Widget>[
+                        Container(
+                          width: scrrenWidth,
+                          child: Material(
+                            color: Colors.transparent,
+                            child: Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 20.0,
+                                  right: 20.0,
+                                  top: 30.0,
+                                  bottom: 8.0),
+                              child: TextField(
+                                onChanged: (value) {
+                                  print("Searching for = " + value);
+                                  filterSearchResults(value);
+                                },
+                                autocorrect: false,
+                                controller: _editingController,
+                                decoration: InputDecoration(
+                                    labelText: "Search",
+                                    hintText: "Breed Name",
+                                    prefixIcon: Icon(Icons.search),
+                                    border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(15.0)))),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    AnimatedOpacity(
+                      curve: Curves.fastOutSlowIn,
+                      opacity: _isLetterIndexVisible ? 1.0 : 0.0,
+                      duration: Duration(milliseconds: 500),
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                            left: 0.0, right: 0.0, top: 8.0, bottom: 8.0),
+                        child: Row(
+                          children: <Widget>[
+                            Container(
+                              height: 60,
+                              width: scrrenWidth,
+                              color: Colors.transparent,
+                              child: ListView.builder(
+                                addAutomaticKeepAlives: true,
+                                scrollDirection: Axis.horizontal,
+                                physics: const AlwaysScrollableScrollPhysics(),
+                                itemCount: dogIndex.length,
+                                // A callback that will return a widget.
+                                itemBuilder: (context, int index) {
+                                  return new LetterItem(
+                                    widget: widget,
+                                    currentIndex: index,
+                                    selectedItem: _selectedItem,
+                                    onTapTap: () {
+                                      //print("onTapTap onTapTap");
+                                      onTapTap(index);
+                                    },
+                                  );
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
+                    Row(
+                      children: <Widget>[
+                        Container(
+                          height: scrrenWidth + scrrenWidth / 20,
+                          width: scrrenWidth,
+                          margin: const EdgeInsets.only(top: 0.0),
+                          child: NotificationListener<ScrollNotification>(
+                            onNotification: (ScrollNotification notification) {
+                              SchedulerBinding.instance
+                                  .addPostFrameCallback((_) {
+                                if (mounted) {
+                                  setState(() {
+                                    _page.value = _controller.page;
+                                    //print("controller.page = " + _controller.page.toString());
+                                  });
+                                }
+                              });
+                            },
+                            child: PageView.builder(
+                              onPageChanged: (pos) {
+                                setState(() {
+                                  _currentPage = pos;
+                                  HapticFeedback.lightImpact();
+                                  if (_onPageChanged) {
+                                    print("Current Page = " +
+                                        _currentPage.toString());
+                                    String searhLetter =
+                                        dogIndexMap[_currentPage].toString();
+                                    int changeToItem = dogIndex.indexWhere(
+                                        (letter) => letter.value
+                                            .startsWith(searhLetter));
+                                    _selectedItem = changeToItem;
+                                  }
+                                });
+                              },
+                              itemCount: duplicateDoggos.length,
+                              controller: _controller,
+                              itemBuilder:
+                                  (BuildContext context, int itemIndex) {
+                                //print((_page.value - itemIndex).abs());
+                                var scale = (1 -
+                                    (((_page.value - itemIndex).abs() * 0.1)
+                                        .clamp(0.0, 1.0)));
+                                return DogCardSliver(
+                                    breed: duplicateDoggos[itemIndex],
+                                    scale: scale);
+                              },
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                );
+            }
+            return null; // unreachable
+          },
+        )),
       ),
     );
   }
@@ -383,26 +408,6 @@ class _FifthRouteState extends State<FifthRoute>
           .then((void _void) => handleValue())
           .catchError((error) => handleError(error));
       //_controller.jumpToPage(goToPage);
-    });
-  }
-
-  Future loadDodBreeds() async {
-    DateTime before = new DateTime.now();
-    String content = await rootBundle.loadString("data/dog_breeds.json");
-    List collection = json.decode(content);
-    List<Breed> breeds = collection.map((json) => Breed.fromJson(json)).toList();
-
-    setState(() {
-      initialDoggos.clear();
-      duplicateDoggos.clear();
-      initialDoggos.addAll(breeds);
-      duplicateDoggos.addAll(initialDoggos);
-      generateMap();
-      DateTime after = new DateTime.now();
-      print("Elapsed Time = " +
-          (after.millisecondsSinceEpoch - before.millisecondsSinceEpoch)
-              .toString());
-      print("Elements = " + breeds.length.toString());
     });
   }
 
