@@ -119,9 +119,7 @@ class Breed {
       List collection = json.decode(response.body);
       List<Breed> breeds =
           collection.map((json) => Breed.fromJson(json)).toList();
-
 //      await Future.delayed(Duration(seconds: 3));
-      
       return breeds;
     } else {
       // TODO: We need to recover data from local cached info.

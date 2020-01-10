@@ -2,22 +2,13 @@ import 'dart:convert';
 import 'dart:io';
 
 class Letter {
-  int id;
   String value;
   bool enabled;
+  int points_to;
 
-  Letter({id, value, enabled})
-      : this.id = id,
-        this.value = value,
-        this.enabled = enabled;
-
-  int get letter_id {
-    return id;
-  }
-
-  void set letter_id(int id) {
-    this.id = id;
-  }
+  Letter({value, enabled})
+      : this.value = value,
+        this.enabled = enabled ?? false;
 
   String get letter_value {
     return value;
@@ -35,14 +26,20 @@ class Letter {
     this.enabled = value;
   }
 
+  int get letter_pointes_to {
+    return points_to;
+  }
+
+  void set letter_pointer_to(int points_to) {
+    this.points_to = points_to;
+  }
+
   @override
   bool operator ==(other) {
     if (identical(this, other)) return true;
     if (other.runtimeType != runtimeType) return false;
     final Letter otherLetter = other;
-    return otherLetter.id == id &&
-        otherLetter.value == value &&
-        otherLetter.enabled == enabled;
+    return otherLetter.value == value;
   }
 
   @override
