@@ -23,5 +23,6 @@ class BreedService {
       // TODO: We need to recover data from local cached info.Ï
       print("Request failed with status: ${response.statusCode}.");
     }
+    return null;
   }
 }

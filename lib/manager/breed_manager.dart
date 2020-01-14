@@ -20,7 +20,7 @@ class BreadManager {
   }
 
   final StreamController<List<Letter>> _breedLetterList =
-      StreamController<List<Letter>>();
+      StreamController<List<Letter>>.broadcast();
 
   Stream<List<Letter>> get breedLetterList => _breedLetterList.stream;
 
@@ -29,13 +29,19 @@ class BreadManager {
       print("filteredBreedList Adding _breedCount elements = " +
           list.length.toString());
       _breedCount.add(list.length);
+     }, onDone: () {
+      print("filteredBreedList Task 1 Done");
+    }, onError: (error) {
+      print("filteredBreedList Task 1 Error");
     });
     filteredBreedList(query).listen((list) {
       int current_index = 0;
       print("filteredBreedList Adding _breedLetterList elements = " +
           list.length.toString());
       letters.clear();
-      letters = letterIndex.map((letter) => Letter(value: letter.value, enabled: false)).toList();
+      letters = letterIndex
+          .map((letter) => Letter(value: letter.value, enabled: false))
+          .toList();
       //letters.addAll(letterIndex);
       list.forEach((breed) {
         final Letter letter = Letter(value: breed.name.substring(0, 1));
@@ -48,6 +54,10 @@ class BreadManager {
       });
       _breedLetterList.add(letters);
       // letters.forEach((letter) => print(letter.value));
+    }, onDone: () {
+      print("filteredBreedList Task 2 Done");
+    }, onError: (error) {
+      print("filteredBreedList Task 2 Error");
     });
   }
 

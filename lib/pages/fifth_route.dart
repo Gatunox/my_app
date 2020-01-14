@@ -27,16 +27,18 @@ class FifthRoute extends StatefulWidget {
 class _FifthRouteState extends State<FifthRoute>
     with AutomaticKeepAliveClientMixin {
   ValueNotifier<double> _page = ValueNotifier<double>(0.0);
-  int _currentPage = 0;
-  int _selectedItem = 0;
+
   double _viewportScale = 0.84;
   bool _isLetterIndexVisible = true;
   bool _isFilterVisible = false;
-  bool _onPageChanged = true;
+  bool _onPageChanged = false;
+  bool _searchFlag = false;
+  int _activeItem = 0;
+  int _selectedItem = -1;
   //Future<List<Breed>> breeds;
   BreadManager manager = BreadManager();
   Stream<List<Breed>> breedsStream;
-  // Stream<List<Letter>> lettersStream;
+  Stream<List<Letter>> lettersStream;
   // Stream<int> countStream;
 
   TextEditingController _editingController;
@@ -46,26 +48,23 @@ class _FifthRouteState extends State<FifthRoute>
   void initState() {
     print("initState");
     super.initState();
-
     manager.listenToBreeeListStream("");
     breedsStream = manager.filteredBreedList("");
-    // lettersStream = manager.breedLetterList;
+    lettersStream = manager.breedLetterList;
     // countStream = manager.breedCount;
 
     _editingController = TextEditingController();
     _controller = PageController(
-        initialPage: _currentPage,
-        viewportFraction: _viewportScale,
-        keepPage: false);
+        initialPage: 0, viewportFraction: _viewportScale, keepPage: false);
   }
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     SizeConfig().init(context);
     final double scrrenWidth = MediaQuery.of(context).size.width;
     final double scrrenHeight = MediaQuery.of(context).size.height;
-    super.build(context);
-    print("-- FifthRoute Widget build --");
+    //print("-- FifthRoute Widget build --");
     return Container(
       //Add box decoration
       width: scrrenWidth,
@@ -85,39 +84,7 @@ class _FifthRouteState extends State<FifthRoute>
       ),
       child: SingleChildScrollView(
         child: SafeArea(
-          child:
-              //   FutureBuilder<List<Breed>>(
-              // future: breeds,
-              // builder: (BuildContext context, AsyncSnapshot<List<Breed>> snapshot) {
-              //   switch (snapshot.connectionState) {
-              //     case ConnectionState.none:
-              //     case ConnectionState.active:
-              //     case ConnectionState.waiting:
-              //       return Container(
-              //           width: scrrenWidth,
-              //           height: scrrenHeight,
-              //           child: Center(child: CircularProgressIndicator()));
-              //     case ConnectionState.done:
-              //       if (_querySring != null && _querySring.isNotEmpty) {
-              //         List<Breed> dummyDoggos = List<Breed>();
-              //         initialDoggos.forEach((item) {
-              //           if (item.contains(_querySring)) {
-              //             dummyDoggos.add(item);
-              //           }
-              //         });
-              //         duplicateDoggos.clear();
-              //         duplicateDoggos.addAll(dummyDoggos);
-              //         _page.value = _controller.page;
-              //       } else {
-              //         initialDoggos.clear();
-              //         duplicateDoggos.clear();
-              //         initialDoggos.addAll(snapshot.data);
-              //         duplicateDoggos.addAll(initialDoggos);
-              //       }
-              //       generateMap();
-              //       if (snapshot.hasError) return Text('Error: ${snapshot.error}');
-              //       return
-              Column(
+          child: Column(
             mainAxisSize: MainAxisSize.max,
             children: <Widget>[
               Padding(
@@ -219,6 +186,8 @@ class _FifthRouteState extends State<FifthRoute>
                     child: StreamBuilder<int>(
                         stream: manager.breedCount,
                         builder: (context, snapshot) {
+                          // print("breedCount snapshot.connectionState = " +
+                          //     snapshot.connectionState.toString());
                           return RichText(
                             text: TextSpan(
                               children: <TextSpan>[
@@ -262,13 +231,12 @@ class _FifthRouteState extends State<FifthRoute>
                           },
                           onSubmitted: (value) {
                             setState(() {
-                              //_querySring = value;
                               manager.listenToBreeeListStream(value);
-                              // breedsStream = manager.breedList;
                               breedsStream = manager.filteredBreedList(value);
+                              letters.clear();
+                              _searchFlag = true;
+                              print("onSubmitted Searching for = " + value);
                             });
-                            
-                            print("onSubmitted Searching for = " + value);
                           },
                           autocorrect: false,
                           controller: _editingController,
@@ -299,19 +267,38 @@ class _FifthRouteState extends State<FifthRoute>
                         width: scrrenWidth,
                         color: Colors.transparent,
                         child: StreamBuilder<List<Letter>>(
-                            stream: manager.breedLetterList,
+                            stream: lettersStream,
                             builder: (context, snapshot) {
                               letters = snapshot.data ?? [];
-                              // print("letters.length = " + letters.length.toString());
+                              // print("letters.length = " +
+                              //     letters.length.toString());
+                              // print(
+                              //     "breedLetterList snapshot.connectionState = " +
+                              //         snapshot.connectionState.toString());
+
                               return ListView.builder(
                                 addAutomaticKeepAlives: true,
                                 scrollDirection: Axis.horizontal,
                                 physics: const AlwaysScrollableScrollPhysics(),
                                 itemCount: letters.length,
                                 itemBuilder: (context, int index) {
+                                  if (_searchFlag == true && letters[index].letter_enabled){
+                                    _searchFlag = false;
+                                    _activeItem = index;
+                                    print("Letter " +
+                                      letters[index].letter_value +
+                                      " is " +
+                                      letters[index].letter_enabled.toString() +
+                                      ", _activeItem = " +
+                                      _activeItem.toString() +
+                                      ", _selectedItem = " +
+                                      _selectedItem.toString());
+                                  }
+                                  //}
                                   return LetterItem(
                                     letter: letters[index],
                                     currentIndex: index,
+                                    activeItem: _activeItem,
                                     selectedItem: _selectedItem,
                                     onTapTap: () {
                                       //print("onTapTap onTapTap");
@@ -359,20 +346,22 @@ class _FifthRouteState extends State<FifthRoute>
                                 breeds = snapshot.data;
                                 return PageView.builder(
                                   onPageChanged: (pos) {
-                                    setState(() {
-                                      //_currentPage = pos;
-                                      // HapticFeedback.lightImpact();
-                                      // if (_onPageChanged) {
-                                      //   print("Current Page = " +
-                                      //       _currentPage.toString());
-                                      //   String searhLetter =
-                                      //       dogIndexMap[_currentPage].toString();
-                                      //   int changeToItem = dogIndex.indexWhere(
-                                      //       (letter) => letter.value
-                                      //           .startsWith(searhLetter));
-                                      //   _selectedItem = changeToItem;
-                                      // }
-                                    });
+                                    HapticFeedback.lightImpact();
+                                    //setState(() {
+                                    // if (_onPageChanged) {
+                                    // print(
+                                    //     "======== Postion = " + pos.toString());
+                                    String name = breeds[pos].dog_name;
+                                    // print("======== name = " + name);
+                                    //   int changeToItem = dogIndex.indexWhere(
+                                    //       (letter) => letter.value
+                                    //           .startsWith(searhLetter));
+                                    final Letter letter =
+                                        Letter(value: name.substring(0, 1));
+                                    final int index = letters.indexOf(letter);
+                                    _activeItem = index;
+                                    // }
+                                    //});
                                   },
                                   itemCount: breeds.length,
                                   controller: _controller,
@@ -381,7 +370,15 @@ class _FifthRouteState extends State<FifthRoute>
                                     //print((_page.value - itemIndex).abs());
                                     var scale = (1 -
                                         (((_page.value - itemIndex).abs() * 0.1)
-                                            .clamp(0.0, 1.0)));
+                                            .clamp(0.0, 0.1)));
+                                    //print("_page.value = " +
+                                    //    _page.value.toString() +
+                                    //    ", itemIndex = " +
+                                    //    itemIndex.toString());
+                                    //print("scale = " +
+                                    //    scale.toString() +
+                                    //    ", " +
+                                    //    breeds[itemIndex].dog_name);
                                     return DogCardSliver(
                                         breed: breeds[itemIndex], scale: scale);
                                   },
@@ -423,14 +420,14 @@ class _FifthRouteState extends State<FifthRoute>
       //goToPage = 20;
       int delta = (currentPage - goToPage).abs();
       double durationRatio = (delta / totalLength);
-      double duration = totalLength * 65.0 * durationRatio;
-      //print("delta value = " + delta.toString());
-      //print("durationRatio value = " + durationRatio.toString());
-      //print("duration value = " + duration.toString());
+      double duration = totalLength * 200.0 * durationRatio;
+      print("delta value = " + delta.toString());
+      print("durationRatio value = " + durationRatio.toString());
+      print("duration value = " + duration.toString());
       _onPageChanged = false;
       Future<void> future = _controller.animateToPage(goToPage,
           duration: Duration(milliseconds: duration.round()),
-          curve: Curves.easeOut);
+          curve: Curves.easeInOut);
       future
           .then((void _void) => handleValue())
           .catchError((error) => handleError(error));
@@ -463,7 +460,6 @@ class _FifthRouteState extends State<FifthRoute>
 //        generateMap();
 //      });
     }
-    print("Current Page = " + _currentPage.toString());
   }
 
   @override
@@ -480,6 +476,7 @@ class _FifthRouteState extends State<FifthRoute>
   handleValue() {
     _onPageChanged = true;
     print("Future Handle Done");
+    _selectedItem = -1;
   }
 }
 
@@ -488,12 +485,14 @@ class LetterItem extends StatelessWidget {
     Key key,
     @required this.letter,
     @required this.currentIndex,
+    @required this.activeItem,
     @required this.selectedItem,
     @required this.onTapTap,
   }) : super(key: key);
 
   final Letter letter;
   final int currentIndex;
+  final int activeItem;
   final int selectedItem;
   final Function onTapTap;
 
@@ -501,16 +500,19 @@ class LetterItem extends StatelessWidget {
   Widget build(BuildContext context) {
     double leftMargin = 0;
     double rightMargin = 0;
-    Color color = foregroungColor12;
+    Color backgroundColor = foregroungColor12;
+    Color borderColor = foregroungColor12;
     TextStyle textStyle = disabledListItemStyle;
 
     leftMargin = currentIndex == 0 ? 20.0 : 2.0;
     rightMargin = currentIndex == letters.length - 1 ? 20.0 : 2.0;
 
     if (letter.enabled) {
-      color =
-          currentIndex == selectedItem ? darkerPurpleColor : foregroungColor45;
-      textStyle = currentIndex == selectedItem
+      backgroundColor =
+          currentIndex == activeItem ? darkerPurpleColor : foregroungColor45;
+      borderColor =
+          currentIndex == selectedItem ? darkerPurpleColor : foregroungColor12;
+      textStyle = currentIndex == activeItem
           ? selectedListItemStyle
           : unselectedListItemStyle;
     }
@@ -526,14 +528,20 @@ class LetterItem extends StatelessWidget {
         margin: EdgeInsets.only(
             left: leftMargin, top: 2.0, right: rightMargin, bottom: 2.0),
         child: ClipRRect(
-          borderRadius: new BorderRadius.only(
-              bottomLeft: const Radius.circular(15.0),
-              bottomRight: const Radius.circular(15.0),
-              topLeft: const Radius.circular(15.0),
-              topRight: const Radius.circular(15.0)),
+          //borderRadius: new BorderRadius.only(
+          //    bottomLeft: const Radius.circular(15.0),
+          //    bottomRight: const Radius.circular(15.0),
+          //    topLeft: const Radius.circular(15.0),
+          //    topRight: const Radius.circular(15.0)),
           child: Container(
-            color: color,
             width: 60,
+            decoration: BoxDecoration(
+              border: Border.all(color: borderColor, width: 2.0),
+              color: backgroundColor,
+              borderRadius: BorderRadius.all(
+                  Radius.circular(15.0) //         <--- border radius here
+                  ),
+            ),
             child: Align(
               alignment: Alignment.center,
               child: RichText(
