@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:my_app/pages/left_pane.dart';
-import 'package:my_app/pages/center_pane.dart';
-import 'package:my_app/pages/right_pane.dart';
-import 'package:my_app/pages/second_route.dart';
+import 'package:flutter/services.dart';
+//import 'package:my_app/pages/left_pane.dart';
+//import 'package:my_app/pages/center_pane.dart';
+//import 'package:my_app/pages/right_pane.dart';
+//import 'package:my_app/pages/second_route.dart';
 import 'package:my_app/pages/third_route.dart';
-import 'package:my_app/pages/forth_route.dart';
+//import 'package:my_app/pages/forth_route.dart';
 import 'package:my_app/pages/fifth_route.dart';
-import 'package:my_app/splash_route.dart';
+//import 'package:my_app/splash_route.dart';
 
 void main() => runApp(MyApp());
 
@@ -18,6 +19,13 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark.copyWith(
+        statusBarColor: Colors.white, // Color for Android
+        statusBarBrightness:
+            Brightness.dark // Dark == white status bar -- for IOS.
+        ));
+        
     return MaterialApp(
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
@@ -41,13 +49,13 @@ class MyApp extends StatelessWidget {
       ),
       routes: {
         // When we navigate to the "/" route, build the FirstScreen Widget
-        '/': (context) => FirstRoute(controller: controller),
+        '/': (context) => FifthRoute(title: 'Dos Breeds'),
         // When we navigate to the "/second" route, build the SecondScreen Widget
-        '/second': (context) => SecondRoute(),
+        // '/second': (context) => SecondRoute(),
         '/third': (context) => ThirdRoute(title: 'We Rate Dogs'),
-        '/forth': (context) => ForthRoute(),
-        '/splash': (context) => SplashRoute(),
-        '/fifth': (context) => FifthRoute(title: 'We Rate Dogs'),
+        // '/forth': (context) => ForthRoute(),
+        // '/splash': (context) => SplashRoute(),
+        // '/fifth': (context) => FifthRoute(title: 'We Rate Dogs'),
       },
     );
   }
@@ -62,9 +70,10 @@ class FirstRoute extends StatelessWidget {
   Widget build(BuildContext context) {
     return PageView(
       children: <Widget>[
-        new LeftPage(title: 'Flutter Demo Left Page', controller: controller),
-        new HomePage(title: 'Flutter Demo Home Page', controller: controller),
-        new RightPage(title: 'Flutter Demo Right Page', controller: controller),
+        new FifthRoute(title: 'Dos Breeds'),
+        //new LeftPage(title: 'Flutter Demo Left Page', controller: controller),
+        //new HomePage(title: 'Flutter Demo Home Page', controller: controller),
+        //new RightPage(title: 'Flutter Demo Right Page', controller: controller),
       ],
       controller: controller,
     );

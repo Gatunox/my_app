@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:my_app/styles/colors.dart';
 import 'package:my_app/model/dog_model.dart';
 import 'package:my_app/model/data.dart';
@@ -22,7 +23,7 @@ class _ThirdRouteState extends State<ThirdRoute>
 
   @override
   void initState() {
-    print("initState");
+    print("ThirdRoute initState");
     super.initState();
     // breeds = Breed.load();
     breedsStream = BreadManager().breedList;
@@ -30,89 +31,122 @@ class _ThirdRouteState extends State<ThirdRoute>
 
   @override
   Widget build(BuildContext context) {
+    timeDilation = 1.0;
     final double scrrenWidth = MediaQuery.of(context).size.width;
     final double scrrenHeight = MediaQuery.of(context).size.height;
     super.build(context);
-    return Container(
-      // Add box decoration
-      decoration: BoxDecoration(
-        // Box decoration takes a gradient
-        gradient: LinearGradient(
-          // Where the linear gradient begins and ends
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          // Add one stop for each color. Stops should increase from 0 to 1
-          colors: [
-            // Colors are easy thanks to Flutter's Colors class.
-            backgroundColor,
-            backgroundColor,
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Container(
+        // Add box decoration
+        decoration: BoxDecoration(
+          // Box decoration takes a gradient
+          gradient: LinearGradient(
+            // Where the linear gradient begins and ends
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            // Add one stop for each color. Stops should increase from 0 to 1
+            colors: [
+              // Colors are easy thanks to Flutter's Colors class.
+              backgroundColor,
+              backgroundColor,
+            ],
+          ),
+        ),
+        child: Stack(
+          children: <Widget>[
+            Positioned(
+                //Place it at the top, and not use the entire screen
+                top: 0.0,
+                bottom: 0.0,
+                left: 0.0,
+                width: 140,
+                child: Container(
+                  color: prefix0.darkerPurpleColor54,
+                  child: Padding(
+                    padding:
+                        const EdgeInsets.only(left: 6.0, top: 110, bottom: 20),
+                    child: new Column(),
+                  ),
+                )),
+            Container(
+                width: scrrenWidth,
+                padding: EdgeInsets.only(top: 0.0),
+                child: StreamBuilder<List<Breed>>(
+                    stream: breedsStream,
+                    builder: (context, snapshot) {
+                      switch (snapshot.connectionState) {
+                        case ConnectionState.none:
+                        case ConnectionState.active:
+                        case ConnectionState.waiting:
+                          print("Building");
+                          return Container(
+                            height: scrrenHeight,
+                            width: scrrenWidth,
+                            child: Column(
+                              children: <Widget>[
+                                Container(
+                                  width: scrrenWidth,
+                                  height: 140,
+                                  color: Colors.transparent,
+                                  child: AppBar(
+                                    title: Text("Dogs List"),
+                                    backgroundColor:
+                                        Colors.transparent, //No more green
+                                    elevation: 0.0, //Shadow gone
+                                    leading: new IconButton(
+                                      icon: new Icon(Icons.arrow_back_ios),
+                                      onPressed: () =>
+                                          Navigator.pop(context),
+                                    ),
+                                  ),
+                                ),
+                                Expanded(
+                                    child: Center(
+                                        child: CircularProgressIndicator())),
+                              ],
+                            ),
+                          );
+                        case ConnectionState.done:
+                          print("Build Done");
+                          breeds = snapshot.data;
+                          return ListView.separated(
+                            separatorBuilder: (context, index) => Divider(
+                              height: 20,
+                              color: Colors.transparent,
+                            ),
+                            // Must have an item count equal to the number of items!
+                            addAutomaticKeepAlives: true,
+                            physics: const AlwaysScrollableScrollPhysics(),
+                            itemCount: breeds.length,
+                            // A callback that will return a widget.
+                            itemBuilder: (context, int index) {
+                              if (index == 0) {
+                                // return the header
+                                return Container(
+                                  height: 120,
+                                  color: Colors.transparent,
+                                  child: AppBar(
+                                    title: Text("Dogs List"),
+                                    backgroundColor:
+                                        Colors.transparent, //No more green
+                                    elevation: 0.0, //Shadow gone
+                                    leading: new IconButton(
+                                      icon: new Icon(Icons.arrow_back_ios),
+                                      onPressed: () =>
+                                          Navigator.pop(context),
+                                    ),
+                                  ),
+                                );
+                              }
+                              index -= 1;
+                              return DogCardCompact(breed: breeds[index]);
+                            },
+                          );
+                      }
+                    })),
           ],
         ),
-      ),
-      child: Stack(
-        children: <Widget>[
-          Positioned(
-              //Place it at the top, and not use the entire screen
-              top: 0.0,
-              bottom: 0.0,
-              left: 0.0,
-              width: 140,
-              child: Container(
-                color: prefix0.darkerPurpleColor54,
-                child: Padding(
-                  padding:
-                      const EdgeInsets.only(left: 6.0, top: 110, bottom: 20),
-                  child: new Column(),
-                ),
-              )),
-          Container(
-              padding: EdgeInsets.only(top: 0.0),
-              child: StreamBuilder<List<Breed>>(
-                  stream: breedsStream,
-                  builder: (context, snapshot) {
-                    switch (snapshot.connectionState) {
-                      case ConnectionState.none:
-                      case ConnectionState.active:
-                      case ConnectionState.waiting:
-                      print("Building");
-                        return Container(
-                            width: scrrenWidth,
-                            height: scrrenHeight,
-                            child: Center(child: CircularProgressIndicator()));
-                      case ConnectionState.done:
-                        print("Build Done");
-                        breeds = snapshot.data;
-                        return ListView.separated(
-                          separatorBuilder: (context, index) => Divider(
-                            height: 20,
-                            color: Colors.transparent,
-                          ),
-                          // Must have an item count equal to the number of items!
-                          addAutomaticKeepAlives: true,
-                          physics: const AlwaysScrollableScrollPhysics(),
-                          itemCount: breeds.length,
-                          // A callback that will return a widget.
-                          itemBuilder: (context, int index) {
-                            if (index == 0) {
-                              // return the header
-                              return Container(
-                                height: 120,
-                                color: Colors.transparent,
-                                child: AppBar(
-                                  title: Text("Dogs List"),
-                                  backgroundColor:
-                                      Colors.transparent, //No more green
-                                  elevation: 0.0, //Shadow gone
-                                ),
-                              );
-                            }
-                            index -= 1;
-                            return DogCardCompact(breed: breeds[index]);
-                          },
-                        );
-                    }
-                  })),
-        ],
       ),
     );
   }

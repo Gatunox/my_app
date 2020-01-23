@@ -121,98 +121,102 @@ class _DogCardState extends State<DogCardSliver>
     final double scrrenWidth = MediaQuery.of(context).size.width;
     final double scrrenHeight = MediaQuery.of(context).size.height;
     //print("dogImageContainer = " + widget.dog.name);
-    return ClipRRect(
-      borderRadius: new BorderRadius.circular(30.0),
-      child: Stack(children: <Widget>[
-        // Hero(
-        //   tag: "dogImage" + _dog.id.toString(),
-        //   flightShuttleBuilder: (
-        //     BuildContext flightContext,
-        //     Animation<double> animation,
-        //     HeroFlightDirection flightDirection,
-        //     BuildContext fromHeroContext,
-        //     BuildContext toHeroContext,
-        //   ) {
-        //     final Hero toHero = toHeroContext.widget;
-        //     return ScaleTransition(
-        //       scale: animation.drive(
-        //         Tween<double>(begin: 0.0, end: 1.0).chain(
-        //           CurveTween(
-        //             curve: Interval(0.0, 1.0, curve: PeakQuadraticCurve()),
-        //           ),
-        //         ),
-        //       ),
-        //       child: toHero.child,
-        //     );
-        //   },
-        //  child:
-        Container(
-          child: Hero(
-            tag: "dogImage" + widget.breed.id.toString(),
-            child: ClipRRect(
-              borderRadius: new BorderRadius.only(
-                  bottomLeft: const Radius.circular(30.0),
-                  bottomRight: const Radius.circular(30),
-                  topLeft: const Radius.circular(30),
-                  topRight: const Radius.circular(30)),
-              child: Container(
-                width: (scrrenWidth / 1.1) * widget.scale,
-                height: (scrrenWidth / 1.1) * widget.scale,
-                child: FittedBox(
-                  fit: BoxFit.cover,
-                  child: FadeInImage.memoryNetwork(
-                    placeholder: kTransparentImage,
-                    image: widget.breed.https,
+    try {
+      return ClipRRect(
+        borderRadius: new BorderRadius.circular(30.0),
+        child: Stack(children: <Widget>[
+          // Hero(
+          //   tag: "dogImage" + _dog.id.toString(),
+          //   flightShuttleBuilder: (
+          //     BuildContext flightContext,
+          //     Animation<double> animation,
+          //     HeroFlightDirection flightDirection,
+          //     BuildContext fromHeroContext,
+          //     BuildContext toHeroContext,
+          //   ) {
+          //     final Hero toHero = toHeroContext.widget;
+          //     return ScaleTransition(
+          //       scale: animation.drive(
+          //         Tween<double>(begin: 0.0, end: 1.0).chain(
+          //           CurveTween(
+          //             curve: Interval(0.0, 1.0, curve: PeakQuadraticCurve()),
+          //           ),
+          //         ),
+          //       ),
+          //       child: toHero.child,
+          //     );
+          //   },
+          //  child:
+          Container(
+            child: Hero(
+              tag: "dogImage" + widget.breed.id.toString(),
+              child: ClipRRect(
+                borderRadius: new BorderRadius.only(
+                    bottomLeft: const Radius.circular(30.0),
+                    bottomRight: const Radius.circular(30),
+                    topLeft: const Radius.circular(30),
+                    topRight: const Radius.circular(30)),
+                child: Container(
+                  width: (scrrenWidth / 1.1) * widget.scale,
+                  height: (scrrenWidth / 1.1) * widget.scale,
+                  child: FittedBox(
+                    fit: BoxFit.cover,
+                    child: Image.network(widget.breed.https,
+                    ),
                   ),
                 ),
               ),
             ),
           ),
-        ),
-        //),
-        Container(
-          child: Hero(
-            tag: "dogName" + widget.breed.name.toString(),
-            child: Align(
-              alignment: Alignment.bottomCenter,
-              child: Padding(
-                padding: const EdgeInsets.only(
-                    left: 8.0, right: 8.0, top: 8.0, bottom: 8.0),
-                child: Material(
-                  color: Colors.transparent,
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Flexible(
-                        child: Container(
-                          color: Colors.transparent,
-                          width: 300.0,
-                          height: 35.0,
-                          child: FittedBox(
-                            fit: BoxFit.scaleDown,
-                            child: Text(
-                              widget.breed.name,
-                              overflow: TextOverflow.ellipsis,
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.w700,
-                                fontSize: 24,
+          //),
+          Container(
+            child: Hero(
+              tag: "dogName" + widget.breed.name.toString(),
+              child: Align(
+                alignment: Alignment.bottomCenter,
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                      left: 8.0, right: 8.0, top: 8.0, bottom: 8.0),
+                  child: Material(
+                    color: Colors.transparent,
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Flexible(
+                          child: Container(
+                            color: Colors.transparent,
+                            width: 300.0,
+                            height: 35.0,
+                            child: FittedBox(
+                              fit: BoxFit.scaleDown,
+                              child: Text(
+                                widget.breed.name,
+                                overflow: TextOverflow.ellipsis,
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 24,
+                                ),
                               ),
                             ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),
             ),
           ),
-        ),
-      ]),
-    );
+        ]),
+      );
+    } on Exception catch (_) {
+      print("Catched exception");
+    } catch (error) {
+      print('Catched error ' + error.toString());
+    }
   }
 
   Widget get dogImage {
