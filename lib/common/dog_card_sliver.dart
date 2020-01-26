@@ -66,7 +66,7 @@ class _DogCardState extends State<DogCardSliver>
                   child: Container(
                       color: Colors.transparent,
                       width: (scrrenWidth) * widget.scale,
-                      height: (scrrenWidth + 10) * widget.scale,
+                      height: (scrrenWidth) * widget.scale,
                       child: dogImage)),
             ],
           ),
@@ -120,7 +120,6 @@ class _DogCardState extends State<DogCardSliver>
   Widget get dogImageContainer {
     final double scrrenWidth = MediaQuery.of(context).size.width;
     final double scrrenHeight = MediaQuery.of(context).size.height;
-    //print("dogImageContainer = " + widget.dog.name);
     try {
       return ClipRRect(
         borderRadius: new BorderRadius.circular(30.0),
@@ -148,8 +147,8 @@ class _DogCardState extends State<DogCardSliver>
           //   },
           //  child:
           Container(
-            child: Hero(
-              tag: "dogImage" + widget.breed.id.toString(),
+            // child: Hero(
+            //   tag: "dogImage" + widget.breed.id.toString(),
               child: ClipRRect(
                 borderRadius: new BorderRadius.only(
                     bottomLeft: const Radius.circular(30.0),
@@ -166,7 +165,7 @@ class _DogCardState extends State<DogCardSliver>
                   ),
                 ),
               ),
-            ),
+            // ),
           ),
           //),
           Container(
@@ -187,7 +186,7 @@ class _DogCardState extends State<DogCardSliver>
                           child: Container(
                             color: Colors.transparent,
                             width: 300.0,
-                            height: 35.0,
+                            height: 24.0,
                             child: FittedBox(
                               fit: BoxFit.scaleDown,
                               child: Text(
@@ -268,7 +267,8 @@ class _DogCardState extends State<DogCardSliver>
                             color: darkerPurpleColor,
                             borderRadius: BorderRadius.circular(30.0),
                             border:
-                                Border.all(width: 2.0, color: Colors.purple))),
+                                Border.all(width: 2.0, color: Colors.purple))
+                                ),
                   ),
                 ),
                 widget.breed.https == "" ? Container() : dogImageContainer,
