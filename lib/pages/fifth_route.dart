@@ -359,14 +359,14 @@ class _FifthRouteState extends State<FifthRoute>
                                 physics: const AlwaysScrollableScrollPhysics(),
                                 itemCount: letters.length,
                                 itemBuilder: (context, int index) {
-                                //  print("Letter " +
-                                //      letters[index].letter_value +
-                                //      " is " +
-                                //      letters[index].letter_enabled.toString() +
-                                //      ", _activeItem = " +
-                                //      _activeItem.toString() +
-                                //      ", _selectedItem = " +
-                                //      _selectedItem.toString());
+                                  //  print("Letter " +
+                                  //      letters[index].letter_value +
+                                  //      " is " +
+                                  //      letters[index].letter_enabled.toString() +
+                                  //      ", _activeItem = " +
+                                  //      _activeItem.toString() +
+                                  //      ", _selectedItem = " +
+                                  //      _selectedItem.toString());
                                   if (_searchFlag == true &&
                                       letters[index].letter_enabled) {
                                     _searchFlag = false;
@@ -560,13 +560,14 @@ class _FifthRouteState extends State<FifthRoute>
     //       _activeItem.toString() +
     //       ", _selectedItem = " +
     //       _selectedItem.toString());
+
     setState(() {
       _onPageChanged = true;
-      if (_selectedCount == 1) {
+      _selectedCount -= 1;
+      if (_selectedCount == 0) {
         _selectedItem = -1;
-      } else {
-        _selectedCount -= 1;
       }
+
       // print("_selectedCount = " +
       //     _selectedCount.toString() +
       //     ", _activeItem = " +
