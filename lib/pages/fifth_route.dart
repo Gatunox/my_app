@@ -7,6 +7,7 @@ import 'package:my_app/common/letter_item.dart';
 import 'package:my_app/manager/breed_manager.dart';
 import 'package:my_app/model/data.dart';
 import 'package:my_app/model/letter_model.dart';
+import 'package:my_app/pages/third_route.dart';
 import 'package:my_app/styles/colors.dart';
 import 'package:my_app/common/dog_card_sliver.dart';
 import 'package:my_app/model/dog_model.dart';
@@ -221,7 +222,8 @@ class _FifthRouteState extends State<FifthRoute>
                       print("GestureDetector onTap");
                       // setState(() {
                       //   _boderColor = darkerPurpleColor;
-                      Navigator.pushNamed(context, '/third');
+                      Navigator.of(context).push(_createRoute());
+                      // Navigator.pushNamed(context, '/third');
                       // });
                       // Future.delayed(const Duration(milliseconds: 50), () {
                       //   setState(() {
@@ -233,7 +235,8 @@ class _FifthRouteState extends State<FifthRoute>
                       print("GestureDetector onDoubleTap");
                       // setState(() {
                       //   _boderColor = darkerPurpleColor;
-                      Navigator.pushNamed(context, '/third');
+                      Navigator.of(context).push(_createRoute());
+                      // Navigator.pushNamed(context, '/third');
                       // });
                       // Future.delayed(const Duration(milliseconds: 50), () {
                       //   setState(() {
@@ -479,7 +482,27 @@ class _FifthRouteState extends State<FifthRoute>
         ),
       ),
     );
+    
   }
+
+Route _createRoute() {
+  return PageRouteBuilder(
+    pageBuilder: (context, animation, secondaryAnimation) => ThirdRoute(),
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      var begin = Offset(0.0, 1.0);
+      var end = Offset.zero;
+      var curve = Curves.decelerate;
+
+      var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+      return SlideTransition(
+        position: animation.drive(tween),
+        child: child,
+      );
+    },
+  );
+}
+
 
   @override
   bool get wantKeepAlive => true;

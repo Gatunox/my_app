@@ -147,8 +147,8 @@ class _DogCardState extends State<DogCardSliver>
           //   },
           //  child:
           Container(
-            // child: Hero(
-            //   tag: "dogImage" + widget.breed.id.toString(),
+            child: Hero(
+              tag: "dogImage" + widget.breed.id.toString(),
               child: ClipRRect(
                 borderRadius: new BorderRadius.only(
                     bottomLeft: const Radius.circular(30.0),
@@ -165,7 +165,7 @@ class _DogCardState extends State<DogCardSliver>
                   ),
                 ),
               ),
-            // ),
+            ),
           ),
           //),
           Container(
