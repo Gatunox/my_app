@@ -62,7 +62,7 @@ class _FifthRouteState extends State<FifthRoute>
 
   @override
   Widget build(BuildContext context) {
-    timeDilation = 6.0;
+    timeDilation = 1.0;
     super.build(context);
     SizeConfig().init(context);
     final double scrrenWidth = MediaQuery.of(context).size.width;
