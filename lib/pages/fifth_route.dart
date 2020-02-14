@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -12,6 +14,7 @@ import 'package:my_app/styles/colors.dart';
 import 'package:my_app/common/dog_card_sliver.dart';
 import 'package:my_app/model/dog_model.dart';
 import 'package:my_app/styles/size_config.dart';
+import 'package:transparent_image/transparent_image.dart';
 
 const SCALE_FRACTION = 0.9;
 const FULL_SCALE = 1.0;
@@ -56,10 +59,37 @@ class _FifthRouteState extends State<FifthRoute>
     breedsStream = manager.filteredBreedList("");
     lettersStream = manager.breedLetterList;
     // countStream = manager.breedCount;
+    Uint8List kBytes;
+    rootBundle.load('images/paw.png').then((data) {
+      if (mounted)
+        setState(() {
+          kBytes = data.buffer.asUint8List();
 
+          print(kBytes);
+          // var out = new File('output.txt').openWrite();
+          // var item = 0;
+          // for (var byte in kBytes) {
+          //   item++;
+          //   out.write(charToUnicode(byte));
+          //   print(item.toString() + " " + charToUnicode(byte));
+          // }
+          // out.close();
+          print(kTransparentImage);
+        });
+    });
     _editingController = TextEditingController();
     _controller = PageController(
         initialPage: 0, viewportFraction: _viewportScale, keepPage: false);
+  }
+
+  String charToUnicode(int char) {
+    if (char == null || char < 0 || char > 0xfffffffff) {
+      throw new ArgumentError('c: $char');
+    }
+
+    var hex = char.toRadixString(16);
+
+    return '\0x$hex';
   }
 
   @override
@@ -381,8 +411,10 @@ class _FifthRouteState extends State<FifthRoute>
                                     currentIndex: index,
                                     activeItem: _activeItem,
                                     selectedItem: _selectedItem,
-                                    isFirstItem: index == 0 ? true: false,
-                                    isLastItem: index == letters.length - 1 ? true : false,
+                                    isFirstItem: index == 0 ? true : false,
+                                    isLastItem: index == letters.length - 1
+                                        ? true
+                                        : false,
                                     onTapTap: () {
                                       //print("onTapTap onTapTap");
                                       onTapTap(index);
@@ -482,27 +514,26 @@ class _FifthRouteState extends State<FifthRoute>
         ),
       ),
     );
-    
   }
 
-Route _createRoute() {
-  return PageRouteBuilder(
-    pageBuilder: (context, animation, secondaryAnimation) => ThirdRoute(),
-    transitionsBuilder: (context, animation, secondaryAnimation, child) {
-      var begin = Offset(0.0, 1.0);
-      var end = Offset.zero;
-      var curve = Curves.decelerate;
+  Route _createRoute() {
+    return PageRouteBuilder(
+      pageBuilder: (context, animation, secondaryAnimation) => ThirdRoute(),
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        var begin = Offset(0.0, 1.0);
+        var end = Offset.zero;
+        var curve = Curves.decelerate;
 
-      var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+        var tween =
+            Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
 
-      return SlideTransition(
-        position: animation.drive(tween),
-        child: child,
-      );
-    },
-  );
-}
-
+        return SlideTransition(
+          position: animation.drive(tween),
+          child: child,
+        );
+      },
+    );
+  }
 
   @override
   bool get wantKeepAlive => true;
@@ -603,4 +634,3 @@ Route _createRoute() {
     });
   }
 }
-

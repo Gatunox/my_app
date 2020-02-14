@@ -1,4 +1,7 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:my_app/pages/dog_detail_sliver.dart';
 import 'package:my_app/model/dog_model.dart';
 import 'package:my_app/styles/colors.dart';
@@ -34,6 +37,7 @@ class _DogCardState extends State<DogCardSliver>
     );
     _controller.reset();
     _controller.forward();
+
     //renderDogPic();
     //print("DogCardSliver initState");
   }
@@ -158,11 +162,15 @@ class _DogCardState extends State<DogCardSliver>
                 child: Container(
                   width: (scrrenWidth / 1.1) * widget.scale,
                   height: (scrrenWidth / 1.1) * widget.scale,
-                  child: FittedBox(
-                    fit: BoxFit.cover,
-                    child: Image.network(widget.breed.https,
+                  // child: FittedBox(
+                  //   fit: BoxFit.cover,
+                    child: FadeInImage(
+                      fit: BoxFit.cover,
+                      placeholder: AssetImage("images/paw.png"),
+                      image: NetworkImage(widget.breed.https),
                     ),
-                  ),
+                    // Image.network(widget.breed.https,),
+                  // ),
                 ),
               ),
             ),
@@ -251,26 +259,25 @@ class _DogCardState extends State<DogCardSliver>
             child: ClipRRect(
               borderRadius: new BorderRadius.circular(30.0),
               child: Stack(children: <Widget>[
-                Positioned(
-                  child: Visibility(
-                    visible: _isVisible,
-                    child: Container(
-                        width: (scrrenWidth / 1.1) * widget.scale,
-                        height: (scrrenWidth / 1.1) * widget.scale,
-                        child: Icon(
-                          Icons.pets,
-                          color: Colors.white,
-                          size: 140.0,
-                        ),
-                        decoration: BoxDecoration(
-                            shape: BoxShape.rectangle,
-                            color: darkerPurpleColor,
-                            borderRadius: BorderRadius.circular(30.0),
-                            border:
-                                Border.all(width: 2.0, color: Colors.purple))
-                                ),
-                  ),
-                ),
+                // Positioned(
+                //   child: Visibility(
+                //     visible: _isVisible,
+                //     child: Container(
+                //         width: (scrrenWidth / 1.1) * widget.scale,
+                //         height: (scrrenWidth / 1.1) * widget.scale,
+                //         child: Icon(
+                //           Icons.pets,
+                //           color: Colors.white,
+                //           size: 140.0,
+                //         ),
+                //         decoration: BoxDecoration(
+                //             shape: BoxShape.rectangle,
+                //             color: darkerPurpleColor,
+                //             borderRadius: BorderRadius.circular(30.0),
+                //             border:
+                //                 Border.all(width: 2.0, color: Colors.purple))),
+                //   ),
+                // ),
                 widget.breed.https == "" ? Container() : dogImageContainer,
               ]),
             ))
