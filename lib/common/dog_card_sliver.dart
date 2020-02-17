@@ -24,7 +24,7 @@ class _DogCardState extends State<DogCardSliver>
     with SingleTickerProviderStateMixin, AutomaticKeepAliveClientMixin {
   _DogCardState();
 
-  bool _isVisible = true;
+  // bool _isVisible = true;
   String _renderUrl = "";
   AnimationController _controller;
 
@@ -83,9 +83,9 @@ class _DogCardState extends State<DogCardSliver>
   showDogDetailPage() {
     bool showDetail = widget.breed.https == "" ? false : true;
     if (showDetail) {
-      setState(() {
-        _isVisible = false;
-      });
+      // setState(() {
+      //   _isVisible = false;
+      // });
       Navigator.push(
         context,
         PageRouteBuilder(
