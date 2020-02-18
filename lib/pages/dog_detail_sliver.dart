@@ -129,45 +129,49 @@ class _DogDetailPageState extends State<DogDetailSliver>
                 child: toHeroContext.widget,
               );
             },
-            child: Container(
+            child: Padding(
+              padding: const EdgeInsets.only(
+                        top: 25.0, bottom: 0.0, left: 0.0, right: 0.0),
+                          child: Container(
 
-              child: Align(
-                alignment: Alignment.bottomCenter,
-                child: Material(
-                  color: Colors.transparent,
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Container(
-                        color: Colors.transparent,
-                        width: 300.0,
-                        height: 35.0,
-                        child: FittedBox(
-                          fit: BoxFit.scaleDown,
-                          child: Text(
-                            widget.breed.name,
-                            overflow: TextOverflow.ellipsis,
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.w700,
-                              fontSize: 24,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
+                  child: Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Material(
+                      color: Colors.transparent,
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Container(
+              color: Colors.transparent,
+              width: 300.0,
+              height: 35.0,
+              child: FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Text(
+                  widget.breed.name,
+                  overflow: TextOverflow.ellipsis,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w700,
+                    fontSize: 23,
                   ),
                 ),
               ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
             ),
           ),
         ),
                 Expanded(
                                   child: Padding(
                     padding: const EdgeInsets.only(
-                        top: 0.0, bottom: 0.0, left: 0.0, right: 0.0),
+                        top: 20.0, bottom: 0.0, left: 0.0, right: 0.0),
                     child: Align(
                       alignment: Alignment.bottomLeft,
                       child: ClipRRect(
@@ -181,7 +185,7 @@ class _DogDetailPageState extends State<DogDetailSliver>
                             elevation: 0,
                             child: Container(
                               margin: const EdgeInsets.only(top: 2.0),
-                              height: 635,
+                              //height: 635,
                               //width: scrrenWidth,
                               decoration: BoxDecoration(
                                   color: Colors.transparent,
@@ -259,7 +263,7 @@ class _DogDetailPageState extends State<DogDetailSliver>
               return <Widget>[
                 SliverPersistentHeader(
                   delegate: MySliverAppBar(expandedHeight: (scrrenHeigh / 1.5), breed: _breed),
-                  pinned: true,
+                  pinned: false,
                 ),
               ];
             },
