@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 //import 'package:my_app/pages/left_pane.dart';
@@ -7,6 +9,7 @@ import 'package:flutter/services.dart';
 import 'package:my_app/pages/third_route.dart';
 //import 'package:my_app/pages/forth_route.dart';
 import 'package:my_app/pages/fifth_route.dart';
+import 'package:my_app/styles/colors.dart';
 //import 'package:my_app/splash_route.dart';
 
 void main() => runApp(MyApp());
@@ -19,13 +22,22 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    if (Platform.isAndroid) {
+      SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark.copyWith(
+        systemNavigationBarColor: backgroundColor,
+        statusBarIconBrightness: Brightness.light,
+        statusBarBrightness: Brightness.light,
+        statusBarColor: Colors.transparent, // Color for Android
+      ));
+    } else if (Platform.isIOS) {
+      SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark.copyWith(
+        systemNavigationBarColor: backgroundColor,
+        statusBarIconBrightness: Brightness.dark,
+        statusBarBrightness: Brightness.dark, 
+        statusBarColor: Colors.transparent, // Color for Android
+      ));
+    }
 
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark.copyWith(
-        statusBarColor: Colors.white, // Color for Android
-        statusBarBrightness:
-            Brightness.dark // Dark == white status bar -- for IOS.
-        ));
-        
     return MaterialApp(
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,

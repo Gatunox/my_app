@@ -98,7 +98,6 @@ class _DogDetailPageState extends State<DogDetailSliver>
           ),
         ),
         child: Stack(children: <Widget>[
-          
           NestedScrollView(
             // body: Align(
             //   alignment: Alignment.bottomLeft,
@@ -115,61 +114,60 @@ class _DogDetailPageState extends State<DogDetailSliver>
             body: Column(
               children: <Widget>[
                 Container(
-          child: Hero(
-            tag: "dogName" + widget.breed.name.toString(),
-            flightShuttleBuilder: (
-              BuildContext flightContext,
-              Animation<double> animation,
-              HeroFlightDirection flightDirection,
-              BuildContext fromHeroContext,
-              BuildContext toHeroContext,
-            ) {
-              return DefaultTextStyle(
-                style: DefaultTextStyle.of(toHeroContext).style,
-                child: toHeroContext.widget,
-              );
-            },
-            child: Padding(
-              padding: const EdgeInsets.only(
-                        top: 25.0, bottom: 0.0, left: 0.0, right: 0.0),
-                          child: Container(
-
-                  child: Align(
-                    alignment: Alignment.bottomCenter,
-                    child: Material(
-                      color: Colors.transparent,
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Container(
-              color: Colors.transparent,
-              width: 300.0,
-              height: 35.0,
-              child: FittedBox(
-                fit: BoxFit.scaleDown,
-                child: Text(
-                  widget.breed.name,
-                  overflow: TextOverflow.ellipsis,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.w700,
-                    fontSize: 23,
-                  ),
-                ),
-              ),
+                  child: Hero(
+                    tag: "dogName" + widget.breed.name.toString(),
+                    flightShuttleBuilder: (
+                      BuildContext flightContext,
+                      Animation<double> animation,
+                      HeroFlightDirection flightDirection,
+                      BuildContext fromHeroContext,
+                      BuildContext toHeroContext,
+                    ) {
+                      return DefaultTextStyle(
+                        style: DefaultTextStyle.of(toHeroContext).style,
+                        child: toHeroContext.widget,
+                      );
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                          top: 25.0, bottom: 0.0, left: 0.0, right: 0.0),
+                      child: Container(
+                        child: Align(
+                          alignment: Alignment.bottomCenter,
+                          child: Material(
+                            color: Colors.transparent,
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                Container(
+                                  color: Colors.transparent,
+                                  width: 300.0,
+                                  height: 35.0,
+                                  child: FittedBox(
+                                    fit: BoxFit.scaleDown,
+                                    child: Text(
+                                      widget.breed.name,
+                                      overflow: TextOverflow.ellipsis,
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: 23,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
-                        ],
+                        ),
                       ),
                     ),
                   ),
                 ),
-            ),
-          ),
-        ),
                 Expanded(
-                                  child: Padding(
+                  child: Padding(
                     padding: const EdgeInsets.only(
                         top: 20.0, bottom: 0.0, left: 0.0, right: 0.0),
                     child: Align(
@@ -238,7 +236,8 @@ class _DogDetailPageState extends State<DogDetailSliver>
                                           text: TextSpan(
                                             children: <TextSpan>[
                                               TextSpan(
-                                                text: ': ${widget.breed.rating} / 10',
+                                                text:
+                                                    ': ${widget.breed.rating} / 10',
                                                 style: TextStyle(
                                                     fontSize: 14.0,
                                                     color: Colors.white),
@@ -262,7 +261,8 @@ class _DogDetailPageState extends State<DogDetailSliver>
                 (BuildContext context, bool innerBoxIsScrolled) {
               return <Widget>[
                 SliverPersistentHeader(
-                  delegate: MySliverAppBar(expandedHeight: (scrrenHeigh / 1.5), breed: _breed),
+                  delegate: MySliverAppBar(
+                      expandedHeight: (scrrenHeigh / 1.5), breed: _breed),
                   pinned: false,
                 ),
               ];
@@ -347,23 +347,23 @@ class MySliverAppBar extends SliverPersistentHeaderDelegate {
             );
           },
           child: ClipRRect(
-                borderRadius: new BorderRadius.only(
-                    bottomLeft: const Radius.circular(30.0),
-                    bottomRight: const Radius.circular(30),
-                    topLeft: const Radius.circular(30),
-                    topRight: const Radius.circular(30)),
-                child: Container(
-                  // child: FittedBox(
-                  //   fit: BoxFit.cover,
-                    child: FadeInImage(
-                      fit: BoxFit.cover,
-                      placeholder: AssetImage("images/paw.png"),
-                      image: NetworkImage(breed.https),
-                    ),
-                    // Image.network(widget.breed.https,),
-                  // ),
-                ),
+            borderRadius: new BorderRadius.only(
+                bottomLeft: const Radius.circular(30.0),
+                bottomRight: const Radius.circular(30),
+                topLeft: const Radius.circular(30),
+                topRight: const Radius.circular(30)),
+            child: Container(
+              // child: FittedBox(
+              //   fit: BoxFit.cover,
+              child: FadeInImage(
+                fit: BoxFit.cover,
+                placeholder: AssetImage("images/paw.png"),
+                image: NetworkImage(breed.https),
               ),
+              // Image.network(widget.breed.https,),
+              // ),
+            ),
+          ),
           // child: Container(
           //   margin: const EdgeInsets.only(bottom: 40.0),
           //   // Use Box Decoration to make the image a circle
@@ -388,7 +388,7 @@ class MySliverAppBar extends SliverPersistentHeaderDelegate {
         //   dog.imageUrl,
         //   fit: BoxFit.cover,
         // ),
-        
+
         AppBar(
           backgroundColor: Colors.transparent, //No more green
           elevation: 0.0, //Shadow gone
