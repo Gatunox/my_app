@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:my_app/common/dog_detail_enter_animations.dart';
 import 'package:my_app/model/dog_model.dart';
@@ -22,55 +23,6 @@ class _DogDetailPageState extends State<DogDetailSliver>
   Breed _breed;
   DogDetailsEnterAnimations _animation;
 
-  // Widget get dogImage {
-  //   final double scrrenWidth = MediaQuery.of(context).size.width;
-  //   //print("Call get dogImage");
-  //   // Containers define the size of its children.
-  //   var dogAvatar = Hero(
-  //       // The same code, except the Dog property lives on the widget in this file.
-  //       tag: "dogImage" + _breed.id.toString(),
-  //       // flightShuttleBuilder: (
-  //       //   BuildContext flightContext,
-  //       //   Animation<double> animation,
-  //       //   HeroFlightDirection flightDirection,
-  //       //   BuildContext fromHeroContext,
-  //       //   BuildContext toHeroContext,
-  //       // ) {
-  //       //   final Hero toHero = toHeroContext.widget;
-  //       //   return ScaleTransition(
-  //       //     scale: animation.drive(
-  //       //       Tween<double>(begin: 0.0, end: 1.0).chain(
-  //       //         CurveTween(
-  //       //           curve: Interval(0.0, 1.0, curve: PeakQuadraticCurve()),
-  //       //         ),
-  //       //       ),
-  //       //     ),
-  //       //     child: toHero.child,
-  //       //   );
-  //       // },
-  //       child: Container(
-  //         height: scrrenWidth,
-  //         width: scrrenWidth,
-  //         // Use Box Decoration to make the image a circle
-  //         // and add an arbitrary shadow for styling.
-  //         decoration: BoxDecoration(
-  //           borderRadius: BorderRadius.only(
-  //               topLeft: Radius.circular(30),
-  //               topRight: Radius.circular(30),
-  //               bottomLeft: Radius.circular(30),
-  //               bottomRight: Radius.circular(30)),
-  //           shape: BoxShape.rectangle,
-  //           // This is how you add an image to a Container's background.
-  //           image: DecorationImage(
-  //               fit: BoxFit.cover, image: NetworkImage(_breed.https ?? '')),
-  //           border: Border.all(width: 1.0, color: Colors.black54),
-  //         ),
-  //       ));
-
-  //   //print("Getting dogImage = " + widget.dog.imageUrl);
-  //   return widget.breed.imageUrl == "" ? Container() : dogAvatar;
-  // }
-
   Future<void> executeAfterBuild() async {
     if (mounted) {
       setState(() {
@@ -80,195 +32,204 @@ class _DogDetailPageState extends State<DogDetailSliver>
   }
 
   Widget _buildAnimation(BuildContext context, Widget child) {
-    final double scrrenWidth = MediaQuery.of(context).size.width;
-    final double scrrenHeigh = MediaQuery.of(context).size.height;
-    return Container(
-        // Add box decoration
+    final double screenWidth = MediaQuery.of(context).size.width;
+    final double screenHeight = MediaQuery.of(context).size.height;
+    return Stack(children: <Widget>[
+      Container(
+        //Add box decoration
+        width: screenWidth,
+        height: screenHeight,
         decoration: BoxDecoration(
           // Box decoration takes a gradient
           gradient: LinearGradient(
             // Where the linear gradient begins and ends
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
+            begin: Alignment.centerLeft,
+            end: Alignment.centerRight,
             // Add one stop for each color. Stops should increase from 0 to 1
-            colors: [
-              Color(0xFF1b202b),
-              Color(0xFF1b202b),
-            ],
+            colors: [Colors.purple, darkerPurpleColor87],
           ),
         ),
-        child: Stack(children: <Widget>[
-          NestedScrollView(
-            // body: Align(
-            //   alignment: Alignment.bottomLeft,
-            //   child: ClipRRect(
-            //       borderRadius: new BorderRadius.only(
-            //           topLeft: Radius.circular(40.0),
-            //           topRight: Radius.circular(40.0)),
-            //       child: Container(
-            //         height: 710,
-            //         width: scrrenWidth,
-            //         color: Colors.white,
-            //       )),
-            // ),
-            body: Column(
-              children: <Widget>[
-                Container(
-                  child: Hero(
-                    tag: "dogName" + widget.breed.name.toString(),
-                    flightShuttleBuilder: (
-                      BuildContext flightContext,
-                      Animation<double> animation,
-                      HeroFlightDirection flightDirection,
-                      BuildContext fromHeroContext,
-                      BuildContext toHeroContext,
-                    ) {
-                      return DefaultTextStyle(
-                        style: DefaultTextStyle.of(toHeroContext).style,
-                        child: toHeroContext.widget,
-                      );
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.only(
-                          top: 25.0, bottom: 0.0, left: 0.0, right: 0.0),
-                      child: Container(
-                        child: Align(
-                          alignment: Alignment.bottomCenter,
-                          child: Material(
-                            color: Colors.transparent,
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                Container(
-                                  color: Colors.transparent,
-                                  width: 300.0,
-                                  height: 35.0,
-                                  child: FittedBox(
-                                    fit: BoxFit.scaleDown,
-                                    child: Text(
-                                      widget.breed.name,
-                                      overflow: TextOverflow.ellipsis,
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.w700,
-                                        fontSize: 23,
-                                      ),
-                                    ),
+      ),
+      Transform.translate(
+        offset: Offset(screenWidth * 0.2, 0),
+        child: Transform.rotate(
+          angle: -0.3,
+          child: Icon(
+            Icons.pets,
+            color: Colors.white10,
+            size: screenWidth,
+          ),
+        ),
+      ),
+      Transform.translate(
+        offset: Offset(screenWidth * -0.2, screenHeight * 0.5),
+        child: Transform.rotate(
+          angle: -0.7,
+          child: Icon(
+            Icons.pets,
+            color: Colors.white10,
+            size: screenWidth,
+          ),
+        ),
+      ),
+      NestedScrollView(
+        body: Column(
+          children: <Widget>[
+            Container(
+              child: Hero(
+                tag: "dogName" + widget.breed.name.toString(),
+                flightShuttleBuilder: (
+                  BuildContext flightContext,
+                  Animation<double> animation,
+                  HeroFlightDirection flightDirection,
+                  BuildContext fromHeroContext,
+                  BuildContext toHeroContext,
+                ) {
+                  return DefaultTextStyle(
+                    style: DefaultTextStyle.of(toHeroContext).style,
+                    child: toHeroContext.widget,
+                  );
+                },
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                      top: 25.0, bottom: 0.0, left: 0.0, right: 0.0),
+                  child: Container(
+                    child: Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Material(
+                        color: Colors.transparent,
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Container(
+                              color: Colors.transparent,
+                              width: screenWidth * 0.8,
+                              height: screenHeight * 0.05,
+                              child: FittedBox(
+                                fit: BoxFit.scaleDown,
+                                child: Text(
+                                  widget.breed.name,
+                                  overflow: TextOverflow.ellipsis,
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 23,
                                   ),
                                 ),
-                              ],
+                              ),
                             ),
-                          ),
+                          ],
                         ),
                       ),
                     ),
                   ),
                 ),
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.only(
-                        top: 20.0, bottom: 0.0, left: 0.0, right: 0.0),
-                    child: Align(
-                      alignment: Alignment.bottomLeft,
-                      child: ClipRRect(
-                          borderRadius: new BorderRadius.only(
-                              topLeft: Radius.circular(30.0),
-                              topRight: Radius.circular(30.0),
-                              bottomLeft: Radius.circular(30.0),
-                              bottomRight: Radius.circular(30.0)),
-                          child: Material(
-                            color: foregroungColor45,
-                            elevation: 0,
-                            child: Container(
-                              margin: const EdgeInsets.only(top: 2.0),
-                              //height: 635,
-                              //width: scrrenWidth,
-                              decoration: BoxDecoration(
-                                  color: Colors.transparent,
-                                  shape: BoxShape.rectangle,
-                                  borderRadius: BorderRadius.circular(30.0),
-                                  border: Border.all(
-                                      width: 0.0, color: Colors.transparent)),
-                              child: Padding(
-                                // The class that controls padding is called 'EdgeInsets'
-                                // The EdgeInsets.only constructor is used to set
-                                // padding explicitly to each side of the child.
-                                padding: const EdgeInsets.only(
-                                  top: 15.0,
-                                  bottom: 10.0,
-                                  left: 20.0,
+              ),
+            ),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.only(
+                    top: 20.0, bottom: 0.0, left: 0.0, right: 0.0),
+                child: Align(
+                  alignment: Alignment.bottomLeft,
+                  child: ClipRRect(
+                      borderRadius: new BorderRadius.only(
+                          topLeft: Radius.circular(30.0),
+                          topRight: Radius.circular(30.0),
+                          bottomLeft: Radius.circular(30.0),
+                          bottomRight: Radius.circular(30.0)),
+                      child: Material(
+                        color: foregroungColor54,
+                        elevation: 0,
+                        child: Container(
+                          margin: const EdgeInsets.only(top: 2.0),
+                          //height: 635,
+                          //width: scrrenWidth,
+                          decoration: BoxDecoration(
+                              color: Colors.transparent,
+                              shape: BoxShape.rectangle,
+                              borderRadius: BorderRadius.circular(30.0),
+                              border: Border.all(
+                                  width: 0.0, color: Colors.transparent)),
+                          child: Padding(
+                            // The class that controls padding is called 'EdgeInsets'
+                            // The EdgeInsets.only constructor is used to set
+                            // padding explicitly to each side of the child.
+                            padding: const EdgeInsets.only(
+                              top: 15.0,
+                              bottom: 10.0,
+                              left: 20.0,
+                            ),
+                            // Column is another layout widget -- like stack -- that
+                            // takes a list of widgets as children, and lays the
+                            // widgets out from top to bottom.
+                            child: Column(
+                              // These alignment properties function exactly like
+                              // CSS flexbox properties.
+                              // The main axis of a column is the vertical axis,
+                              // `MainAxisAlignment.spaceAround` is equivalent of
+                              // CSS's 'justify-content: space-around' in a vertically
+                              // laid out flexbox.
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: <Widget>[
+                                RichText(
+                                  text: TextSpan(
+                                    children: <TextSpan>[
+                                      TextSpan(
+                                        text: widget.breed.location,
+                                        style: TextStyle(
+                                            fontFamily: 'Roboto',
+                                            fontSize: 16.0,
+                                            color: Colors.white),
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                                // Column is another layout widget -- like stack -- that
-                                // takes a list of widgets as children, and lays the
-                                // widgets out from top to bottom.
-                                child: Column(
-                                  // These alignment properties function exactly like
-                                  // CSS flexbox properties.
-                                  // The main axis of a column is the vertical axis,
-                                  // `MainAxisAlignment.spaceAround` is equivalent of
-                                  // CSS's 'justify-content: space-around' in a vertically
-                                  // laid out flexbox.
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.start,
+                                Row(
                                   children: <Widget>[
+                                    Icon(
+                                      Icons.star,
+                                      color: Colors.purpleAccent,
+                                    ),
                                     RichText(
                                       text: TextSpan(
                                         children: <TextSpan>[
                                           TextSpan(
-                                            text: widget.breed.location,
+                                            text:
+                                                ': ${widget.breed.rating} / 10',
                                             style: TextStyle(
-                                                fontFamily: 'Roboto',
-                                                fontSize: 16.0,
+                                                fontSize: 14.0,
                                                 color: Colors.white),
                                           ),
                                         ],
                                       ),
-                                    ),
-                                    Row(
-                                      children: <Widget>[
-                                        Icon(
-                                          Icons.star,
-                                          color: Colors.purpleAccent,
-                                        ),
-                                        RichText(
-                                          text: TextSpan(
-                                            children: <TextSpan>[
-                                              TextSpan(
-                                                text:
-                                                    ': ${widget.breed.rating} / 10',
-                                                style: TextStyle(
-                                                    fontSize: 14.0,
-                                                    color: Colors.white),
-                                              ),
-                                            ],
-                                          ),
-                                        )
-                                      ],
                                     )
                                   ],
-                                ),
-                              ),
+                                )
+                              ],
                             ),
-                          )),
-                    ),
-                  ),
+                          ),
+                        ),
+                      )),
                 ),
-              ],
+              ),
             ),
-            headerSliverBuilder:
-                (BuildContext context, bool innerBoxIsScrolled) {
-              return <Widget>[
-                SliverPersistentHeader(
-                  delegate: MySliverAppBar(
-                      expandedHeight: (scrrenHeigh / 1.5), breed: _breed),
-                  pinned: false,
-                ),
-              ];
-            },
-          ),
-        ]));
+          ],
+        ),
+        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+          return <Widget>[
+            SliverPersistentHeader(
+              delegate: MySliverAppBar(
+                  expandedHeight: (screenHeight / 1.5), breed: _breed),
+              pinned: false,
+            ),
+          ];
+        },
+      ),
+    ]);
   }
 
   //Finally, the build method:
@@ -319,7 +280,7 @@ class MySliverAppBar extends SliverPersistentHeaderDelegate {
   Widget build(
       BuildContext context, double shrinkOffset, bool overlapsContent) {
     final double scrrenWidth = MediaQuery.of(context).size.width;
-    final double scrrenHeigh = MediaQuery.of(context).size.height;
+    final double scrrenHeight = MediaQuery.of(context).size.height;
     return Stack(
       fit: StackFit.expand,
       overflow: Overflow.visible,
@@ -364,34 +325,37 @@ class MySliverAppBar extends SliverPersistentHeaderDelegate {
               // ),
             ),
           ),
-          // child: Container(
-          //   margin: const EdgeInsets.only(bottom: 40.0),
-          //   // Use Box Decoration to make the image a circle
-          //   // and add an arbitrary shadow for styling.
-          //   decoration: BoxDecoration(
-          //     borderRadius: BorderRadius.only(
-          //         topLeft: Radius.circular(30),
-          //         topRight: Radius.circular(30),
-          //         bottomLeft: Radius.circular(30),
-          //         bottomRight: Radius.circular(30)),
-          //     shape: BoxShape.rectangle,
-          //     color: Colors.transparent,
-          //     // This is how you add an image to a Container's background.
-          //     image: DecorationImage(
-          //         fit: BoxFit.cover, image: NetworkImage(breed.https ?? '')),
-          //     //border: Border.all(width: 0.0, color: foregroungColor),
-          //   ),
-          // ),
         ),
-
-        // Image.network(
-        //   dog.imageUrl,
-        //   fit: BoxFit.cover,
-        // ),
-
+        ClipRRect(
+          borderRadius: new BorderRadius.only(
+              bottomLeft: const Radius.circular(30.0),
+              bottomRight: const Radius.circular(30),
+              topLeft: const Radius.circular(30),
+              topRight: const Radius.circular(30)),
+          child: Container(
+            decoration: BoxDecoration(
+              // Box decoration takes a gradient
+              gradient: LinearGradient(
+                // Where the linear gradient begins and ends
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                stops: [0.0, 0.4],
+                // Add one stop for each color. Stops should increase from 0 to 1
+                colors: [
+                  // Colors are easy thanks to Flutter's Colors class.
+                  Colors.black38,
+                  Colors.transparent,
+                ],
+              ),
+            ),
+          ),
+        ),
         AppBar(
+          iconTheme: IconThemeData(
+            color: Colors.white, //change your color here
+          ),
           backgroundColor: Colors.transparent, //No more green
-          elevation: 0.0, //Shadow gone
+          elevation: 0.0,
           primary: true,
         ),
       ],

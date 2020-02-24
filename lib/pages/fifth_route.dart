@@ -124,7 +124,7 @@ class _FifthRouteState extends State<FifthRoute>
             child: Icon(
               Icons.pets,
               color: darkerPurpleColor12,
-              size: 450.0,
+              size: screenWidth,
             ),
           ),
         ),
@@ -135,307 +135,285 @@ class _FifthRouteState extends State<FifthRoute>
             child: Icon(
               Icons.pets,
               color: darkerPurpleColor12,
-              size: 450.0,
+              size: screenWidth,
             ),
           ),
         ),
         SingleChildScrollView(
-          child: SafeArea(
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.only(
-                      left: 0.0, right: 0.0, top: 0.0, bottom: 0.0),
-                  child: Filter(
-                      isFilterVisible: _isFilterVisible,
-                      scrrenHeight: screenHeight),
-                ),
-                Row(
+                  child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisSize: MainAxisSize.max,
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.only(
+                    left: 0.0, right: 0.0, top: 0.0, bottom: 0.0),
+                child: Filter(
+                    isFilterVisible: _isFilterVisible,
+                    scrrenHeight: screenHeight),
+              ),
+              Padding(
+                padding:
+                    const EdgeInsets.only(left: 20.0, right: 20.0, top: 40.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    Container(
-                      width: screenWidth,
-                      height: 40,
-                      // child: AppBar(
-                      //   //backgroundColor: Colors.transparent, //No more green
-                      //   elevation: 0.0, //Shadow gone
-                      //   brightness: Brightness.dark,
-                      //   primary: true,
-                      // ),
+                    Stack(
+                      children: <Widget>[
+                        RichText(
+                          text: TextSpan(
+                            children: <TextSpan>[
+                              TextSpan(
+                                text: "Dog Breeds",
+                                style: TextStyle(
+                                    fontFamily: 'Roboto',
+                                    fontSize: 35.0,
+                                    color: Colors.white),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Transform.translate(
+                            offset: Offset(185.0, 16.0),
+                            child: StreamBuilder<int>(
+                                stream: manager.breedCount,
+                                builder: (context, snapshot) {
+                                  return Material(
+                                    color: Colors.transparent,
+                                    child: Text(
+                                      (snapshot.data ?? 0).toString(),
+                                      style: TextStyle(
+                                          fontSize: 22,
+                                          fontFamily: 'Roboto',
+                                          color: Colors.purpleAccent),
+                                    ),
+                                  );
+                                }))
+                      ],
+                    ),
+                    Row(
+                      children: <Widget>[
+                        GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              _isFilterVisible = !_isFilterVisible;
+                            });
+                          },
+                          child: Container(
+                            color: Colors.transparent,
+                            child: Icon(
+                              _isFilterVisible
+                                  ? Icons.expand_less
+                                  : Icons.expand_more,
+                              color: Colors.white,
+                              size: 30.0,
+                            ),
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            print("GestureDetector onTap");
+                            Navigator.of(context).push(_createRoute());
+                          },
+                          onDoubleTap: () {
+                            print("GestureDetector onDoubleTap");
+                            Navigator.of(context).push(_createRoute());
+                          },
+                          child: Align(
+                            alignment: Alignment.center,
+                            child: Icon(Icons.view_list),
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Stack(
-                        children: <Widget>[
-                          RichText(
-                            text: TextSpan(
-                              children: <TextSpan>[
-                                TextSpan(
-                                  text: "Dog Breeds",
-                                  style: TextStyle(
-                                      fontFamily: 'Roboto',
-                                      fontSize: 35.0,
-                                      color: Colors.white),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Transform.translate(
-                              offset: Offset(185.0, 16.0),
-                              child: StreamBuilder<int>(
-                                  stream: manager.breedCount,
-                                  builder: (context, snapshot) {
-                                    return Material(
-                                      color: Colors.transparent,
-                                      child: Text(
-                                        (snapshot.data ?? 0).toString(),
-                                        style: TextStyle(
-                                            fontSize: 22,
-                                            fontFamily: 'Roboto',
-                                            color: Colors.purpleAccent),
-                                      ),
-                                    );
-                                  }))
-                        ],
+              ),
+              Row(
+                children: <Widget>[
+                  Container(
+                    width: screenWidth,
+                    height: screenHeight * 0.12,
+                    child: Material(
+                      color: Colors.transparent,
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                            left: 20.0, right: 20.0, top: 20.0, bottom: 8.0),
+                        child: TextField(
+                          onChanged: (value) {
+                            // print("onChanged Searching for = " + value);
+                            // filterSearchResults(value);
+                            // setState(() {
+                            //  _querySring = value;
+                            //});
+                          },
+                          onSubmitted: (value) {
+                            setState(() {
+                              manager.listenToBreeeListStream(value);
+                              breedsStream = manager.filteredBreedList(value);
+                              letters.clear();
+                              _searchFlag = true;
+                              _selectedCount = 0;
+                              _selectedItem = -1;
+                              _page.value = 0;
+                              print("onSubmitted Searching for = " + value);
+                            });
+                          },
+                          autocorrect: false,
+                          controller: _editingController,
+                          decoration: InputDecoration(
+                              labelText: "Search",
+                              hintText: "Breed Name",
+                              prefixIcon: Icon(Icons.search),
+                              border: OutlineInputBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(12.0)))),
+                        ),
                       ),
-                      Row(
-                        children: <Widget>[
-                          GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                _isFilterVisible = !_isFilterVisible;
-                              });
-                            },
-                            child: Container(
-                              color: Colors.transparent,
-                              child: Icon(
-                                _isFilterVisible
-                                    ? Icons.expand_less
-                                    : Icons.expand_more,
-                                color: Colors.white,
-                                size: 30.0,
-                              ),
-                            ),
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              print("GestureDetector onTap");
-                              Navigator.of(context).push(_createRoute());
-                            },
-                            onDoubleTap: () {
-                              print("GestureDetector onDoubleTap");
-                              Navigator.of(context).push(_createRoute());
-                            },
-                            child: Align(
-                              alignment: Alignment.center,
-                              child: Icon(Icons.view_list),
-                            ),
-                          ),
-                        ],
+                    ),
+                  ),
+                ],
+              ),
+              AnimatedOpacity(
+                curve: Curves.fastOutSlowIn,
+                opacity: _isLetterIndexVisible ? 1.0 : 0.0,
+                duration: Duration(milliseconds: 500),
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                      left: 0.0, right: 0.0, top: 8.0, bottom: 8.0),
+                  child: Row(
+                    children: <Widget>[
+                      Container(
+                        height: 60,
+                        width: screenWidth,
+                        color: Colors.transparent,
+                        child: StreamBuilder<List<Letter>>(
+                            stream: lettersStream,
+                            builder: (context, snapshot) {
+                              letters = snapshot.data ?? [];
+                              // print("letters.length = " +
+                              //     letters.length.toString());
+                              // print(
+                              //     "breedLetterList snapshot.connectionState = " +
+                              //         snapshot.connectionState.toString());
+
+                              return ListView.builder(
+                                addAutomaticKeepAlives: true,
+                                scrollDirection: Axis.horizontal,
+                                physics: const AlwaysScrollableScrollPhysics(),
+                                itemCount: letters.length,
+                                itemBuilder: (context, int index) {
+                                  //  print("Letter " +
+                                  //      letters[index].letter_value +
+                                  //      " is " +
+                                  //      letters[index].letter_enabled.toString() +
+                                  //      ", _activeItem = " +
+                                  //      _activeItem.toString() +
+                                  //      ", _selectedItem = " +
+                                  //      _selectedItem.toString());
+                                  if (_searchFlag == true &&
+                                      letters[index].letter_enabled) {
+                                    _searchFlag = false;
+                                    _activeItem = index;
+                                  }
+                                  return LetterItem(
+                                    letter: letters[index],
+                                    currentIndex: index,
+                                    activeItem: _activeItem,
+                                    selectedItem: _selectedItem,
+                                    isFirstItem: index == 0 ? true : false,
+                                    isLastItem: index == letters.length - 1
+                                        ? true
+                                        : false,
+                                    onTapTap: () {
+                                      //print("onTapTap onTapTap");
+                                      onTapTap(index);
+                                    },
+                                  );
+                                },
+                              );
+                            }),
                       ),
                     ],
                   ),
                 ),
-                Row(
-                  children: <Widget>[
-                    Container(
-                      width: screenWidth,
-                      height: screenHeight * 0.1,
-                      child: Material(
-                        color: Colors.transparent,
-                        child: Padding(
-                          padding: const EdgeInsets.only(
-                              left: 20.0, right: 20.0, top: 10.0, bottom: 8.0),
-                          child: TextField(
-                            onChanged: (value) {
-                              // print("onChanged Searching for = " + value);
-                              // filterSearchResults(value);
-                              // setState(() {
-                              //  _querySring = value;
-                              //});
-                            },
-                            onSubmitted: (value) {
-                              setState(() {
-                                manager.listenToBreeeListStream(value);
-                                breedsStream = manager.filteredBreedList(value);
-                                letters.clear();
-                                _searchFlag = true;
-                                _selectedCount = 0;
-                                _selectedItem = -1;
-                                _page.value = 0;
-                                print("onSubmitted Searching for = " + value);
-                              });
-                            },
-                            autocorrect: false,
-                            controller: _editingController,
-                            decoration: InputDecoration(
-                                labelText: "Search",
-                                hintText: "Breed Name",
-                                prefixIcon: Icon(Icons.search),
-                                border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.all(
-                                        Radius.circular(12.0)))),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                AnimatedOpacity(
-                  curve: Curves.fastOutSlowIn,
-                  opacity: _isLetterIndexVisible ? 1.0 : 0.0,
-                  duration: Duration(milliseconds: 500),
-                  child: Padding(
-                    padding: const EdgeInsets.only(
-                        left: 0.0, right: 0.0, top: 8.0, bottom: 8.0),
-                    child: Row(
-                      children: <Widget>[
-                        Container(
-                          height: 60,
-                          width: screenWidth,
-                          color: Colors.transparent,
-                          child: StreamBuilder<List<Letter>>(
-                              stream: lettersStream,
-                              builder: (context, snapshot) {
-                                letters = snapshot.data ?? [];
-                                // print("letters.length = " +
-                                //     letters.length.toString());
-                                // print(
-                                //     "breedLetterList snapshot.connectionState = " +
-                                //         snapshot.connectionState.toString());
-
-                                return ListView.builder(
-                                  addAutomaticKeepAlives: true,
-                                  scrollDirection: Axis.horizontal,
-                                  physics:
-                                      const AlwaysScrollableScrollPhysics(),
-                                  itemCount: letters.length,
-                                  itemBuilder: (context, int index) {
-                                    //  print("Letter " +
-                                    //      letters[index].letter_value +
-                                    //      " is " +
-                                    //      letters[index].letter_enabled.toString() +
-                                    //      ", _activeItem = " +
-                                    //      _activeItem.toString() +
-                                    //      ", _selectedItem = " +
-                                    //      _selectedItem.toString());
-                                    if (_searchFlag == true &&
-                                        letters[index].letter_enabled) {
-                                      _searchFlag = false;
-                                      _activeItem = index;
-                                    }
-                                    return LetterItem(
-                                      letter: letters[index],
-                                      currentIndex: index,
-                                      activeItem: _activeItem,
-                                      selectedItem: _selectedItem,
-                                      isFirstItem: index == 0 ? true : false,
-                                      isLastItem: index == letters.length - 1
-                                          ? true
-                                          : false,
-                                      onTapTap: () {
-                                        //print("onTapTap onTapTap");
-                                        onTapTap(index);
-                                      },
-                                    );
+              ),
+              Row(
+                children: <Widget>[
+                  Container(
+                    height: screenWidth + screenWidth / 20,
+                    width: screenWidth,
+                    margin: const EdgeInsets.only(top: 0.0),
+                    child: NotificationListener<ScrollNotification>(
+                      onNotification: (ScrollNotification notification) {
+                        SchedulerBinding.instance.addPostFrameCallback((_) {
+                          if (mounted) {
+                            setState(() {
+                              _page.value = _controller.page;
+                              //print("controller.page = " + _controller.page.toString());
+                            });
+                          }
+                        });
+                      },
+                      child: StreamBuilder<List<Breed>>(
+                          stream: breedsStream,
+                          builder: (context, snapshot) {
+                            switch (snapshot.connectionState) {
+                              case ConnectionState.none:
+                              case ConnectionState.active:
+                              case ConnectionState.waiting:
+                                return Container(
+                                    width: screenWidth,
+                                    height: screenHeight,
+                                    child: Center(
+                                        child: CircularProgressIndicator()));
+                              case ConnectionState.done:
+                                breeds = snapshot.data;
+                                return PageView.builder(
+                                  onPageChanged: (pos) {
+                                    HapticFeedback.lightImpact();
+                                    //setState(() {
+                                    // if (_onPageChanged) {
+                                    // print(
+                                    //     "======== Postion = " + pos.toString());
+                                    String name = breeds[pos].dog_name;
+                                    // print("======== name = " + name);
+                                    //   int changeToItem = dogIndex.indexWhere(
+                                    //       (letter) => letter.value
+                                    //           .startsWith(searhLetter));
+                                    final Letter letter =
+                                        Letter(value: name.substring(0, 1));
+                                    final int index = letters.indexOf(letter);
+                                    _activeItem = index;
+                                    // }
+                                    //});
+                                  },
+                                  itemCount: (breeds == null) ? 0 : breeds.length,
+                                  controller: _controller,
+                                  itemBuilder:
+                                      (BuildContext context, int itemIndex) {
+                                    //print((_page.value - itemIndex).abs());
+                                    var scale = (1 -
+                                        (((_page.value - itemIndex).abs() * 0.1)
+                                            .clamp(0.0, 0.1)));
+                                    // print("_page.value = " +
+                                    //     _page.value.toString() +
+                                    //     ", itemIndex = " +
+                                    //     itemIndex.toString());
+                                    // print("scale = " +
+                                    //     scale.toString() +
+                                    //     ", " +
+                                    //     breeds[itemIndex].dog_name);
+                                    return DogCardSliver(
+                                        breed: breeds[itemIndex], scale: scale);
                                   },
                                 );
-                              }),
-                        ),
-                      ],
+                            }
+                          }),
                     ),
                   ),
-                ),
-                Row(
-                  children: <Widget>[
-                    Container(
-                      height: screenWidth + screenWidth / 20,
-                      width: screenWidth,
-                      margin: const EdgeInsets.only(top: 0.0),
-                      child: NotificationListener<ScrollNotification>(
-                        onNotification: (ScrollNotification notification) {
-                          SchedulerBinding.instance.addPostFrameCallback((_) {
-                            if (mounted) {
-                              setState(() {
-                                _page.value = _controller.page;
-                                //print("controller.page = " + _controller.page.toString());
-                              });
-                            }
-                          });
-                        },
-                        child: StreamBuilder<List<Breed>>(
-                            stream: breedsStream,
-                            builder: (context, snapshot) {
-                              switch (snapshot.connectionState) {
-                                case ConnectionState.none:
-                                case ConnectionState.active:
-                                case ConnectionState.waiting:
-                                  return Container(
-                                      width: screenWidth,
-                                      height: screenHeight,
-                                      child: Center(
-                                          child: CircularProgressIndicator()));
-                                case ConnectionState.done:
-                                  breeds = snapshot.data;
-                                  return PageView.builder(
-                                    onPageChanged: (pos) {
-                                      HapticFeedback.lightImpact();
-                                      //setState(() {
-                                      // if (_onPageChanged) {
-                                      // print(
-                                      //     "======== Postion = " + pos.toString());
-                                      String name = breeds[pos].dog_name;
-                                      // print("======== name = " + name);
-                                      //   int changeToItem = dogIndex.indexWhere(
-                                      //       (letter) => letter.value
-                                      //           .startsWith(searhLetter));
-                                      final Letter letter =
-                                          Letter(value: name.substring(0, 1));
-                                      final int index = letters.indexOf(letter);
-                                      _activeItem = index;
-                                      // }
-                                      //});
-                                    },
-                                    itemCount:
-                                        (breeds == null) ? 0 : breeds.length,
-                                    controller: _controller,
-                                    itemBuilder:
-                                        (BuildContext context, int itemIndex) {
-                                      //print((_page.value - itemIndex).abs());
-                                      var scale = (1 -
-                                          (((_page.value - itemIndex).abs() *
-                                                  0.1)
-                                              .clamp(0.0, 0.1)));
-                                      // print("_page.value = " +
-                                      //     _page.value.toString() +
-                                      //     ", itemIndex = " +
-                                      //     itemIndex.toString());
-                                      // print("scale = " +
-                                      //     scale.toString() +
-                                      //     ", " +
-                                      //     breeds[itemIndex].dog_name);
-                                      return DogCardSliver(
-                                          breed: breeds[itemIndex],
-                                          scale: scale);
-                                    },
-                                  );
-                              }
-                            }),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            //     }
-            //     return null; // unreachable
-            //   },
-            // )),
+                ],
+              ),
+            ],
           ),
         ),
       ],
@@ -576,7 +554,7 @@ class Filter extends StatelessWidget {
   Widget build(BuildContext context) {
     return AnimatedContainer(
       curve: Curves.fastOutSlowIn,
-      height: _isFilterVisible ? scrrenHeight / 1.4 : 0,
+      height: _isFilterVisible ? scrrenHeight * 0.8 : 0,
       duration: Duration(milliseconds: 500),
       child: Container(
         margin: EdgeInsets.only(left: 0.0, top: 2.0, right: 0.0, bottom: 2.0),

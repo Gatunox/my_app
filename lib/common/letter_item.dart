@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:my_app/model/letter_model.dart';
 import 'package:my_app/styles/colors.dart';
@@ -37,7 +38,7 @@ class LetterItem extends StatelessWidget {
       backgroundColor =
           currentIndex == activeItem ? darkerPurpleColor : foregroungColor45;
       borderColor =
-          currentIndex == selectedItem ? darkerPurpleColor : foregroungColor12;
+          currentIndex == selectedItem ? Colors.purple : foregroungColor12;
       textStyle = currentIndex == activeItem
           ? selectedListItemStyle
           : unselectedListItemStyle;
