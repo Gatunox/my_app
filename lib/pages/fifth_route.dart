@@ -13,11 +13,13 @@ class FifthRoute extends StatefulWidget {
 
 class _FifthRouteState extends State<FifthRoute>
     with SingleTickerProviderStateMixin {
-  final double expandedHeightFactor = 0.85;
-  final double collapsedHeightFactor = 0.50;
-
+  
   AnimationController _animationController;
   Animation<double> _heightFactorAnimation;
+
+  final double expandedHeightFactor = 0.90;
+  final double collapsedHeightFactor = 0.50;
+        double screenHeight = 0;
 
   bool isAnimationCompleted = false;
 
@@ -26,7 +28,7 @@ class _FifthRouteState extends State<FifthRoute>
     print("--- initState ---");
     super.initState();
     _animationController = AnimationController(
-        vsync: this, duration: const Duration(milliseconds: 400));
+        vsync: this, duration: const Duration(milliseconds: 500));
     _heightFactorAnimation =
         Tween<double>(begin: expandedHeightFactor, end: collapsedHeightFactor)
             .animate(_animationController)
@@ -68,14 +70,13 @@ class _FifthRouteState extends State<FifthRoute>
               color: Colors.black38),
         ),
         GestureDetector(
-          onTap: () {
-            onButtonPartTap();
-          },
+          onTap: onButtonPartTap,
+          onVerticalDragUpdate: onHandleVerticalUpdate,
+          onVerticalDragEnd: onHandleVerticalEnd,
           child: FractionallySizedBox(
             alignment: Alignment.bottomCenter,
             heightFactor: 1.05 - _heightFactorAnimation.value,
             child: Container(
-              //color: Colors.purple,
               decoration: BoxDecoration(
                   color: darkerPurpleColor,
                   borderRadius: BorderRadius.only(
@@ -89,8 +90,21 @@ class _FifthRouteState extends State<FifthRoute>
     );
   }
 
+  onHandleVerticalUpdate(DragUpdateDetails updateDetails){
+    double fractionDragged = updateDetails.primaryDelta / screenHeight;
+    _animationController.value = _animationController.value - 4 * fractionDragged;
+  }
+  onHandleVerticalEnd(DragEndDetails endDetails){
+    if (_animationController.value >= 0.4){
+      _animationController.forward();
+    } else {
+      _animationController.reverse();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: darkerPurpleColor,
       bottomNavigationBar: AppBottomBar(),
