@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/common/app_bottom_bar.dart';
+import 'package:my_app/common/image_page_view.dart';
 import 'package:my_app/styles/colors.dart';
 
 class FifthRoute extends StatefulWidget {
@@ -64,10 +65,7 @@ class _FifthRouteState extends State<FifthRoute>
         FractionallySizedBox(
           alignment: Alignment.topCenter,
           heightFactor: _heightFactorAnimation.value,
-          child: Image.asset("images/russell-terrier.jpg",
-              fit: BoxFit.cover,
-              colorBlendMode: BlendMode.hue,
-              color: Colors.black38),
+          child: ImagePageView(),
         ),
         GestureDetector(
           onTap: onButtonPartTap,
