@@ -76,7 +76,7 @@ class _FifthRouteState extends State<FifthRoute>
             heightFactor: 1.05 - _heightFactorAnimation.value,
             child: Container(
               decoration: BoxDecoration(
-                  color: darkerPurpleColor,
+                  color: Colors.white70,
                   borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(35.0),
                       topRight: Radius.circular(35.0))
