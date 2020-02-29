@@ -42,6 +42,7 @@ final Color whiteColor87 = Color(0xDEFFFFFF);
 
 
 final Color snowWhiteColor = Color(0xFFEEEEEE);
+final Color snowWhiteColor05 = Color(0x0FEEEEEE);
 final Color snowWhiteColor12 = Color(0x1FEEEEEE);
 final Color snowWhiteColor26 = Color(0x42EEEEEE);
 final Color snowWhiteColor38 = Color(0x61EEEEEE);

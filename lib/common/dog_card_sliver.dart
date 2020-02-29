@@ -65,7 +65,10 @@ class _DogCardState extends State<DogCardSliver>
               Image.network(widget.breed.https,
                   fit: BoxFit.cover,
                   colorBlendMode: BlendMode.hue,
-                  color: Colors.black38),
+                  color: Colors.black),
+              FadeInImage.memoryNetwork(
+                fit: BoxFit.cover,
+                  placeholder: kTransparentImage, image: widget.breed.https),
               // FadeInImage(
               //   fadeInDuration: Duration(milliseconds: 150),
               //   fit: BoxFit.cover,

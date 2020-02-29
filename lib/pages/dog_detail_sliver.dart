@@ -55,7 +55,7 @@ class _DogDetailPageState extends State<DogDetailSliver>
           angle: -0.3,
           child: Icon(
             Icons.pets,
-            color: Colors.white10,
+            color: snowWhiteColor05,
             size: screenWidth,
           ),
         ),
@@ -66,7 +66,7 @@ class _DogDetailPageState extends State<DogDetailSliver>
           angle: -0.7,
           child: Icon(
             Icons.pets,
-            color: Colors.white10,
+            color: snowWhiteColor05,
             size: screenWidth,
           ),
         ),
@@ -141,7 +141,7 @@ class _DogDetailPageState extends State<DogDetailSliver>
                           // bottomRight: Radius.circular(30.0)
                           ),
                       child: Material(
-                        color: darkerPurpleColor87,
+                        color: snowWhiteColor,
                         elevation: 0,
                         child: Container(
                           margin: const EdgeInsets.only(top: 2.0),
@@ -183,7 +183,7 @@ class _DogDetailPageState extends State<DogDetailSliver>
                                         style: TextStyle(
                                             fontFamily: 'Roboto',
                                             fontSize: 16.0,
-                                            color: Colors.white),
+                                            color: Colors.black),
                                       ),
                                     ],
                                   ),
@@ -202,7 +202,7 @@ class _DogDetailPageState extends State<DogDetailSliver>
                                                 ': ${widget.breed.rating} / 10',
                                             style: TextStyle(
                                                 fontSize: 14.0,
-                                                color: Colors.white),
+                                                color: Colors.black),
                                           ),
                                         ],
                                       ),

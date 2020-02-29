@@ -83,7 +83,7 @@ class _FifthRouteState extends State<FifthRoute>
             angle: -0.3,
             child: Icon(
               Icons.pets,
-              color: Colors.white10,
+              color: snowWhiteColor05,
               size: screenWidth,
             ),
           ),
@@ -94,7 +94,7 @@ class _FifthRouteState extends State<FifthRoute>
             angle: -0.7,
             child: Icon(
               Icons.pets,
-              color: Colors.white10,
+              color: snowWhiteColor05,
               size: screenWidth,
             ),
           ),

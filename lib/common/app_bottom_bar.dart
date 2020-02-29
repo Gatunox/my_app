@@ -6,7 +6,7 @@ class AppBottomBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-          color: darkerPurpleColor,
+          color: Colors.white,
           borderRadius: BorderRadius.only(
               topLeft: Radius.circular(35), topRight: Radius.circular(35))),
             padding: const EdgeInsets.only(bottom: 30, left: 24, right: 24, top:24),
@@ -14,11 +14,11 @@ class AppBottomBar extends StatelessWidget {
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          Icon(Icons.library_books, color: Colors.white),
-          Icon(Icons.search, color: Colors.white),
-          Icon(Icons.add, color: Colors.white),
-          Icon(Icons.alarm, color: Colors.white),
-          Icon(Icons.chat, color: Colors.white),
+          Icon(Icons.library_books, color: Colors.black),
+          Icon(Icons.search, color: Colors.black),
+          Icon(Icons.add, color: Colors.black),
+          Icon(Icons.alarm, color: Colors.black),
+          Icon(Icons.chat, color: Colors.black),
         ],
       ),
     );

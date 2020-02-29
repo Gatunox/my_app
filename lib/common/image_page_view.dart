@@ -27,7 +27,7 @@ class _ImagePageViewState extends State<ImagePageView>
     print("--- initState ---");
     super.initState();
     breedsStream = manager.filteredBreedList("");
-    _pageController =  PageController(initialPage: 0, viewportFraction: 0.99999);
+    _pageController = PageController(initialPage: 0, viewportFraction: 0.99999);
     _animationController = AnimationController(
         vsync: this, duration: const Duration(milliseconds: 500));
     ;
@@ -51,7 +51,12 @@ class _ImagePageViewState extends State<ImagePageView>
               return Container(
                   width: screenWidth,
                   height: screenHeight,
-                  child: Center(child: CircularProgressIndicator()));
+                  child: Center(
+                    child: CircularProgressIndicator(
+                      valueColor:
+                          new AlwaysStoppedAnimation<Color>(Colors.white),
+                    ),
+                  ));
             case ConnectionState.done:
               breeds = snapshot.data;
               return PageView.builder(
