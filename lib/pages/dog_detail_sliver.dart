@@ -135,10 +135,11 @@ class _DogDetailPageState extends State<DogDetailSliver>
                   alignment: Alignment.bottomLeft,
                   child: ClipRRect(
                       borderRadius: new BorderRadius.only(
-                          topLeft: Radius.circular(30.0),
-                          topRight: Radius.circular(30.0),
-                          bottomLeft: Radius.circular(30.0),
-                          bottomRight: Radius.circular(30.0)),
+                          topLeft: Radius.circular(35),
+                          topRight: Radius.circular(35),
+                          // bottomLeft: Radius.circular(30.0),
+                          // bottomRight: Radius.circular(30.0)
+                          ),
                       child: Material(
                         color: darkerPurpleColor87,
                         elevation: 0,
@@ -308,10 +309,11 @@ class MySliverAppBar extends SliverPersistentHeaderDelegate {
           },
           child: ClipRRect(
             borderRadius: new BorderRadius.only(
-                bottomLeft: const Radius.circular(30.0),
-                bottomRight: const Radius.circular(30),
-                topLeft: const Radius.circular(30),
-                topRight: const Radius.circular(30)),
+                bottomLeft: const Radius.circular(35),
+                bottomRight: const Radius.circular(35),
+                // topLeft: const Radius.circular(30),
+                // topRight: const Radius.circular(30)
+                ),
             child: Container(
               // child: FittedBox(
               //   fit: BoxFit.cover,
@@ -327,10 +329,11 @@ class MySliverAppBar extends SliverPersistentHeaderDelegate {
         ),
         ClipRRect(
           borderRadius: new BorderRadius.only(
-              bottomLeft: const Radius.circular(30.0),
-              bottomRight: const Radius.circular(30),
-              topLeft: const Radius.circular(30),
-              topRight: const Radius.circular(30)),
+              bottomLeft: const Radius.circular(35),
+              bottomRight: const Radius.circular(35),
+              // topLeft: const Radius.circular(30),
+              // topRight: const Radius.circular(30)
+              ),
           child: Container(
             decoration: BoxDecoration(
               // Box decoration takes a gradient
@@ -338,7 +341,7 @@ class MySliverAppBar extends SliverPersistentHeaderDelegate {
                 // Where the linear gradient begins and ends
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
-                stops: [0.0, 0.4],
+                stops: [0.0, 0.3],
                 // Add one stop for each color. Stops should increase from 0 to 1
                 colors: [
                   // Colors are easy thanks to Flutter's Colors class.

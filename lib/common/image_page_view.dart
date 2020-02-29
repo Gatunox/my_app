@@ -18,7 +18,7 @@ class _ImagePageViewState extends State<ImagePageView>
     with SingleTickerProviderStateMixin {
   Stream<List<Breed>> breedsStream;
   AnimationController _animationController;
-  PageController _controller;
+  PageController _pageController;
   ValueNotifier<double> _page = ValueNotifier<double>(0.0);
   BreadManager manager = BreadManager();
 
@@ -27,6 +27,7 @@ class _ImagePageViewState extends State<ImagePageView>
     print("--- initState ---");
     super.initState();
     breedsStream = manager.filteredBreedList("");
+    _pageController =  PageController(initialPage: 0, viewportFraction: 0.99999);
     _animationController = AnimationController(
         vsync: this, duration: const Duration(milliseconds: 500));
     ;
@@ -54,11 +55,12 @@ class _ImagePageViewState extends State<ImagePageView>
             case ConnectionState.done:
               breeds = snapshot.data;
               return PageView.builder(
+                pageSnapping: true,
                 onPageChanged: (pos) {
                   HapticFeedback.lightImpact();
                 },
                 itemCount: (breeds == null) ? 0 : breeds.length,
-                controller: _controller,
+                controller: _pageController,
                 itemBuilder: (BuildContext context, int itemIndex) {
                   return DogCardSliver(breed: breeds[itemIndex], scale: 1);
                 },

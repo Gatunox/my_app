@@ -6,7 +6,7 @@ class AppBottomBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-          color: Colors.purple,
+          color: darkerPurpleColor,
           borderRadius: BorderRadius.only(
               topLeft: Radius.circular(35), topRight: Radius.circular(35))),
             padding: const EdgeInsets.only(bottom: 30, left: 24, right: 24, top:24),

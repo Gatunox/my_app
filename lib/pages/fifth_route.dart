@@ -17,7 +17,7 @@ class _FifthRouteState extends State<FifthRoute>
   AnimationController _animationController;
   Animation<double> _heightFactorAnimation;
 
-  final double expandedHeightFactor = 0.80;
+  final double expandedHeightFactor = 0.88;
   final double collapsedHeightFactor = 0.50;
   double screenHeight = 0;
   double screenWidth = 0;
@@ -29,9 +29,9 @@ class _FifthRouteState extends State<FifthRoute>
     super.initState();
 
     _animationController = AnimationController(
-        vsync: this, duration: const Duration(milliseconds: 500));
+        vsync: this, duration: const Duration(milliseconds: 300));
     _heightFactorAnimation =
-        Tween<double>(begin: expandedHeightFactor, end: collapsedHeightFactor)
+        Tween<double>(begin: expandedHeightFactor, end: collapsedHeightFactor, )
             .animate(_animationController)
               ..addStatusListener((state) {
                 if (state == AnimationStatus.completed) {
@@ -101,7 +101,7 @@ class _FifthRouteState extends State<FifthRoute>
         ),
         FractionallySizedBox(
           alignment: Alignment.topCenter,
-          heightFactor: _heightFactorAnimation.value - 0.04,
+          heightFactor: _heightFactorAnimation.value - 0.129,
           child: ImagePageView(),
         ),
         GestureDetector(
@@ -110,10 +110,10 @@ class _FifthRouteState extends State<FifthRoute>
           onVerticalDragEnd: onHandleVerticalEnd,
           child: FractionallySizedBox(
             alignment: Alignment.bottomCenter,
-            heightFactor: 0.92 - _heightFactorAnimation.value,
+            heightFactor: 0.999 - _heightFactorAnimation.value,
             child: Container(
               decoration: BoxDecoration(
-                  color: darkerPurpleColor87,
+                  color: snowWhiteColor,
                   borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(35.0),
                       topRight: Radius.circular(35.0))),
@@ -145,7 +145,7 @@ class _FifthRouteState extends State<FifthRoute>
     return Stack(
       children: <Widget>[
         Scaffold(
-      backgroundColor: darkerPurpleColor87,
+      backgroundColor: snowWhiteColor,
           bottomNavigationBar: AppBottomBar(),
           body: AnimatedBuilder(
             animation: _animationController,

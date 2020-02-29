@@ -52,27 +52,61 @@ class _DogCardState extends State<DogCardSliver>
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: showDogDetailPage,
-          child: Padding(
-        padding: const EdgeInsets.only(bottom:0.0),
-        child: 
-        FadeInImage( fadeInDuration: Duration(milliseconds: 150),
-                      fit: BoxFit.cover,
-                      placeholder: AssetImage("images/paw.png"),
-                      image: 
-                      NetworkImage(widget.breed.https),
-                    ),
+      child: Padding(
+        padding: const EdgeInsets.only(bottom: 0.0),
+        child: ClipRRect(
+          borderRadius: new BorderRadius.only(
+            bottomLeft: const Radius.circular(35),
+            bottomRight: const Radius.circular(35),
+          ),
+          child: Stack(
+            fit: StackFit.expand,
+            children: <Widget>[
+              Image.network(widget.breed.https,
+                  fit: BoxFit.cover,
+                  colorBlendMode: BlendMode.hue,
+                  color: Colors.black38),
+              // FadeInImage(
+              //   fadeInDuration: Duration(milliseconds: 150),
+              //   fit: BoxFit.cover,
+              //   placeholder: AssetImage("images/paw.png"),
+              //   image: NetworkImage(widget.breed.https),
+              // ),
+              // ClipRRect(
+              //   borderRadius: new BorderRadius.only(
+              //     bottomLeft: const Radius.circular(35),
+              //     bottomRight: const Radius.circular(35),
+              //   ),
+              //   child: Container(
+              //     decoration: BoxDecoration(
+              //       // Box decoration takes a gradient
+              //       gradient: LinearGradient(
+              //         // Where the linear gradient begins and ends
+              //         begin: Alignment.topCenter,
+              //         end: Alignment.bottomCenter,
+              //         stops: [0.7, 1],
+              //         // Add one stop for each color. Stops should increase from 0 to 1
+              //         colors: [
+              //           // Colors are easy thanks to Flutter's Colors class.
+              //           Colors.transparent,
+              //           Colors.black38,
+              //         ],
+              //       ),
+              //     ),
+              //   ),
+              // ),
+            ],
+          ),
+        ),
       ),
     );
-    // return dogImage;
     return Card(
         elevation: 0,
         color: Colors.transparent,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(30.0),
         ),
-        child: Container(
-            color: Colors.transparent,
-            child: dogImage));
+        child: Container(color: Colors.transparent, child: dogImage));
   }
 
   showDogDetailPage() {
@@ -131,11 +165,11 @@ class _DogCardState extends State<DogCardSliver>
                     topLeft: const Radius.circular(30),
                     topRight: const Radius.circular(30)),
                 child: Container(
-                    child: FadeInImage(
-                      fit: BoxFit.cover,
-                      // placeholder: AssetImage("images/paw.png"),
-                      image: NetworkImage(widget.breed.https),
-                    ),
+                  child: FadeInImage(
+                    fit: BoxFit.cover,
+                    // placeholder: AssetImage("images/paw.png"),
+                    image: NetworkImage(widget.breed.https),
+                  ),
                 ),
               ),
             ),
@@ -191,8 +225,7 @@ class _DogCardState extends State<DogCardSliver>
   }
 
   Widget get dogImage {
-    var dogAvatar =
-        GestureDetector(
+    var dogAvatar = GestureDetector(
             onTap: () {
               showDogDetailPage();
             },
