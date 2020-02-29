@@ -60,9 +60,6 @@ class _ImagePageViewState extends State<ImagePageView>
                 itemCount: (breeds == null) ? 0 : breeds.length,
                 controller: _controller,
                 itemBuilder: (BuildContext context, int itemIndex) {
-                  // var scale = (1 -
-                  //     (((_page.value - itemIndex).abs() * 0.1)
-                  //         .clamp(0.0, 0.1)));
                   return DogCardSliver(breed: breeds[itemIndex], scale: 1);
                 },
               );

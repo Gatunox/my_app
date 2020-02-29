@@ -34,9 +34,8 @@ class _DogDetailPageState extends State<DogDetailSliver>
   Widget _buildAnimation(BuildContext context, Widget child) {
     final double screenWidth = MediaQuery.of(context).size.width;
     final double screenHeight = MediaQuery.of(context).size.height;
-    return Stack(children: <Widget>[
+    return Stack(fit: StackFit.expand, children: <Widget>[
       Container(
-        //Add box decoration
         width: screenWidth,
         height: screenHeight,
         decoration: BoxDecoration(
@@ -46,12 +45,12 @@ class _DogDetailPageState extends State<DogDetailSliver>
             begin: Alignment.centerLeft,
             end: Alignment.centerRight,
             // Add one stop for each color. Stops should increase from 0 to 1
-            colors: [Colors.purple, darkerPurpleColor87],
+            colors: [backgroundColor, backgroundColor],
           ),
         ),
       ),
       Transform.translate(
-        offset: Offset(screenWidth * 0.2, 0),
+        offset: Offset(screenWidth * 0.2, -screenHeight * 0.30),
         child: Transform.rotate(
           angle: -0.3,
           child: Icon(
@@ -62,7 +61,7 @@ class _DogDetailPageState extends State<DogDetailSliver>
         ),
       ),
       Transform.translate(
-        offset: Offset(screenWidth * -0.2, screenHeight * 0.5),
+        offset: Offset(screenWidth * -0.2, screenHeight * 0.245),
         child: Transform.rotate(
           angle: -0.7,
           child: Icon(
@@ -141,7 +140,7 @@ class _DogDetailPageState extends State<DogDetailSliver>
                           bottomLeft: Radius.circular(30.0),
                           bottomRight: Radius.circular(30.0)),
                       child: Material(
-                        color: foregroungColor54,
+                        color: darkerPurpleColor87,
                         elevation: 0,
                         child: Container(
                           margin: const EdgeInsets.only(top: 2.0),

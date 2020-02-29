@@ -14,20 +14,20 @@ class FifthRoute extends StatefulWidget {
 
 class _FifthRouteState extends State<FifthRoute>
     with SingleTickerProviderStateMixin {
-  
   AnimationController _animationController;
   Animation<double> _heightFactorAnimation;
 
-  final double expandedHeightFactor = 0.90;
+  final double expandedHeightFactor = 0.80;
   final double collapsedHeightFactor = 0.50;
-        double screenHeight = 0;
+  double screenHeight = 0;
+  double screenWidth = 0;
 
   bool isAnimationCompleted = false;
 
   @override
   void initState() {
-    print("--- initState ---");
     super.initState();
+
     _animationController = AnimationController(
         vsync: this, duration: const Duration(milliseconds: 500));
     _heightFactorAnimation =
@@ -62,9 +62,46 @@ class _FifthRouteState extends State<FifthRoute>
     return Stack(
       fit: StackFit.expand,
       children: <Widget>[
+        Container(
+          //Add box decoration
+          width: screenWidth,
+          height: screenHeight,
+          decoration: BoxDecoration(
+            // Box decoration takes a gradient
+            gradient: LinearGradient(
+              // Where the linear gradient begins and ends
+              begin: Alignment.centerLeft,
+              end: Alignment.centerRight,
+              // Add one stop for each color. Stops should increase from 0 to 1
+              colors: [backgroundColor, backgroundColor],
+            ),
+          ),
+        ),
+        Transform.translate(
+          offset: Offset(screenWidth * 0.2, -screenHeight * 0.244),
+          child: Transform.rotate(
+            angle: -0.3,
+            child: Icon(
+              Icons.pets,
+              color: Colors.white10,
+              size: screenWidth,
+            ),
+          ),
+        ),
+        Transform.translate(
+          offset: Offset(screenWidth * -0.2, screenHeight * 0.30),
+          child: Transform.rotate(
+            angle: -0.7,
+            child: Icon(
+              Icons.pets,
+              color: Colors.white10,
+              size: screenWidth,
+            ),
+          ),
+        ),
         FractionallySizedBox(
           alignment: Alignment.topCenter,
-          heightFactor: _heightFactorAnimation.value,
+          heightFactor: _heightFactorAnimation.value - 0.04,
           child: ImagePageView(),
         ),
         GestureDetector(
@@ -73,14 +110,13 @@ class _FifthRouteState extends State<FifthRoute>
           onVerticalDragEnd: onHandleVerticalEnd,
           child: FractionallySizedBox(
             alignment: Alignment.bottomCenter,
-            heightFactor: 1.05 - _heightFactorAnimation.value,
+            heightFactor: 0.92 - _heightFactorAnimation.value,
             child: Container(
               decoration: BoxDecoration(
-                  color: Colors.white70,
+                  color: darkerPurpleColor87,
                   borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(35.0),
-                      topRight: Radius.circular(35.0))
-                  ),
+                      topRight: Radius.circular(35.0))),
             ),
           ),
         )
@@ -88,12 +124,14 @@ class _FifthRouteState extends State<FifthRoute>
     );
   }
 
-  onHandleVerticalUpdate(DragUpdateDetails updateDetails){
+  onHandleVerticalUpdate(DragUpdateDetails updateDetails) {
     double fractionDragged = updateDetails.primaryDelta / screenHeight;
-    _animationController.value = _animationController.value - 4 * fractionDragged;
+    _animationController.value =
+        _animationController.value - 4 * fractionDragged;
   }
-  onHandleVerticalEnd(DragEndDetails endDetails){
-    if (_animationController.value >= 0.4){
+
+  onHandleVerticalEnd(DragEndDetails endDetails) {
+    if (_animationController.value >= 0.4) {
       _animationController.forward();
     } else {
       _animationController.reverse();
@@ -102,17 +140,22 @@ class _FifthRouteState extends State<FifthRoute>
 
   @override
   Widget build(BuildContext context) {
+    screenWidth = MediaQuery.of(context).size.width;
     screenHeight = MediaQuery.of(context).size.height;
-    return Scaffold(
-      backgroundColor: darkerPurpleColor,
-      bottomNavigationBar: AppBottomBar(),
-      body: AnimatedBuilder(
-        animation: _animationController,
-        builder: (context, widget) {
-          print("Animation Called");
-          return getWidget();
-        },
-      ),
+    return Stack(
+      children: <Widget>[
+        Scaffold(
+      backgroundColor: darkerPurpleColor87,
+          bottomNavigationBar: AppBottomBar(),
+          body: AnimatedBuilder(
+            animation: _animationController,
+            builder: (context, widget) {
+              print("Animation Called");
+              return getWidget();
+            },
+          ),
+        ),
+      ],
     );
   }
 

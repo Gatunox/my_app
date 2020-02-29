@@ -9,7 +9,7 @@ class AppBottomBar extends StatelessWidget {
           color: Colors.purple,
           borderRadius: BorderRadius.only(
               topLeft: Radius.circular(35), topRight: Radius.circular(35))),
-            padding: const EdgeInsets.only(bottom: 32, left: 24, right: 24, top:24),
+            padding: const EdgeInsets.only(bottom: 30, left: 24, right: 24, top:24),
       child: Row(
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,

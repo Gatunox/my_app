@@ -2,7 +2,11 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 
 final Color backgroundColor = Color(0xFF1b202b);
+final Color backgroundColorLighter = Color(0xFF222222);
+final Color backgroundColorDarker = Color(0xFF1b1b1b);
 final Color foregroungColor = Color(0xFF3A3D37);
+final Color white08 = Color(0x08FFFFFF);
+
 final Color foregroungColor12 = Color(0x1F3A3D37);
 final Color foregroungColor26 = Color(0x423A3D37);
 final Color foregroungColor38 = Color(0x613A3D37);
@@ -22,7 +26,11 @@ final Color darkerPurpleColor26 = Color(0x42832d91);
 final Color darkerPurpleColor38 = Color(0x61832d91);
 final Color darkerPurpleColor45 = Color(0x73832d91);
 final Color darkerPurpleColor54 = Color(0x8A832d91);
-final Color darkerPurpleColor87 = Color(0xDD832d91);
+final Color darkerPurpleColor65 = Color(0x9F832d91);
+final Color darkerPurpleColor76 = Color(0xCA832d91);
+final Color darkerPurpleColor87 = Color(0xDE832d91);
+
+final Color sliderPurpleColor = Color(0xFF542762);
 final Color darkCardBackgoundColor = Color(0xFF292D30);
 
 final selectedListItemStyle = TextStyle(

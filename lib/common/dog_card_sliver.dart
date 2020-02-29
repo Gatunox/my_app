@@ -50,34 +50,29 @@ class _DogCardState extends State<DogCardSliver>
 
   @override
   Widget build(BuildContext context) {
-    final double scrrenWidth = MediaQuery.of(context).size.width;
-    final double scrrenHeight = MediaQuery.of(context).size.height;
-    timeDilation = 1.0;
-    //print("DogCardSliver build = " + widget.dog.name);
-    return Align(
-      alignment: Alignment.center,
-      child: Container(
-        child: Padding(
-          padding: const EdgeInsets.all(0.0),
-          child: Stack(
-            children: <Widget>[
-              Card(
-                  elevation: 0,
-                  color: Colors.transparent,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30.0),
-                  ),
-                  child: Container(
-                      color: Colors.transparent,
-                      width: (scrrenWidth) * widget.scale,
-                      height: (scrrenWidth) * widget.scale,
-                      child: dogImage)),
-            ],
-          ),
-        ),
+    return GestureDetector(
+      onTap: showDogDetailPage,
+          child: Padding(
+        padding: const EdgeInsets.only(bottom:0.0),
+        child: 
+        FadeInImage( fadeInDuration: Duration(milliseconds: 150),
+                      fit: BoxFit.cover,
+                      placeholder: AssetImage("images/paw.png"),
+                      image: 
+                      NetworkImage(widget.breed.https),
+                    ),
       ),
     );
-    //);
+    // return dogImage;
+    return Card(
+        elevation: 0,
+        color: Colors.transparent,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(30.0),
+        ),
+        child: Container(
+            color: Colors.transparent,
+            child: dogImage));
   }
 
   showDogDetailPage() {
@@ -122,34 +117,10 @@ class _DogCardState extends State<DogCardSliver>
   }
 
   Widget get dogImageContainer {
-    final double scrrenWidth = MediaQuery.of(context).size.width;
-    final double scrrenHeight = MediaQuery.of(context).size.height;
     try {
       return ClipRRect(
         borderRadius: new BorderRadius.circular(30.0),
         child: Stack(children: <Widget>[
-          // Hero(
-          //   tag: "dogImage" + _dog.id.toString(),
-          //   flightShuttleBuilder: (
-          //     BuildContext flightContext,
-          //     Animation<double> animation,
-          //     HeroFlightDirection flightDirection,
-          //     BuildContext fromHeroContext,
-          //     BuildContext toHeroContext,
-          //   ) {
-          //     final Hero toHero = toHeroContext.widget;
-          //     return ScaleTransition(
-          //       scale: animation.drive(
-          //         Tween<double>(begin: 0.0, end: 1.0).chain(
-          //           CurveTween(
-          //             curve: Interval(0.0, 1.0, curve: PeakQuadraticCurve()),
-          //           ),
-          //         ),
-          //       ),
-          //       child: toHero.child,
-          //     );
-          //   },
-          //  child:
           Container(
             child: Hero(
               tag: "dogImage" + widget.breed.id.toString(),
@@ -160,22 +131,15 @@ class _DogCardState extends State<DogCardSliver>
                     topLeft: const Radius.circular(30),
                     topRight: const Radius.circular(30)),
                 child: Container(
-                  width: (scrrenWidth / 1.1) * widget.scale,
-                  height: (scrrenWidth / 1.1) * widget.scale,
-                  // child: FittedBox(
-                  //   fit: BoxFit.cover,
                     child: FadeInImage(
                       fit: BoxFit.cover,
-                      placeholder: AssetImage("images/paw.png"),
+                      // placeholder: AssetImage("images/paw.png"),
                       image: NetworkImage(widget.breed.https),
                     ),
-                    // Image.network(widget.breed.https,),
-                  // ),
                 ),
               ),
             ),
           ),
-          //),
           Container(
             child: Hero(
               tag: "dogName" + widget.breed.name.toString(),
@@ -193,10 +157,10 @@ class _DogCardState extends State<DogCardSliver>
                         Flexible(
                           child: Container(
                             color: Colors.transparent,
-                            width: 300.0,
-                            height: 24.0,
+                            // width: 300.0,
+                            // height: 24.0,
                             child: FittedBox(
-                              fit: BoxFit.scaleDown,
+                              fit: BoxFit.cover,
                               child: Text(
                                 widget.breed.name,
                                 overflow: TextOverflow.ellipsis,
@@ -227,59 +191,14 @@ class _DogCardState extends State<DogCardSliver>
   }
 
   Widget get dogImage {
-    final double scrrenWidth = MediaQuery.of(context).size.width;
-    //print("dogImage = " + widget.dog.name + ' , ' + widget.dog.https);
     var dogAvatar =
-        //Hero(
-        // tag: "dogImage" + _dog.id.toString(),
-        // flightShuttleBuilder: (
-        //   BuildContext flightContext,
-        //   Animation<double> animation,
-        //   HeroFlightDirection flightDirection,
-        //   BuildContext fromHeroContext,
-        //   BuildContext toHeroContext,
-        // ) {
-        //   final Hero toHero = toHeroContext.widget;
-        //   return ScaleTransition(
-        //     scale: animation.drive(
-        //       Tween<double>(begin: 0.0, end: 1.0).chain(
-        //         CurveTween(
-        //           curve: Interval(0.0, 1.0, curve: PeakQuadraticCurve()),
-        //         ),
-        //       ),
-        //     ),
-        //     child: toHero.child,
-        //   );
-        // },
-        //child:
         GestureDetector(
             onTap: () {
               showDogDetailPage();
             },
             child: ClipRRect(
               borderRadius: new BorderRadius.circular(30.0),
-              child: Stack(children: <Widget>[
-                // Positioned(
-                //   child: Visibility(
-                //     visible: _isVisible,
-                //     child: Container(
-                //         width: (scrrenWidth / 1.1) * widget.scale,
-                //         height: (scrrenWidth / 1.1) * widget.scale,
-                //         child: Icon(
-                //           Icons.pets,
-                //           color: Colors.white,
-                //           size: 140.0,
-                //         ),
-                //         decoration: BoxDecoration(
-                //             shape: BoxShape.rectangle,
-                //             color: darkerPurpleColor,
-                //             borderRadius: BorderRadius.circular(30.0),
-                //             border:
-                //                 Border.all(width: 2.0, color: Colors.purple))),
-                //   ),
-                // ),
-                widget.breed.https == "" ? Container() : dogImageContainer,
-              ]),
+              child: widget.breed.https == "" ? Container() : dogImageContainer,
             ))
         //)
         ;
