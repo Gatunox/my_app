@@ -4,6 +4,7 @@ import 'package:my_app/manager/breed_manager.dart';
 import 'package:my_app/model/data.dart';
 import 'package:my_app/model/dog_model.dart';
 import 'package:my_app/common/dog_card_sliver.dart';
+import 'package:my_app/provider/provider.dart';
 
 class ImagePageView extends StatefulWidget {
   ImagePageView({Key key, this.title}) : super(key: key);
@@ -16,18 +17,22 @@ class ImagePageView extends StatefulWidget {
 
 class _ImagePageViewState extends State<ImagePageView>
     with SingleTickerProviderStateMixin {
-  Stream<List<Breed>> breedsStream;
+
+  // Stream<List<Breed>> breedsStream;
+
   AnimationController _animationController;
+  
   PageController _pageController;
-  ValueNotifier<double> _page = ValueNotifier<double>(0.0);
-  BreadManager manager = BreadManager();
+
+  // ValueNotifier<double> _page = ValueNotifier<double>(0.0);
+
+  // BreedManager local_manager = BreedManager();
 
   @override
   void initState() {
-    print("--- initState ---");
     super.initState();
-    breedsStream = manager.filteredBreedList("");
-    _pageController = PageController(initialPage: 0, viewportFraction: 0.99999);
+    // breedsStream = manager.filteredBreedList("");
+    _pageController = PageController(initialPage: 0, viewportFraction: 1);
     _animationController = AnimationController(
         vsync: this, duration: const Duration(milliseconds: 500));
     ;
@@ -35,6 +40,7 @@ class _ImagePageViewState extends State<ImagePageView>
 
   @override
   Widget build(BuildContext context) {
+    BreedManager manager = Provider.of(context);
     final double screenWidth = MediaQuery.of(context).size.width;
     final double screenHeight = MediaQuery.of(context).size.height;
     // return Image.asset("images/russell-terrier.jpg",
@@ -42,7 +48,7 @@ class _ImagePageViewState extends State<ImagePageView>
     //     colorBlendMode: BlendMode.hue,
     //     color: Colors.black38);
     return StreamBuilder<List<Breed>>(
-        stream: breedsStream,
+        stream: manager.filteredBreedList(""),
         builder: (context, snapshot) {
           switch (snapshot.connectionState) {
             case ConnectionState.none:
@@ -63,10 +69,14 @@ class _ImagePageViewState extends State<ImagePageView>
                 pageSnapping: true,
                 onPageChanged: (pos) {
                   HapticFeedback.lightImpact();
+                  print("Sink emited, "+ breeds[pos].name);
+                  manager.changeBreed(breeds[pos]);
+                  // print("Sink emited, "+ breeds[pos].name);
                 },
                 itemCount: (breeds == null) ? 0 : breeds.length,
                 controller: _pageController,
                 itemBuilder: (BuildContext context, int itemIndex) {
+                  // print("Sink emited, "+ breeds[itemIndex].name);
                   return DogCardSliver(breed: breeds[itemIndex], scale: 1);
                 },
               );
@@ -79,6 +89,7 @@ class _ImagePageViewState extends State<ImagePageView>
 
   @override
   void dispose() {
+    _pageController.dispose();
     _animationController.dispose();
     super.dispose();
   }

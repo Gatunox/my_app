@@ -75,29 +75,7 @@ class _DogCardState extends State<DogCardSliver>
               //   placeholder: AssetImage("images/paw.png"),
               //   image: NetworkImage(widget.breed.https),
               // ),
-              // ClipRRect(
-              //   borderRadius: new BorderRadius.only(
-              //     bottomLeft: const Radius.circular(35),
-              //     bottomRight: const Radius.circular(35),
-              //   ),
-              //   child: Container(
-              //     decoration: BoxDecoration(
-              //       // Box decoration takes a gradient
-              //       gradient: LinearGradient(
-              //         // Where the linear gradient begins and ends
-              //         begin: Alignment.topCenter,
-              //         end: Alignment.bottomCenter,
-              //         stops: [0.7, 1],
-              //         // Add one stop for each color. Stops should increase from 0 to 1
-              //         colors: [
-              //           // Colors are easy thanks to Flutter's Colors class.
-              //           Colors.transparent,
-              //           Colors.black38,
-              //         ],
-              //       ),
-              //     ),
-              //   ),
-              // ),
+             
             ],
           ),
         ),

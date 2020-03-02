@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:my_app/manager/breed_manager.dart';
+import 'package:my_app/provider/provider.dart';
 import 'package:my_app/styles/colors.dart';
 import 'package:my_app/model/dog_model.dart';
-import 'package:my_app/manager/breed_manager.dart';
 import 'package:my_app/model/data.dart';
 import 'package:my_app/common/dog_card.dart';
 
@@ -24,11 +25,12 @@ class _ThirdRouteState extends State<ForthRoute>
     print("initState");
     super.initState();
     // breeds = Breed.load();
-    breedsStream = BreadManager().breedList;
+    // breedsStream = BreadManager().breedList;
   }
 
   @override
   Widget build(BuildContext context) {
+    BreedManager manager = Provider.of(context);
     final double scrrenWidth = MediaQuery.of(context).size.width;
     final double scrrenHeight = MediaQuery.of(context).size.height;
     super.build(context);
@@ -54,7 +56,7 @@ class _ThirdRouteState extends State<ForthRoute>
           Container(
               padding: EdgeInsets.only(top: 0.0),
               child: StreamBuilder<List<Breed>>(
-                  stream: breedsStream,
+                  stream: manager.breedList,
                   builder: (context, snapshot) {
                     switch (snapshot.connectionState) {
                       case ConnectionState.none:

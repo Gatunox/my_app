@@ -26,7 +26,7 @@ class _ThirdRouteState extends State<ThirdRoute>
     print("ThirdRoute initState");
     super.initState();
     // breeds = Breed.load();
-    breedsStream = BreadManager().breedList;
+    breedsStream = BreedManager().breedList;
   }
 
   @override

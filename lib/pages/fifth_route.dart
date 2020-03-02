@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/common/app_bottom_bar.dart';
 import 'package:my_app/common/image_page_view.dart';
+import 'package:my_app/model/data.dart';
+import 'package:my_app/model/dog_model.dart';
+import 'package:my_app/provider/provider.dart';
 import 'package:my_app/styles/colors.dart';
+import 'package:my_app/manager/breed_manager.dart';
 
 class FifthRoute extends StatefulWidget {
   FifthRoute({Key key, this.title}) : super(key: key);
@@ -14,11 +18,15 @@ class FifthRoute extends StatefulWidget {
 
 class _FifthRouteState extends State<FifthRoute>
     with SingleTickerProviderStateMixin {
+  Stream<Breed> _breedStream;
+
+  // BreedManager manager = BreedManager();
+
   AnimationController _animationController;
   Animation<double> _heightFactorAnimation;
 
   final double expandedHeightFactor = 0.88;
-  final double collapsedHeightFactor = 0.50;
+  final double collapsedHeightFactor = 0.65;
   double screenHeight = 0;
   double screenWidth = 0;
 
@@ -28,22 +36,24 @@ class _FifthRouteState extends State<FifthRoute>
   void initState() {
     super.initState();
 
+    // _breedStream = manager.breedStream;
     _animationController = AnimationController(
         vsync: this, duration: const Duration(milliseconds: 300));
-    _heightFactorAnimation =
-        Tween<double>(begin: expandedHeightFactor, end: collapsedHeightFactor, )
-            .animate(_animationController)
-              ..addStatusListener((state) {
-                if (state == AnimationStatus.completed) {
-                  print("Animation completed");
-                } else if (state == AnimationStatus.dismissed) {
-                  print("Animation dismissed");
-                }
-              })
-              ..addListener(() {
-                print("value:${_heightFactorAnimation.value}");
-                //setState(() {});
-              });
+    _heightFactorAnimation = Tween<double>(
+      begin: expandedHeightFactor,
+      end: collapsedHeightFactor,
+    ).animate(_animationController)
+      ..addStatusListener((state) {
+        if (state == AnimationStatus.completed) {
+          print("Animation completed");
+        } else if (state == AnimationStatus.dismissed) {
+          print("Animation dismissed");
+        }
+      })
+      ..addListener(() {
+        print("value:${_heightFactorAnimation.value}");
+        //setState(() {});
+      });
     ;
   }
 
@@ -58,7 +68,59 @@ class _FifthRouteState extends State<FifthRoute>
     });
   }
 
-  Widget getWidget() {
+  Widget getWidget(BreedManager manager) {
+    var container = Container(
+
+        // child: Hero(
+        //     tag: "dogName" + breeds[0].name.toString(),
+        //     flightShuttleBuilder: (
+        //       BuildContext flightContext,
+        //       Animation<double> animation,
+        //       HeroFlightDirection flightDirection,
+        //       BuildContext fromHeroContext,
+        //       BuildContext toHeroContext,
+        //     ) {
+        //       return DefaultTextStyle(
+        //         style: DefaultTextStyle.of(toHeroContext).style,
+        //         child: toHeroContext.widget,
+        //       );
+        //     },
+        //     child: Padding(
+        //       padding: const EdgeInsets.only(
+        //           top: 0.0, bottom: 0.0, left: 0.0, right: 0.0),
+        //       child: Container(
+        //         child: Align(
+        //           alignment: Alignment.topCenter,
+        //           child: Material(
+        //             color: Colors.transparent,
+        //             child: Row(
+        //               crossAxisAlignment: CrossAxisAlignment.start,
+        //               mainAxisAlignment: MainAxisAlignment.center,
+        //               children: <Widget>[
+        //                 Container(
+        //                   color: Colors.transparent,
+        //                   child: FittedBox(
+        //                     fit: BoxFit.scaleDown,
+        //                     child: Text(
+        //                       breeds[0].name.toString(),
+        //                       overflow: TextOverflow.ellipsis,
+        //                       textAlign: TextAlign.center,
+        //                       style: TextStyle(
+        //                         color: Colors.black,
+        //                         fontWeight: FontWeight.w700,
+        //                         fontSize: 23,
+        //                       ),
+        //                     ),
+        //                   ),
+        //                 ),
+        //               ],
+        //             ),
+        //           ),
+        //         ),
+        //       ),
+        //     ),
+        // ),
+        );
     return Stack(
       fit: StackFit.expand,
       children: <Widget>[
@@ -71,7 +133,7 @@ class _FifthRouteState extends State<FifthRoute>
             gradient: LinearGradient(
               // Where the linear gradient begins and ends
               begin: Alignment.centerLeft,
-              end: Alignment.centerRight,
+              end: Alignment.centerRight, 
               // Add one stop for each color. Stops should increase from 0 to 1
               colors: [backgroundColor, backgroundColor],
             ),
@@ -117,6 +179,24 @@ class _FifthRouteState extends State<FifthRoute>
                   borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(35.0),
                       topRight: Radius.circular(35.0))),
+              child: StreamBuilder<Breed>(
+                  stream: manager.breedStream,
+                  builder: (context, snapshot) {
+                    print("snapshot.connectionState = " + snapshot.connectionState.toString());
+                    switch (snapshot.connectionState) {
+                      case ConnectionState.none:
+                      case ConnectionState.waiting:
+                        return Container();
+                      case ConnectionState.active:
+                        final breed = snapshot.data;
+                        print("Stream recived, " + breed.name);
+                        return Container();
+                      case ConnectionState.done:
+                        final breed = snapshot.data;
+                        print("Stream recived, " + breed.name);
+                        return Container();
+                    }
+                  }),
             ),
           ),
         )
@@ -140,18 +220,19 @@ class _FifthRouteState extends State<FifthRoute>
 
   @override
   Widget build(BuildContext context) {
+    BreedManager manager = Provider.of(context);
     screenWidth = MediaQuery.of(context).size.width;
     screenHeight = MediaQuery.of(context).size.height;
     return Stack(
       children: <Widget>[
         Scaffold(
-      backgroundColor: snowWhiteColor,
+          backgroundColor: snowWhiteColor,
           bottomNavigationBar: AppBottomBar(),
           body: AnimatedBuilder(
             animation: _animationController,
             builder: (context, widget) {
               print("Animation Called");
-              return getWidget();
+              return getWidget(manager);
             },
           ),
         ),

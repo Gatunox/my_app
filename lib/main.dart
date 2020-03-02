@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:my_app/manager/breed_manager.dart';
 //import 'package:my_app/pages/left_pane.dart';
 //import 'package:my_app/pages/center_pane.dart';
 //import 'package:my_app/pages/right_pane.dart';
@@ -9,6 +10,7 @@ import 'package:flutter/services.dart';
 import 'package:my_app/pages/third_route.dart';
 //import 'package:my_app/pages/forth_route.dart';
 import 'package:my_app/pages/fifth_route.dart';
+import 'package:my_app/provider/provider.dart';
 import 'package:my_app/styles/colors.dart';
 //import 'package:my_app/splash_route.dart';
 
@@ -33,42 +35,36 @@ class MyApp extends StatelessWidget {
       SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark.copyWith(
         systemNavigationBarColor: backgroundColor,
         statusBarIconBrightness: Brightness.dark,
-        statusBarBrightness: Brightness.dark, 
+        statusBarBrightness: Brightness.dark,
         statusBarColor: Colors.transparent, // Color for Android
       ));
     }
 
-    return MaterialApp(
-      title: 'Flutter Demo',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.grey,
-        brightness: Brightness.dark,
-        accentColor: Colors.purple,
-        pageTransitionsTheme: PageTransitionsTheme(builders: {
-          TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
-          TargetPlatform.android: CupertinoPageTransitionsBuilder(),
-        }),
+    return Provider(
+      data: BreedManager(),
+      child: MaterialApp(
+        title: 'Flutter Demo',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          primarySwatch: Colors.grey,
+          brightness: Brightness.dark,
+          accentColor: Colors.purple,
+          pageTransitionsTheme: PageTransitionsTheme(builders: {
+            TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
+            TargetPlatform.android: CupertinoPageTransitionsBuilder(),
+          }),
+        ),
+        routes: {
+          // When we navigate to the "/" route, build the FirstScreen Widget
+          '/': (context) => FifthRoute(title: 'Dos Breeds'),
+          // When we navigate to the "/second" route, build the SecondScreen Widget
+          // '/second': (context) => SecondRoute(),
+          '/third': (context) => ThirdRoute(title: 'We Rate Dogs'),
+          // '/forth': (context) => ForthRoute(),
+          // '/splash': (context) => SplashRoute(),
+          // '/fifth': (context) => FifthRoute(title: 'We Rate Dogs'),
+        },
       ),
-      routes: {
-        // When we navigate to the "/" route, build the FirstScreen Widget
-        '/': (context) => FifthRoute(title: 'Dos Breeds'),
-        // When we navigate to the "/second" route, build the SecondScreen Widget
-        // '/second': (context) => SecondRoute(),
-        '/third': (context) => ThirdRoute(title: 'We Rate Dogs'),
-        // '/forth': (context) => ForthRoute(),
-        // '/splash': (context) => SplashRoute(),
-        // '/fifth': (context) => FifthRoute(title: 'We Rate Dogs'),
-      },
     );
   }
 }
