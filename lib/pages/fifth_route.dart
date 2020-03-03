@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/common/app_bottom_bar.dart';
+import 'package:my_app/common/dog_name_bottom_bar.dart';
 import 'package:my_app/common/image_page_view.dart';
 import 'package:my_app/model/data.dart';
 import 'package:my_app/model/dog_model.dart';
@@ -69,58 +70,7 @@ class _FifthRouteState extends State<FifthRoute>
   }
 
   Widget getWidget(BreedManager manager) {
-    var container = Container(
-
-        // child: Hero(
-        //     tag: "dogName" + breeds[0].name.toString(),
-        //     flightShuttleBuilder: (
-        //       BuildContext flightContext,
-        //       Animation<double> animation,
-        //       HeroFlightDirection flightDirection,
-        //       BuildContext fromHeroContext,
-        //       BuildContext toHeroContext,
-        //     ) {
-        //       return DefaultTextStyle(
-        //         style: DefaultTextStyle.of(toHeroContext).style,
-        //         child: toHeroContext.widget,
-        //       );
-        //     },
-        //     child: Padding(
-        //       padding: const EdgeInsets.only(
-        //           top: 0.0, bottom: 0.0, left: 0.0, right: 0.0),
-        //       child: Container(
-        //         child: Align(
-        //           alignment: Alignment.topCenter,
-        //           child: Material(
-        //             color: Colors.transparent,
-        //             child: Row(
-        //               crossAxisAlignment: CrossAxisAlignment.start,
-        //               mainAxisAlignment: MainAxisAlignment.center,
-        //               children: <Widget>[
-        //                 Container(
-        //                   color: Colors.transparent,
-        //                   child: FittedBox(
-        //                     fit: BoxFit.scaleDown,
-        //                     child: Text(
-        //                       breeds[0].name.toString(),
-        //                       overflow: TextOverflow.ellipsis,
-        //                       textAlign: TextAlign.center,
-        //                       style: TextStyle(
-        //                         color: Colors.black,
-        //                         fontWeight: FontWeight.w700,
-        //                         fontSize: 23,
-        //                       ),
-        //                     ),
-        //                   ),
-        //                 ),
-        //               ],
-        //             ),
-        //           ),
-        //         ),
-        //       ),
-        //     ),
-        // ),
-        );
+    var container = Container();
     return Stack(
       fit: StackFit.expand,
       children: <Widget>[
@@ -133,7 +83,7 @@ class _FifthRouteState extends State<FifthRoute>
             gradient: LinearGradient(
               // Where the linear gradient begins and ends
               begin: Alignment.centerLeft,
-              end: Alignment.centerRight, 
+              end: Alignment.centerRight,
               // Add one stop for each color. Stops should increase from 0 to 1
               colors: [backgroundColor, backgroundColor],
             ),
@@ -163,7 +113,7 @@ class _FifthRouteState extends State<FifthRoute>
         ),
         FractionallySizedBox(
           alignment: Alignment.topCenter,
-          heightFactor: _heightFactorAnimation.value - 0.129,
+          heightFactor: _heightFactorAnimation.value,
           child: ImagePageView(),
         ),
         GestureDetector(
@@ -172,7 +122,7 @@ class _FifthRouteState extends State<FifthRoute>
           onVerticalDragEnd: onHandleVerticalEnd,
           child: FractionallySizedBox(
             alignment: Alignment.bottomCenter,
-            heightFactor: 0.999 - _heightFactorAnimation.value,
+            heightFactor: 1.02 - _heightFactorAnimation.value,
             child: Container(
               decoration: BoxDecoration(
                   color: snowWhiteColor,
@@ -182,19 +132,20 @@ class _FifthRouteState extends State<FifthRoute>
               child: StreamBuilder<Breed>(
                   stream: manager.breedStream,
                   builder: (context, snapshot) {
-                    print("snapshot.connectionState = " + snapshot.connectionState.toString());
+                    // print("snapshot.connectionState = " +
+                    //     snapshot.connectionState.toString());
                     switch (snapshot.connectionState) {
                       case ConnectionState.none:
                       case ConnectionState.waiting:
                         return Container();
                       case ConnectionState.active:
                         final breed = snapshot.data;
-                        print("Stream recived, " + breed.name);
-                        return Container();
+                        print("Stream recived in Active, " + breed.name);
+                        return DogNameBottomBar(breed: breed);
                       case ConnectionState.done:
                         final breed = snapshot.data;
-                        print("Stream recived, " + breed.name);
-                        return Container();
+                        print("Stream recived in Done, " + breed.name);
+                        return DogNameBottomBar(breed: breed);
                     }
                   }),
             ),

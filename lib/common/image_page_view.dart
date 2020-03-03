@@ -69,14 +69,14 @@ class _ImagePageViewState extends State<ImagePageView>
                 pageSnapping: true,
                 onPageChanged: (pos) {
                   HapticFeedback.lightImpact();
-                  print("Sink emited, "+ breeds[pos].name);
+                  print("Sink emited onPageChange, "+ breeds[pos].name);
                   manager.changeBreed(breeds[pos]);
-                  // print("Sink emited, "+ breeds[pos].name);
                 },
                 itemCount: (breeds == null) ? 0 : breeds.length,
                 controller: _pageController,
                 itemBuilder: (BuildContext context, int itemIndex) {
-                  // print("Sink emited, "+ breeds[itemIndex].name);
+                  print("Sink emited on itemBuilder, "+ breeds[itemIndex].name);
+                  manager.changeBreed(breeds[itemIndex]);
                   return DogCardSliver(breed: breeds[itemIndex], scale: 1);
                 },
               );
