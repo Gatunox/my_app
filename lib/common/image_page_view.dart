@@ -18,7 +18,7 @@ class ImagePageView extends StatefulWidget {
 class _ImagePageViewState extends State<ImagePageView>
     with SingleTickerProviderStateMixin {
 
-  // Stream<List<Breed>> breedsStream;
+  Stream<List<Breed>> breedsStream = null;
 
   AnimationController _animationController;
   
@@ -47,8 +47,9 @@ class _ImagePageViewState extends State<ImagePageView>
     //     fit: BoxFit.cover,
     //     colorBlendMode: BlendMode.hue,
     //     color: Colors.black38);
+    breedsStream  = breedsStream ?? manager.filteredBreedList("");
     return StreamBuilder<List<Breed>>(
-        stream: manager.filteredBreedList(""),
+        stream: breedsStream,
         builder: (context, snapshot) {
           switch (snapshot.connectionState) {
             case ConnectionState.none:
