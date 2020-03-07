@@ -35,8 +35,10 @@ class _DogDetailPageState extends State<DogDetailSliver>
   Widget _buildAnimation(BuildContext context, Widget child) {
     final double screenWidth = MediaQuery.of(context).size.width;
     final double screenHeight = MediaQuery.of(context).size.height;
+    print("screenHeight = " + screenHeight.toString());
     return Stack(fit: StackFit.expand, children: <Widget>[
       Container(
+        //Add box decoration
         width: screenWidth,
         height: screenHeight,
         decoration: BoxDecoration(
@@ -51,27 +53,27 @@ class _DogDetailPageState extends State<DogDetailSliver>
         ),
       ),
       Transform.translate(
-        offset: Offset(screenWidth * 0.2, -screenHeight * 0.2),
-        child: Transform.rotate(
-          angle: -0.3,
-          child: Icon(
-            Icons.pets,
-            color: Colors.white10,
-            size: screenWidth,
+          offset: Offset(screenWidth * 0.2, - (screenHeight - kBottomNavigationBarHeight) * 0.3),
+          child: Transform.rotate(
+            angle: -0.3,
+            child: Icon(
+              Icons.pets,
+              color: Colors.white12,
+              size: screenWidth,
+            ),
           ),
         ),
-      ),
-      Transform.translate(
-        offset: Offset(screenWidth * -0.2, screenHeight * 0.3),
-        child: Transform.rotate(
-          angle: -0.7,
-          child: Icon(
-            Icons.pets,
-            color: Colors.white10,
-            size: screenWidth,
+        Transform.translate(
+          offset: Offset(screenWidth * -0.2, (screenHeight - kBottomNavigationBarHeight) * 0.2),
+          child: Transform.rotate(
+            angle: -0.7,
+            child: Icon(
+              Icons.pets,
+              color: Colors.white10,
+              size: screenWidth,
+            ),
           ),
         ),
-      ),
       NestedScrollView(
         body: Column(
           children: <Widget>[
@@ -136,11 +138,11 @@ class _DogDetailPageState extends State<DogDetailSliver>
                   alignment: Alignment.bottomLeft,
                   child: ClipRRect(
                       borderRadius: new BorderRadius.only(
-                          topLeft: Radius.circular(35),
-                          topRight: Radius.circular(35),
-                          // bottomLeft: Radius.circular(30.0),
-                          // bottomRight: Radius.circular(30.0)
-                          ),
+                        topLeft: Radius.circular(35),
+                        topRight: Radius.circular(35),
+                        // bottomLeft: Radius.circular(30.0),
+                        // bottomRight: Radius.circular(30.0)
+                      ),
                       child: Material(
                         color: snowWhiteColor,
                         elevation: 0,
@@ -242,7 +244,8 @@ class _DogDetailPageState extends State<DogDetailSliver>
   Widget build(BuildContext context) {
     Future.delayed(const Duration(seconds: 1), () => executeAfterBuild());
     return new Scaffold(
-      bottomNavigationBar: AppBottomBar(),
+      backgroundColor: snowWhiteColor,
+
       body: new AnimatedBuilder(
         animation: _animation.controller,
         builder: _buildAnimation,
@@ -311,11 +314,11 @@ class MySliverAppBar extends SliverPersistentHeaderDelegate {
           },
           child: ClipRRect(
             borderRadius: new BorderRadius.only(
-                bottomLeft: const Radius.circular(35),
-                bottomRight: const Radius.circular(35),
-                // topLeft: const Radius.circular(30),
-                // topRight: const Radius.circular(30)
-                ),
+              bottomLeft: const Radius.circular(35),
+              bottomRight: const Radius.circular(35),
+              // topLeft: const Radius.circular(30),
+              // topRight: const Radius.circular(30)
+            ),
             child: Container(
               // child: FittedBox(
               //   fit: BoxFit.cover,
@@ -331,11 +334,11 @@ class MySliverAppBar extends SliverPersistentHeaderDelegate {
         ),
         ClipRRect(
           borderRadius: new BorderRadius.only(
-              bottomLeft: const Radius.circular(35),
-              bottomRight: const Radius.circular(35),
-              // topLeft: const Radius.circular(30),
-              // topRight: const Radius.circular(30)
-              ),
+            bottomLeft: const Radius.circular(35),
+            bottomRight: const Radius.circular(35),
+            // topLeft: const Radius.circular(30),
+            // topRight: const Radius.circular(30)
+          ),
           child: Container(
             decoration: BoxDecoration(
               // Box decoration takes a gradient

@@ -5,11 +5,13 @@ class AppBottomBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      width: MediaQuery.of(context).size.width,
+      height: kBottomNavigationBarHeight,
       decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.only(
               topLeft: Radius.circular(35), topRight: Radius.circular(35))),
-            padding: const EdgeInsets.only(bottom: 30, left: 24, right: 24, top:24),
+            padding: const EdgeInsets.only(bottom: 0, left: 24, right: 24, top:0),
       child: Row(
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
