@@ -70,7 +70,6 @@ class _FifthRouteState extends State<FifthRoute>
   }
 
   Widget getWidget(BreedManager manager) {
-    var container = Container();
     return Stack(
       fit: StackFit.expand,
       children: <Widget>[
@@ -90,7 +89,7 @@ class _FifthRouteState extends State<FifthRoute>
           ),
         ),
         Transform.translate(
-          offset: Offset(screenWidth * 0.2, -screenHeight * 0.244),
+          offset: Offset(screenWidth * 0.2, -screenHeight * 0.2),
           child: Transform.rotate(
             angle: -0.3,
             child: Icon(
@@ -101,7 +100,7 @@ class _FifthRouteState extends State<FifthRoute>
           ),
         ),
         Transform.translate(
-          offset: Offset(screenWidth * -0.2, screenHeight * 0.30),
+          offset: Offset(screenWidth * -0.2, screenHeight * 0.3),
           child: Transform.rotate(
             angle: -0.7,
             child: Icon(

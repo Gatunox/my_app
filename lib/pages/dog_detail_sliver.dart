@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:my_app/common/app_bottom_bar.dart';
 import 'package:my_app/common/dog_detail_enter_animations.dart';
 import 'package:my_app/model/dog_model.dart';
 import 'package:my_app/styles/colors.dart';
@@ -50,7 +51,7 @@ class _DogDetailPageState extends State<DogDetailSliver>
         ),
       ),
       Transform.translate(
-        offset: Offset(screenWidth * 0.2, -screenHeight * 0.30),
+        offset: Offset(screenWidth * 0.2, -screenHeight * 0.2),
         child: Transform.rotate(
           angle: -0.3,
           child: Icon(
@@ -61,7 +62,7 @@ class _DogDetailPageState extends State<DogDetailSliver>
         ),
       ),
       Transform.translate(
-        offset: Offset(screenWidth * -0.2, screenHeight * 0.245),
+        offset: Offset(screenWidth * -0.2, screenHeight * 0.3),
         child: Transform.rotate(
           angle: -0.7,
           child: Icon(
@@ -91,7 +92,7 @@ class _DogDetailPageState extends State<DogDetailSliver>
                 },
                 child: Padding(
                   padding: const EdgeInsets.only(
-                      top: 25.0, bottom: 0.0, left: 0.0, right: 0.0),
+                      top: 20.0, bottom: 0.0, left: 0.0, right: 0.0),
                   child: Container(
                     child: Align(
                       alignment: Alignment.bottomCenter,
@@ -223,7 +224,7 @@ class _DogDetailPageState extends State<DogDetailSliver>
           return <Widget>[
             SliverPersistentHeader(
               delegate: MySliverAppBar(
-                  expandedHeight: (screenHeight * 0.71), breed: _breed),
+                  expandedHeight: (screenHeight * 0.73), breed: _breed),
               pinned: false,
             ),
           ];
@@ -241,6 +242,7 @@ class _DogDetailPageState extends State<DogDetailSliver>
   Widget build(BuildContext context) {
     Future.delayed(const Duration(seconds: 1), () => executeAfterBuild());
     return new Scaffold(
+      bottomNavigationBar: AppBottomBar(),
       body: new AnimatedBuilder(
         animation: _animation.controller,
         builder: _buildAnimation,
