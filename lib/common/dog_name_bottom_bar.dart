@@ -44,7 +44,7 @@ class DogNameBottomBar extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          color: Colors.purpleAccent,
+                          color: Colors.white,
                           fontWeight: FontWeight.w700,
                           fontSize: 23,
                         ),

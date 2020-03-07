@@ -43,6 +43,7 @@ class _ImagePageViewState extends State<ImagePageView>
     BreedManager manager = Provider.of(context);
     final double screenWidth = MediaQuery.of(context).size.width;
     final double screenHeight = MediaQuery.of(context).size.height;
+    bool firstValueSet = false;
     // return Image.asset("images/russell-terrier.jpg",
     //     fit: BoxFit.cover,
     //     colorBlendMode: BlendMode.hue,
@@ -76,8 +77,11 @@ class _ImagePageViewState extends State<ImagePageView>
                 itemCount: (breeds == null) ? 0 : breeds.length,
                 controller: _pageController,
                 itemBuilder: (BuildContext context, int itemIndex) {
-                  print("Sink emited on itemBuilder, "+ breeds[itemIndex].name);
-                  manager.changeBreed(breeds[itemIndex]);
+                  if ( firstValueSet == false ) {
+                    firstValueSet = true;
+                    print("Sink emited on itemBuilder, " + breeds[itemIndex].name);
+                    manager.changeBreed(breeds[itemIndex]);
+                  }
                   return DogCardSliver(breed: breeds[itemIndex], scale: 1);
                 },
               );
