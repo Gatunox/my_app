@@ -25,10 +25,10 @@ class DogNameBottomBar extends StatelessWidget {
       },
       child: Padding(
         padding:
-            const EdgeInsets.only(top: 10.0, bottom: 0.0, left: 0.0, right: 0.0),
+            const EdgeInsets.only(top: 0.0, bottom: 0.0, left: 0.0, right: 0.0),
         child: Container(
           child: Align(
-            alignment: Alignment.topCenter,
+            alignment: Alignment.center,
             child: Material(
               color: Colors.transparent,
               child: Row(
@@ -44,7 +44,7 @@ class DogNameBottomBar extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          color: Colors.black,
+                          color: Colors.purpleAccent,
                           fontWeight: FontWeight.w700,
                           fontSize: 23,
                         ),

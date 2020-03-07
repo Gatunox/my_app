@@ -55,7 +55,7 @@ class _DogDetailPageState extends State<DogDetailSliver>
           angle: -0.3,
           child: Icon(
             Icons.pets,
-            color: snowWhiteColor05,
+            color: Colors.white10,
             size: screenWidth,
           ),
         ),
@@ -66,7 +66,7 @@ class _DogDetailPageState extends State<DogDetailSliver>
           angle: -0.7,
           child: Icon(
             Icons.pets,
-            color: snowWhiteColor05,
+            color: Colors.white10,
             size: screenWidth,
           ),
         ),

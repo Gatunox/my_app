@@ -26,8 +26,8 @@ class _FifthRouteState extends State<FifthRoute>
   AnimationController _animationController;
   Animation<double> _heightFactorAnimation;
 
-  final double expandedHeightFactor = 0.88;
-  final double collapsedHeightFactor = 0.65;
+  final double expandedHeightFactor = 0.80;
+  final double collapsedHeightFactor = 0.60;
   double screenHeight = 0;
   double screenWidth = 0;
 
@@ -95,7 +95,7 @@ class _FifthRouteState extends State<FifthRoute>
             angle: -0.3,
             child: Icon(
               Icons.pets,
-              color: snowWhiteColor05,
+              color: Colors.white10,
               size: screenWidth,
             ),
           ),
@@ -106,7 +106,7 @@ class _FifthRouteState extends State<FifthRoute>
             angle: -0.7,
             child: Icon(
               Icons.pets,
-              color: snowWhiteColor05,
+              color: Colors.white10,
               size: screenWidth,
             ),
           ),
@@ -122,32 +122,40 @@ class _FifthRouteState extends State<FifthRoute>
           onVerticalDragEnd: onHandleVerticalEnd,
           child: FractionallySizedBox(
             alignment: Alignment.bottomCenter,
-            heightFactor: 1.02 - _heightFactorAnimation.value,
-            child: Container(
-              decoration: BoxDecoration(
-                  color: snowWhiteColor,
-                  borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(35.0),
-                      topRight: Radius.circular(35.0))),
-              child: StreamBuilder<Breed>(
-                  stream: manager.breedStream,
-                  builder: (context, snapshot) {
-                    // print("snapshot.connectionState = " +
-                    //     snapshot.connectionState.toString());
-                    switch (snapshot.connectionState) {
-                      case ConnectionState.none:
-                      case ConnectionState.waiting:
-                        return Container();
-                      case ConnectionState.active:
-                        final breed = snapshot.data;
-                        print("Stream recived in Active, " + breed.name);
-                        return DogNameBottomBar(breed: breed);
-                      case ConnectionState.done:
-                        final breed = snapshot.data;
-                        print("Stream recived in Done, " + breed.name);
-                        return DogNameBottomBar(breed: breed);
-                    }
-                  }),
+            heightFactor: 1 - _heightFactorAnimation.value,
+            child: Column(
+              children: <Widget>[
+                Container(
+                    height: screenHeight * 0.10,
+                    child: StreamBuilder<Breed>(
+                        stream: manager.breedStream,
+                        builder: (context, snapshot) {
+                          // print("snapshot.connectionState = " +
+                          //     snapshot.connectionState.toString());
+                          switch (snapshot.connectionState) {
+                            case ConnectionState.none:
+                            case ConnectionState.waiting:
+                              return Container();
+                            case ConnectionState.active:
+                              final breed = snapshot.data;
+                              print("Stream recived in Active, " + breed.name);
+                              return DogNameBottomBar(breed: breed);
+                            case ConnectionState.done:
+                              final breed = snapshot.data;
+                              print("Stream recived in Done, " + breed.name);
+                              return DogNameBottomBar(breed: breed);
+                          }
+                        })),
+                Expanded(
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color: snowWhiteColor,
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(35.0),
+                            topRight: Radius.circular(35.0))),
+                  ),
+                ),
+              ],
             ),
           ),
         )
