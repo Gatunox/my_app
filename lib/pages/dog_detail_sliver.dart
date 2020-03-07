@@ -223,7 +223,7 @@ class _DogDetailPageState extends State<DogDetailSliver>
           return <Widget>[
             SliverPersistentHeader(
               delegate: MySliverAppBar(
-                  expandedHeight: (screenHeight / 1.5), breed: _breed),
+                  expandedHeight: (screenHeight * 0.71), breed: _breed),
               pinned: false,
             ),
           ];
