@@ -90,12 +90,12 @@ class _FifthRouteState extends State<FifthRoute>
           ),
         ),
         Transform.translate(
-          offset: Offset(screenWidth * 0.2, - (screenHeight + kBottomNavigationBarHeight + 20) * 0.3),
+          offset: Offset(screenWidth * 0.2, - (screenHeight + kBottomNavigationBarHeight) * 0.3),
           child: Transform.rotate(
             angle: -0.3,
             child: Icon(
               Icons.pets,
-              color: Colors.white12,
+              color: darkerPurpleColor26,
               size: screenWidth,
             ),
           ),
@@ -106,7 +106,7 @@ class _FifthRouteState extends State<FifthRoute>
             angle: -0.7,
             child: Icon(
               Icons.pets,
-              color: Colors.white10,
+              color: darkerPurpleColor26,
               size: screenWidth,
             ),
           ),
