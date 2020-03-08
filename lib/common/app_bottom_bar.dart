@@ -16,11 +16,11 @@ class AppBottomBar extends StatelessWidget {
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          Icon(Icons.library_books, color: Colors.black),
+          Icon(Icons.pets, color: Colors.black),
           Icon(Icons.search, color: Colors.black),
           Icon(Icons.add, color: Colors.black),
-          Icon(Icons.alarm, color: Colors.black),
-          Icon(Icons.chat, color: Colors.black),
+          Icon(Icons.share, color: Colors.black),
+          Icon(Icons.list, color: Colors.black),
         ],
       ),
     );

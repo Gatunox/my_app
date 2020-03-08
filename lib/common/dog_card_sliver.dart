@@ -59,9 +59,40 @@ class _DogCardState extends State<DogCardSliver>
             bottomLeft: const Radius.circular(35),
             bottomRight: const Radius.circular(35),
           ),
-          child: Stack(
+          child: 
+                  Hero(
+          // The same code, except the Dog property lives on the widget in this file.
+          tag: "dogImage" +  widget.breed.id.toString(),
+          flightShuttleBuilder: (
+            BuildContext flightContext,
+            Animation<double> animation,
+            HeroFlightDirection flightDirection,
+            BuildContext fromHeroContext,
+            BuildContext toHeroContext,
+          ) {
+            final Hero toHero = toHeroContext.widget;
+            return ScaleTransition(
+              scale: animation.drive(
+                Tween<double>(begin: 0.0, end: 1.0).chain(
+                  CurveTween(
+                    curve: Interval(0.0, 1.0, curve: PeakQuadraticCurve()),
+                  ),
+                ),
+              ),
+              child: toHero.child,
+            );
+          },
+          child: ClipRRect(
+            borderRadius: new BorderRadius.only(
+              bottomLeft: const Radius.circular(35),
+              bottomRight: const Radius.circular(35),
+              // topLeft: const Radius.circular(30),
+              // topRight: const Radius.circular(30)
+            ),
+            child: Stack(
             fit: StackFit.expand,
             children: <Widget>[
+              
               Image.network(widget.breed.https,
                   fit: BoxFit.cover,
                   colorBlendMode: BlendMode.hue,
@@ -78,6 +109,13 @@ class _DogCardState extends State<DogCardSliver>
              
             ],
           ),
+              // Image.network(widget.breed.https,),
+              // ),
+
+          ),
+        ),
+          
+          
         ),
       ),
     );
@@ -229,7 +267,6 @@ class PeakQuadraticCurve extends Curve {
   @override
   double transform(double t) {
     assert(t >= 0.0 && t <= 1.0);
-    return -15 * math.pow(t, 2) + 15 * t + 1;
-    //return -2 * math.pow(t, 1) + 2 * t + 1;
+    return -2 * math.pow(t, 1) + 2 * t + 1;
   }
 }

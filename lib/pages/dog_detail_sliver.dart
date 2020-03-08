@@ -271,7 +271,7 @@ class PeakQuadraticCurve extends Curve {
   double transform(double t) {
     assert(t >= 0.0 && t <= 1.0);
     return -2 * math.pow(t, 1) + 2 * t + 1;
-    //return -2 * math.pow(t, 2) + 2 * t + 1;
+
   }
 }
 
