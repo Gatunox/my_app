@@ -72,7 +72,7 @@ class _FifthRouteState extends State<FifthRoute>
   Widget getWidget(BreedManager manager) {
     print("screenWidth = " + screenWidth.toString());
     return Stack(
-      fit: StackFit.expand,
+      // fit: StackFit.expand,
       children: <Widget>[
         Container(
           //Add box decoration
@@ -90,74 +90,81 @@ class _FifthRouteState extends State<FifthRoute>
           ),
         ),
         Transform.translate(
-          offset: Offset(screenWidth * 0.2, - (screenHeight + kBottomNavigationBarHeight) * 0.3),
+          offset: Offset(screenWidth * 0.5, 0),
           child: Transform.rotate(
-            angle: -0.3,
+            angle: -0.0,
             child: Icon(
               Icons.pets,
-              color: darkerPurpleColor26,
-              size: screenWidth,
+              color: Colors.white10,
+              size: screenWidth * 0.9,
             ),
           ),
         ),
         Transform.translate(
-          offset: Offset(screenWidth * -0.2, (screenHeight + kBottomNavigationBarHeight + 20) * 0.2),
+          offset: Offset(screenWidth * -0.4, screenWidth * 0.5),
           child: Transform.rotate(
-            angle: -0.7,
+            angle: -0.0,
             child: Icon(
               Icons.pets,
-              color: darkerPurpleColor26,
-              size: screenWidth,
+              color: Colors.white10,
+              size: screenWidth * 0.9,
             ),
           ),
         ),
-        FractionallySizedBox(
-          alignment: Alignment.topCenter,
-          heightFactor: _heightFactorAnimation.value,
-          child: ImagePageView(),
-        ),
-        GestureDetector(
-          onTap: onButtonPartTap,
-          onVerticalDragUpdate: onHandleVerticalUpdate,
-          onVerticalDragEnd: onHandleVerticalEnd,
-          child: FractionallySizedBox(
-            alignment: Alignment.bottomCenter,
-            heightFactor: 1 - _heightFactorAnimation.value,
-            child: Column(
-              children: <Widget>[
-                Container(
-                    height: screenHeight * 0.10,
-                    child: StreamBuilder<Breed>(
-                        stream: manager.breedStream,
-                        builder: (context, snapshot) {
-                          // print("snapshot.connectionState = " +
-                          //     snapshot.connectionState.toString());
-                          switch (snapshot.connectionState) {
-                            case ConnectionState.none:
-                            case ConnectionState.waiting:
-                              return Container();
-                            case ConnectionState.active:
-                              final breed = snapshot.data;
-                              print("Stream recived in Active, " + breed.name);
-                              return DogNameBottomBar(breed: breed);
-                            case ConnectionState.done:
-                              final breed = snapshot.data;
-                              print("Stream recived in Done, " + breed.name);
-                              return DogNameBottomBar(breed: breed);
-                          }
-                        })),
-                Expanded(
-                  child: Container(
-                    decoration: BoxDecoration(
-                        color: snowWhiteColor,
-                        borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(35.0),
-                            topRight: Radius.circular(35.0))),
-                  ),
+        Stack(
+          fit: StackFit.expand,
+          children: <Widget>[
+            FractionallySizedBox(
+              alignment: Alignment.topCenter,
+              heightFactor: _heightFactorAnimation.value,
+              child: ImagePageView(),
+            ),
+            GestureDetector(
+              onTap: onButtonPartTap,
+              onVerticalDragUpdate: onHandleVerticalUpdate,
+              onVerticalDragEnd: onHandleVerticalEnd,
+              child: FractionallySizedBox(
+                alignment: Alignment.bottomCenter,
+                heightFactor: 1 - _heightFactorAnimation.value,
+                child: Column(
+                  children: <Widget>[
+                    Container(
+                        height: screenHeight * 0.10,
+                        child: StreamBuilder<Breed>(
+                            stream: manager.breedStream,
+                            builder: (context, snapshot) {
+                              // print("snapshot.connectionState = " +
+                              //     snapshot.connectionState.toString());
+                              switch (snapshot.connectionState) {
+                                case ConnectionState.none:
+                                case ConnectionState.waiting:
+                                  return Container();
+                                case ConnectionState.active:
+                                  final breed = snapshot.data;
+                                  print("Stream recived in Active, " +
+                                      breed.name);
+                                  return DogNameBottomBar(breed: breed);
+                                case ConnectionState.done:
+                                  final breed = snapshot.data;
+                                  print(
+                                      "Stream recived in Done, " + breed.name);
+                                  return DogNameBottomBar(breed: breed);
+                              }
+                            })),
+                    Expanded(
+                      child: Container(
+                        decoration: BoxDecoration(
+                            color: snowWhiteColor,
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(35.0),
+                                topRight: Radius.circular(35.0))),
+                      ),
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
-          ),
+          ],
         )
       ],
     );

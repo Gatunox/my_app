@@ -36,7 +36,7 @@ class _DogDetailPageState extends State<DogDetailSliver>
     final double screenWidth = MediaQuery.of(context).size.width;
     final double screenHeight = MediaQuery.of(context).size.height;
     print("screenHeight = " + screenHeight.toString());
-    return Stack(fit: StackFit.expand, children: <Widget>[
+    return Stack(children: <Widget>[
       Container(
         //Add box decoration
         width: screenWidth,
@@ -53,27 +53,27 @@ class _DogDetailPageState extends State<DogDetailSliver>
         ),
       ),
       Transform.translate(
-          offset: Offset(screenWidth * 0.2, -(screenHeight + kBottomNavigationBarHeight) * 0.3),
-          child: Transform.rotate(
-            angle: -0.3,
-            child: Icon(
-              Icons.pets,
-              color: darkerPurpleColor26,
-              size: screenWidth,
-            ),
+        offset: Offset(screenWidth * 0.5, 0),
+        child: Transform.rotate(
+          angle: -0.0,
+          child: Icon(
+            Icons.pets,
+            color: Colors.white10,
+            size: screenWidth * 0.9,
           ),
         ),
-        Transform.translate(
-          offset: Offset(screenWidth * -0.2, (screenHeight - kBottomNavigationBarHeight) * 0.2),
-          child: Transform.rotate(
-            angle: -0.7,
-            child: Icon(
-              Icons.pets,
-              color: darkerPurpleColor26,
-              size: screenWidth,
-            ),
+      ),
+      Transform.translate(
+        offset: Offset(screenWidth * -0.4, screenWidth * 0.5),
+        child: Transform.rotate(
+          angle: -0.0,
+          child: Icon(
+            Icons.pets,
+            color: Colors.white10,
+            size: screenWidth * 0.9,
           ),
         ),
+      ),
       NestedScrollView(
         body: Column(
           children: <Widget>[
@@ -245,7 +245,6 @@ class _DogDetailPageState extends State<DogDetailSliver>
     Future.delayed(const Duration(seconds: 1), () => executeAfterBuild());
     return new Scaffold(
       backgroundColor: snowWhiteColor,
-
       body: new AnimatedBuilder(
         animation: _animation.controller,
         builder: _buildAnimation,
@@ -271,7 +270,6 @@ class PeakQuadraticCurve extends Curve {
   double transform(double t) {
     assert(t >= 0.0 && t <= 1.0);
     return -2 * math.pow(t, 1) + 2 * t + 1;
-
   }
 }
 
@@ -320,16 +318,16 @@ class MySliverAppBar extends SliverPersistentHeaderDelegate {
               // topRight: const Radius.circular(30)
             ),
             child: Container(
-              // child: FittedBox(
-              //   fit: BoxFit.cover,
-              child: FadeInImage(
-                fit: BoxFit.cover,
-                placeholder: AssetImage("images/paw.png"),
-                image: NetworkImage(breed.https),
-              ),
-              // Image.network(widget.breed.https,),
-              // ),
-            ),
+                // child: FittedBox(
+                //   fit: BoxFit.cover,
+                // child: FadeInImage(
+                //   fit: BoxFit.cover,
+                //   placeholder: AssetImage("images/paw.png"),
+                //   image: NetworkImage(breed.https),
+                // ),
+                // Image.network(widget.breed.https,),
+                // ),
+                ),
           ),
         ),
         ClipRRect(
