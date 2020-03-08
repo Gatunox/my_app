@@ -26,7 +26,7 @@ class _FifthRouteState extends State<FifthRoute>
   AnimationController _animationController;
   Animation<double> _heightFactorAnimation;
 
-  final double expandedHeightFactor = 0.80;
+  final double expandedHeightFactor = 0.77;
   final double collapsedHeightFactor = 0.60;
   double screenHeight = 0;
   double screenWidth = 0;
