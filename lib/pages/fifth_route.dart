@@ -70,6 +70,7 @@ class _FifthRouteState extends State<FifthRoute>
   }
 
   Widget getWidget(BreedManager manager) {
+    print("screenHeight = " + screenHeight.toString());
     print("screenWidth = " + screenWidth.toString());
     return Stack(
       // fit: StackFit.expand,
@@ -90,24 +91,24 @@ class _FifthRouteState extends State<FifthRoute>
           ),
         ),
         Transform.translate(
-          offset: Offset(screenWidth * 0.5, 0),
+          offset: Offset(screenWidth * 0.6 * 0.5, -screenWidth * 0.1),
           child: Transform.rotate(
-            angle: -0.0,
+            angle: -0.2,
             child: Icon(
               Icons.pets,
               color: Colors.white10,
-              size: screenWidth * 0.9,
+              size: screenWidth,
             ),
           ),
         ),
         Transform.translate(
-          offset: Offset(screenWidth * -0.4, screenWidth * 0.5),
+          offset: Offset(-screenWidth * 0.6 * 0.5, screenHeight * 0.4),
           child: Transform.rotate(
-            angle: -0.0,
+            angle: -0.2,
             child: Icon(
               Icons.pets,
               color: Colors.white10,
-              size: screenWidth * 0.9,
+              size: screenWidth,
             ),
           ),
         ),

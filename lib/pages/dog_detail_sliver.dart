@@ -52,28 +52,28 @@ class _DogDetailPageState extends State<DogDetailSliver>
           ),
         ),
       ),
-      Transform.translate(
-        offset: Offset(screenWidth * 0.5, 0),
-        child: Transform.rotate(
-          angle: -0.0,
-          child: Icon(
-            Icons.pets,
-            color: Colors.white10,
-            size: screenWidth * 0.9,
+     Transform.translate(
+          offset: Offset(screenWidth * 0.6 * 0.5, -screenWidth * 0.1),
+          child: Transform.rotate(
+            angle: -0.2,
+            child: Icon(
+              Icons.pets,
+              color: Colors.white10,
+              size: screenWidth,
+            ),
           ),
         ),
-      ),
-      Transform.translate(
-        offset: Offset(screenWidth * -0.4, screenWidth * 0.5),
-        child: Transform.rotate(
-          angle: -0.0,
-          child: Icon(
-            Icons.pets,
-            color: Colors.white10,
-            size: screenWidth * 0.9,
+        Transform.translate(
+          offset: Offset(-screenWidth * 0.6 * 0.5, screenHeight * 0.4),
+          child: Transform.rotate(
+            angle: -0.2,
+            child: Icon(
+              Icons.pets,
+              color: Colors.white10,
+              size: screenWidth,
+            ),
           ),
         ),
-      ),
       NestedScrollView(
         body: Column(
           children: <Widget>[
@@ -318,16 +318,15 @@ class MySliverAppBar extends SliverPersistentHeaderDelegate {
               // topRight: const Radius.circular(30)
             ),
             child: Container(
-                // child: FittedBox(
-                //   fit: BoxFit.cover,
-                // child: FadeInImage(
-                //   fit: BoxFit.cover,
-                //   placeholder: AssetImage("images/paw.png"),
-                //   image: NetworkImage(breed.https),
-                // ),
-                // Image.network(widget.breed.https,),
-                // ),
+              child: FittedBox(
+                fit: BoxFit.cover,
+                child: FadeInImage(
+                  fit: BoxFit.cover,
+                  placeholder: AssetImage("images/paw.png"),
+                  image: NetworkImage(breed.https),
                 ),
+              ),
+            ),
           ),
         ),
         ClipRRect(
