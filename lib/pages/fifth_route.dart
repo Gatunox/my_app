@@ -26,7 +26,7 @@ class _FifthRouteState extends State<FifthRoute>
   AnimationController _animationController;
   Animation<double> _heightFactorAnimation;
 
-  final double expandedHeightFactor = 0.77;
+  final double expandedHeightFactor = 0.76;
   final double collapsedHeightFactor = 0.60;
   double screenHeight = 0;
   double screenWidth = 0;
@@ -70,8 +70,8 @@ class _FifthRouteState extends State<FifthRoute>
   }
 
   Widget getWidget(BreedManager manager) {
-    print("screenHeight = " + screenHeight.toString());
-    print("screenWidth = " + screenWidth.toString());
+    // print("screenHeight = " + screenHeight.toString());
+    // print("screenWidth = " + screenWidth.toString());
     return Stack(
       // fit: StackFit.expand,
       children: <Widget>[

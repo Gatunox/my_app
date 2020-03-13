@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:my_app/common/app_bottom_bar.dart';
@@ -36,6 +38,8 @@ class _DogDetailPageState extends State<DogDetailSliver>
     final double screenWidth = MediaQuery.of(context).size.width;
     final double screenHeight = MediaQuery.of(context).size.height;
     print("screenHeight = " + screenHeight.toString());
+    print("screenWidth = " + screenWidth.toString());
+    print("screenHeight * 0.25 = " + (screenHeight * 0.025).toString());
     return Stack(children: <Widget>[
       Container(
         //Add box decoration
@@ -52,28 +56,28 @@ class _DogDetailPageState extends State<DogDetailSliver>
           ),
         ),
       ),
-     Transform.translate(
-          offset: Offset(screenWidth * 0.6 * 0.5, -screenWidth * 0.1),
-          child: Transform.rotate(
-            angle: -0.2,
-            child: Icon(
-              Icons.pets,
-              color: Colors.white10,
-              size: screenWidth,
-            ),
+      Transform.translate(
+        offset: Offset(screenWidth * 0.6 * 0.5, -screenWidth * 0.1),
+        child: Transform.rotate(
+          angle: -0.2,
+          child: Icon(
+            Icons.pets,
+            color: Colors.white10,
+            size: screenWidth,
           ),
         ),
-        Transform.translate(
-          offset: Offset(-screenWidth * 0.6 * 0.5, screenHeight * 0.4),
-          child: Transform.rotate(
-            angle: -0.2,
-            child: Icon(
-              Icons.pets,
-              color: Colors.white10,
-              size: screenWidth,
-            ),
+      ),
+      Transform.translate(
+        offset: Offset(-screenWidth * 0.6 * 0.5, screenHeight * 0.4),
+        child: Transform.rotate(
+          angle: -0.2,
+          child: Icon(
+            Icons.pets,
+            color: Colors.white10,
+            size: screenWidth,
           ),
         ),
+      ),
       NestedScrollView(
         body: Column(
           children: <Widget>[
@@ -94,7 +98,7 @@ class _DogDetailPageState extends State<DogDetailSliver>
                 },
                 child: Padding(
                   padding: const EdgeInsets.only(
-                      top: 20.0, bottom: 0.0, left: 0.0, right: 0.0),
+                      top: 15.0, bottom: 0.0, left: 0.0, right: 0.0),
                   child: Container(
                     child: Align(
                       alignment: Alignment.bottomCenter,
@@ -133,7 +137,7 @@ class _DogDetailPageState extends State<DogDetailSliver>
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.only(
-                    top: 20.0, bottom: 0.0, left: 0.0, right: 0.0),
+                    top: 15.0, bottom: 0.0, left: 0.0, right: 0.0),
                 child: Align(
                   alignment: Alignment.bottomLeft,
                   child: ClipRRect(
@@ -223,13 +227,24 @@ class _DogDetailPageState extends State<DogDetailSliver>
           ],
         ),
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-          return <Widget>[
+          if (Platform.isAndroid) {
+            return <Widget>[
+              SliverPersistentHeader(
+                delegate: MySliverAppBar(
+                    expandedHeight: (screenHeight * 0.70), breed: _breed),
+                pinned: false,
+              ),
+            ];
+          }
+          if (Platform.isIOS){
+            return <Widget>[
             SliverPersistentHeader(
               delegate: MySliverAppBar(
-                  expandedHeight: (screenHeight * 0.70), breed: _breed),
+                  expandedHeight: (screenHeight * 0.73), breed: _breed),
               pinned: false,
             ),
           ];
+          }
         },
       ),
     ]);
@@ -343,12 +358,11 @@ class MySliverAppBar extends SliverPersistentHeaderDelegate {
                 // Where the linear gradient begins and ends
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
-                stops: [0.0, 0.3],
-                // Add one stop for each color. Stops should increase from 0 to 1
+                // stops: [0.0, 0.3],
                 colors: [
-                  // Colors are easy thanks to Flutter's Colors class.
-                  Colors.black38,
+                  Colors.black26,
                   Colors.transparent,
+                  Colors.black38
                 ],
               ),
             ),
