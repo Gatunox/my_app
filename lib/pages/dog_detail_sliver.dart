@@ -8,6 +8,7 @@ import 'package:my_app/model/dog_model.dart';
 import 'package:my_app/styles/colors.dart';
 import 'dart:math' as math;
 import 'dart:ui' as ui;
+import 'package:transparent_image/transparent_image.dart';
 
 class DogDetailSliver extends StatefulWidget {
   DogDetailSliver({Key key, this.breed, this.animation}) : super(key: key);
@@ -37,9 +38,9 @@ class _DogDetailPageState extends State<DogDetailSliver>
   Widget _buildAnimation(BuildContext context, Widget child) {
     final double screenWidth = MediaQuery.of(context).size.width;
     final double screenHeight = MediaQuery.of(context).size.height;
-    print("screenHeight = " + screenHeight.toString());
-    print("screenWidth = " + screenWidth.toString());
-    print("screenHeight * 0.25 = " + (screenHeight * 0.025).toString());
+    // print("screenHeight = " + screenHeight.toString());
+    // print("screenWidth = " + screenWidth.toString());
+    // print("screenHeight * 0.25 = " + (screenHeight * 0.025).toString());
     return Stack(children: <Widget>[
       Container(
         //Add box decoration
@@ -236,14 +237,14 @@ class _DogDetailPageState extends State<DogDetailSliver>
               ),
             ];
           }
-          if (Platform.isIOS){
+          if (Platform.isIOS) {
             return <Widget>[
-            SliverPersistentHeader(
-              delegate: MySliverAppBar(
-                  expandedHeight: (screenHeight * 0.72), breed: _breed),
-              pinned: false,
-            ),
-          ];
+              SliverPersistentHeader(
+                delegate: MySliverAppBar(
+                    expandedHeight: (screenHeight * 0.72), breed: _breed),
+                pinned: false,
+              ),
+            ];
           }
         },
       ),
@@ -297,77 +298,82 @@ class MySliverAppBar extends SliverPersistentHeaderDelegate {
   @override
   Widget build(
       BuildContext context, double shrinkOffset, bool overlapsContent) {
+    // print("MySliverAppBar - build");
     final double scrrenWidth = MediaQuery.of(context).size.width;
     final double scrrenHeight = MediaQuery.of(context).size.height;
+    bool _visible = true;
+    Image downloadImage = Image.network(breed.https,
+        fit: BoxFit.cover, colorBlendMode: BlendMode.hue, color: Colors.black);
     return Stack(
       fit: StackFit.expand,
       overflow: Overflow.visible,
       children: [
         Hero(
-          // The same code, except the Dog property lives on the widget in this file.
-          tag: "dogImage" + breed.id.toString(),
-          flightShuttleBuilder: (
-            BuildContext flightContext,
-            Animation<double> animation,
-            HeroFlightDirection flightDirection,
-            BuildContext fromHeroContext,
-            BuildContext toHeroContext,
-          ) {
-            final Hero toHero = toHeroContext.widget;
-            return ScaleTransition(
-              scale: animation.drive(
-                Tween<double>(begin: 0.0, end: 1.0).chain(
-                  CurveTween(
-                    curve: Interval(0.0, 1.0, curve: PeakQuadraticCurve()),
+            // The same code, except the Dog property lives on the widget in this file.
+            tag: "dogImage" + breed.id.toString(),
+            flightShuttleBuilder: (
+              BuildContext flightContext,
+              Animation<double> animation,
+              HeroFlightDirection flightDirection,
+              BuildContext fromHeroContext,
+              BuildContext toHeroContext,
+            ) {
+              final Hero toHero = toHeroContext.widget;
+              return ScaleTransition(
+                scale: animation.drive(
+                  Tween<double>(begin: 0.0, end: 1.0).chain(
+                    CurveTween(
+                      curve: Interval(0.0, 1.0, curve: PeakQuadraticCurve()),
+                    ),
                   ),
                 ),
+                child: toHero.child,
+              );
+            },
+            child: ClipRRect(
+              borderRadius: new BorderRadius.only(
+                bottomLeft: const Radius.circular(35),
+                bottomRight: const Radius.circular(35),
+                // topLeft: const Radius.circular(30),
+                // topRight: const Radius.circular(30)
               ),
-              child: toHero.child,
-            );
-          },
-          child: ClipRRect(
-            borderRadius: new BorderRadius.only(
-              bottomLeft: const Radius.circular(35),
-              bottomRight: const Radius.circular(35),
-              // topLeft: const Radius.circular(30),
-              // topRight: const Radius.circular(30)
-            ),
-            child: Container(
-              child: FittedBox(
-                fit: BoxFit.cover,
-                child: FadeInImage(
-                  fit: BoxFit.cover,
-                  placeholder: AssetImage("images/paw.png"),
-                  image: NetworkImage(breed.https),
-                ),
-              ),
-            ),
-          ),
-        ),
-        ClipRRect(
-          borderRadius: new BorderRadius.only(
-            bottomLeft: const Radius.circular(35),
-            bottomRight: const Radius.circular(35),
-            // topLeft: const Radius.circular(30),
-            // topRight: const Radius.circular(30)
-          ),
-          child: Container(
-            decoration: BoxDecoration(
-              // Box decoration takes a gradient
-              gradient: LinearGradient(
-                // Where the linear gradient begins and ends
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                // stops: [0.0, 0.3],
-                colors: [
-                  Colors.black26,
-                  Colors.transparent,
-                  Colors.black38
+              child: Stack(
+                fit: StackFit.expand,
+                children: <Widget>[
+                  downloadImage,
+                  FadeInImage.memoryNetwork(
+                      fit: BoxFit.cover,
+                      placeholder: kTransparentImage,
+                      image: breed.https),
+                  // FadeInImage(
+                  //   fadeInDuration: Duration(milliseconds: 150),
+                  //   fit: BoxFit.cover,
+                  //   placeholder: AssetImage("images/paw.png"),
+                  //   image: NetworkImage(widget.breed.https),
+                  // ),
+                  AnimatedOpacity(
+                    // If the widget is visible, animate to 0.0 (invisible).
+                    // If the widget is hidden, animate to 1.0 (fully visible).
+                    opacity: _visible ? 1.0 : 0.0,
+                    duration: Duration(milliseconds: 500),
+                    child: DecoratedBox(
+                      decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                              colors: [
+                            Colors.black26,
+                            Colors.transparent,
+                            Colors.black26
+                          ],
+                              begin: Alignment.bottomCenter,
+                              end: Alignment.topCenter)),
+                    ),
+                  )
                 ],
               ),
+              // Image.network(widget.breed.https,),
+              // ),
             ),
           ),
-        ),
         AppBar(
           iconTheme: IconThemeData(
             color: Colors.white, //change your color here

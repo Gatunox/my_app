@@ -27,6 +27,7 @@ class _DogCardState extends State<DogCardSliver>
   // bool _isVisible = true;
   String _renderUrl = "";
   AnimationController _controller;
+  bool _visible;
 
   @override
   void initState() {
@@ -37,7 +38,6 @@ class _DogCardState extends State<DogCardSliver>
     );
     _controller.reset();
     _controller.forward();
-
     //renderDogPic();
     //print("DogCardSliver initState");
   }
@@ -50,7 +50,7 @@ class _DogCardState extends State<DogCardSliver>
 
   @override
   Widget build(BuildContext context) {
-    bool _visible = false;
+    _visible = false;
     Image downloadImage = Image.network(widget.breed.https,
         fit: BoxFit.cover, colorBlendMode: BlendMode.hue, color: Colors.black);
     downloadImage.image.resolve(ImageConfiguration()).addListener(
@@ -59,7 +59,7 @@ class _DogCardState extends State<DogCardSliver>
           setState(() {
             _visible = !_visible;
           });
-          print('Networkimage is fully loaded and saved');
+          print('DogCardState - Networkimage is fully loaded and saved');
           // do something
         },
       ),
@@ -120,14 +120,14 @@ class _DogCardState extends State<DogCardSliver>
                     // If the widget is visible, animate to 0.0 (invisible).
                     // If the widget is hidden, animate to 1.0 (fully visible).
                     opacity: _visible ? 1.0 : 0.0,
-                    duration: Duration(milliseconds: 1000),
+                    duration: Duration(milliseconds: 500),
                     child: DecoratedBox(
                       decoration: BoxDecoration(
                           gradient: LinearGradient(
                               colors: [
                             Colors.black26,
                             Colors.transparent,
-                            Colors.black38
+                            Colors.black26
                           ],
                               begin: Alignment.bottomCenter,
                               end: Alignment.topCenter)),
@@ -154,6 +154,9 @@ class _DogCardState extends State<DogCardSliver>
   showDogDetailPage() {
     bool showDetail = widget.breed.https == "" ? false : true;
     if (showDetail) {
+      setState(() {
+        _visible = false;
+      });
       // setState(() {
       //   _isVisible = false;
       // });
