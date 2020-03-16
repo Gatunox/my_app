@@ -50,11 +50,15 @@ class _DogCardState extends State<DogCardSliver>
 
   @override
   Widget build(BuildContext context) {
+    bool _visible = false;
     Image downloadImage = Image.network(widget.breed.https,
         fit: BoxFit.cover, colorBlendMode: BlendMode.hue, color: Colors.black);
     downloadImage.image.resolve(ImageConfiguration()).addListener(
       ImageStreamListener(
         (info, call) {
+          setState(() {
+            _visible = !_visible;
+          });
           print('Networkimage is fully loaded and saved');
           // do something
         },
@@ -112,16 +116,22 @@ class _DogCardState extends State<DogCardSliver>
                   //   placeholder: AssetImage("images/paw.png"),
                   //   image: NetworkImage(widget.breed.https),
                   // ),
-                  DecoratedBox(
-                    decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                            colors: [
-                          Colors.black26,
-                          Colors.transparent,
-                          Colors.black38
-                        ],
-                            begin: Alignment.bottomCenter,
-                            end: Alignment.topCenter)),
+                  AnimatedOpacity(
+                    // If the widget is visible, animate to 0.0 (invisible).
+                    // If the widget is hidden, animate to 1.0 (fully visible).
+                    opacity: _visible ? 1.0 : 0.0,
+                    duration: Duration(milliseconds: 1000),
+                    child: DecoratedBox(
+                      decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                              colors: [
+                            Colors.black26,
+                            Colors.transparent,
+                            Colors.black38
+                          ],
+                              begin: Alignment.bottomCenter,
+                              end: Alignment.topCenter)),
+                    ),
                   )
                 ],
               ),
