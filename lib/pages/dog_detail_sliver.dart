@@ -84,22 +84,10 @@ class _DogDetailPageState extends State<DogDetailSliver>
           children: <Widget>[
             Container(
               child: Hero(
-                tag: "dogName" + widget.breed.name.toString(),
-                flightShuttleBuilder: (
-                  BuildContext flightContext,
-                  Animation<double> animation,
-                  HeroFlightDirection flightDirection,
-                  BuildContext fromHeroContext,
-                  BuildContext toHeroContext,
-                ) {
-                  return DefaultTextStyle(
-                    style: DefaultTextStyle.of(toHeroContext).style,
-                    child: toHeroContext.widget,
-                  );
-                },
+            tag: "dogName" + widget.breed.id.toString(),
                 child: Padding(
                   padding: const EdgeInsets.only(
-                      top: 15.0, bottom: 0.0, left: 0.0, right: 0.0),
+                      top: 15.0, bottom: 15.0, left: 0.0, right: 0.0),
                   child: Container(
                     child: Align(
                       alignment: Alignment.bottomCenter,
@@ -136,92 +124,77 @@ class _DogDetailPageState extends State<DogDetailSliver>
               ),
             ),
             Expanded(
-              child: Padding(
-                padding: const EdgeInsets.only(
-                    top: 15.0, bottom: 0.0, left: 0.0, right: 0.0),
-                child: Align(
-                  alignment: Alignment.bottomLeft,
-                  child: ClipRRect(
-                      borderRadius: new BorderRadius.only(
-                        topLeft: Radius.circular(35),
-                        topRight: Radius.circular(35),
-                        // bottomLeft: Radius.circular(30.0),
-                        // bottomRight: Radius.circular(30.0)
-                      ),
-                      child: Material(
-                        color: snowWhiteColor,
-                        elevation: 0,
-                        child: Container(
-                          margin: const EdgeInsets.only(top: 2.0),
-                          //height: 635,
-                          //width: scrrenWidth,
-                          decoration: BoxDecoration(
-                              color: Colors.transparent,
-                              shape: BoxShape.rectangle,
-                              borderRadius: BorderRadius.circular(30.0),
-                              border: Border.all(
-                                  width: 0.0, color: Colors.transparent)),
-                          child: Padding(
-                            // The class that controls padding is called 'EdgeInsets'
-                            // The EdgeInsets.only constructor is used to set
-                            // padding explicitly to each side of the child.
-                            padding: const EdgeInsets.only(
-                              top: 15.0,
-                              bottom: 10.0,
-                              left: 20.0,
-                            ),
-                            // Column is another layout widget -- like stack -- that
-                            // takes a list of widgets as children, and lays the
-                            // widgets out from top to bottom.
-                            child: Column(
-                              // These alignment properties function exactly like
-                              // CSS flexbox properties.
-                              // The main axis of a column is the vertical axis,
-                              // `MainAxisAlignment.spaceAround` is equivalent of
-                              // CSS's 'justify-content: space-around' in a vertically
-                              // laid out flexbox.
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: <Widget>[
-                                RichText(
-                                  text: TextSpan(
-                                    children: <TextSpan>[
-                                      TextSpan(
-                                        text: widget.breed.location,
-                                        style: TextStyle(
-                                            fontFamily: 'Roboto',
-                                            fontSize: 16.0,
-                                            color: Colors.black),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Row(
-                                  children: <Widget>[
-                                    Icon(
-                                      Icons.star,
-                                      color: Colors.purpleAccent,
-                                    ),
-                                    RichText(
-                                      text: TextSpan(
-                                        children: <TextSpan>[
-                                          TextSpan(
-                                            text:
-                                                ': ${widget.breed.rating} / 10',
-                                            style: TextStyle(
-                                                fontSize: 14.0,
-                                                color: Colors.black),
-                                          ),
-                                        ],
-                                      ),
-                                    )
-                                  ],
-                                )
-                              ],
-                            ),
+              child: Hero(
+                tag: "dogDetail" + widget.breed.id.toString(),
+                child: Container(
+                  margin: const EdgeInsets.only(top: 2.0),
+                  //height: 635,
+                  //width: scrrenWidth,
+                  decoration: BoxDecoration(
+                      color: snowWhiteColor,
+                      shape: BoxShape.rectangle,
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(35.0),
+                          topRight: Radius.circular(35.0)),
+                      border:
+                          Border.all(width: 0.0, color: Colors.transparent)),
+                  child: Padding(
+                    // The class that controls padding is called 'EdgeInsets'
+                    // The EdgeInsets.only constructor is used to set
+                    // padding explicitly to each side of the child.
+                    padding: const EdgeInsets.only(
+                      top: 15.0,
+                      bottom: 10.0,
+                      left: 20.0,
+                    ),
+                    // Column is another layout widget -- like stack -- that
+                    // takes a list of widgets as children, and lays the
+                    // widgets out from top to bottom.
+                    child: Column(
+                      // These alignment properties function exactly like
+                      // CSS flexbox properties.
+                      // The main axis of a column is the vertical axis,
+                      // `MainAxisAlignment.spaceAround` is equivalent of
+                      // CSS's 'justify-content: space-around' in a vertically
+                      // laid out flexbox.
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        RichText(
+                          text: TextSpan(
+                            children: <TextSpan>[
+                              TextSpan(
+                                text: widget.breed.location,
+                                style: TextStyle(
+                                    fontFamily: 'Roboto',
+                                    fontSize: 16.0,
+                                    color: Colors.black),
+                              ),
+                            ],
                           ),
                         ),
-                      )),
+                        Row(
+                          children: <Widget>[
+                            Icon(
+                              Icons.star,
+                              color: Colors.purpleAccent,
+                            ),
+                            RichText(
+                              text: TextSpan(
+                                children: <TextSpan>[
+                                  TextSpan(
+                                    text: ': ${widget.breed.rating} / 10',
+                                    style: TextStyle(
+                                        fontSize: 14.0, color: Colors.black),
+                                  ),
+                                ],
+                              ),
+                            )
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
                 ),
               ),
             ),
@@ -309,71 +282,71 @@ class MySliverAppBar extends SliverPersistentHeaderDelegate {
       overflow: Overflow.visible,
       children: [
         Hero(
-            // The same code, except the Dog property lives on the widget in this file.
-            tag: "dogImage" + breed.id.toString(),
-            flightShuttleBuilder: (
-              BuildContext flightContext,
-              Animation<double> animation,
-              HeroFlightDirection flightDirection,
-              BuildContext fromHeroContext,
-              BuildContext toHeroContext,
-            ) {
-              final Hero toHero = toHeroContext.widget;
-              return ScaleTransition(
-                scale: animation.drive(
-                  Tween<double>(begin: 0.0, end: 1.0).chain(
-                    CurveTween(
-                      curve: Interval(0.0, 1.0, curve: PeakQuadraticCurve()),
-                    ),
+          // The same code, except the Dog property lives on the widget in this file.
+          tag: "dogImage" + breed.id.toString(),
+          flightShuttleBuilder: (
+            BuildContext flightContext,
+            Animation<double> animation,
+            HeroFlightDirection flightDirection,
+            BuildContext fromHeroContext,
+            BuildContext toHeroContext,
+          ) {
+            final Hero toHero = toHeroContext.widget;
+            return ScaleTransition(
+              scale: animation.drive(
+                Tween<double>(begin: 0.0, end: 1.0).chain(
+                  CurveTween(
+                    curve: Interval(0.0, 1.0, curve: PeakQuadraticCurve()),
                   ),
                 ),
-                child: toHero.child,
-              );
-            },
-            child: ClipRRect(
-              borderRadius: new BorderRadius.only(
-                bottomLeft: const Radius.circular(35),
-                bottomRight: const Radius.circular(35),
-                // topLeft: const Radius.circular(30),
-                // topRight: const Radius.circular(30)
               ),
-              child: Stack(
-                fit: StackFit.expand,
-                children: <Widget>[
-                  downloadImage,
-                  FadeInImage.memoryNetwork(
-                      fit: BoxFit.cover,
-                      placeholder: kTransparentImage,
-                      image: breed.https),
-                  // FadeInImage(
-                  //   fadeInDuration: Duration(milliseconds: 150),
-                  //   fit: BoxFit.cover,
-                  //   placeholder: AssetImage("images/paw.png"),
-                  //   image: NetworkImage(widget.breed.https),
-                  // ),
-                  AnimatedOpacity(
-                    // If the widget is visible, animate to 0.0 (invisible).
-                    // If the widget is hidden, animate to 1.0 (fully visible).
-                    opacity: _visible ? 1.0 : 0.0,
-                    duration: Duration(milliseconds: 500),
-                    child: DecoratedBox(
-                      decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                              colors: [
-                            Colors.black26,
-                            Colors.transparent,
-                            Colors.black26
-                          ],
-                              begin: Alignment.bottomCenter,
-                              end: Alignment.topCenter)),
-                    ),
-                  )
-                ],
-              ),
-              // Image.network(widget.breed.https,),
-              // ),
+              child: toHero.child,
+            );
+          },
+          child: ClipRRect(
+            borderRadius: new BorderRadius.only(
+              bottomLeft: const Radius.circular(35),
+              bottomRight: const Radius.circular(35),
+              // topLeft: const Radius.circular(30),
+              // topRight: const Radius.circular(30)
             ),
+            child: Stack(
+              fit: StackFit.expand,
+              children: <Widget>[
+                downloadImage,
+                FadeInImage.memoryNetwork(
+                    fit: BoxFit.cover,
+                    placeholder: kTransparentImage,
+                    image: breed.https),
+                // FadeInImage(
+                //   fadeInDuration: Duration(milliseconds: 150),
+                //   fit: BoxFit.cover,
+                //   placeholder: AssetImage("images/paw.png"),
+                //   image: NetworkImage(widget.breed.https),
+                // ),
+                AnimatedOpacity(
+                  // If the widget is visible, animate to 0.0 (invisible).
+                  // If the widget is hidden, animate to 1.0 (fully visible).
+                  opacity: _visible ? 1.0 : 0.0,
+                  duration: Duration(milliseconds: 500),
+                  child: DecoratedBox(
+                    decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                            colors: [
+                          Colors.black26,
+                          Colors.transparent,
+                          Colors.black26
+                        ],
+                            begin: Alignment.bottomCenter,
+                            end: Alignment.topCenter)),
+                  ),
+                )
+              ],
+            ),
+            // Image.network(widget.breed.https,),
+            // ),
           ),
+        ),
         AppBar(
           iconTheme: IconThemeData(
             color: Colors.white, //change your color here

@@ -221,7 +221,7 @@ class _DogCardState extends State<DogCardSliver>
           ),
           Container(
             child: Hero(
-              tag: "dogName" + widget.breed.name.toString(),
+              tag: "dogName" + widget.breed.id.toString(),
               child: Align(
                 alignment: Alignment.bottomCenter,
                 child: Padding(
