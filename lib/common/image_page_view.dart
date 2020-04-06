@@ -16,7 +16,7 @@ class ImagePageView extends StatefulWidget {
 }
 
 class _ImagePageViewState extends State<ImagePageView>
-    with SingleTickerProviderStateMixin {
+    with SingleTickerProviderStateMixin, AutomaticKeepAliveClientMixin {
 
   Stream<List<Breed>> breedsStream = null;
 
@@ -28,22 +28,23 @@ class _ImagePageViewState extends State<ImagePageView>
 
   // BreedManager local_manager = BreedManager();
 
+  bool firstValueSet = false;
+
   @override
   void initState() {
     super.initState();
     // breedsStream = manager.filteredBreedList("");
-    _pageController = PageController(initialPage: 0, viewportFraction: 1);
+    _pageController = PageController(initialPage: 0, keepPage: true, viewportFraction: 1);
     _animationController = AnimationController(
         vsync: this, duration: const Duration(milliseconds: 500));
-    ;
   }
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     BreedManager manager = Provider.of(context);
     final double screenWidth = MediaQuery.of(context).size.width;
     final double screenHeight = MediaQuery.of(context).size.height;
-    bool firstValueSet = false;
     // return Image.asset("images/russell-terrier.jpg",
     //     fit: BoxFit.cover,
     //     colorBlendMode: BlendMode.hue,
@@ -73,6 +74,7 @@ class _ImagePageViewState extends State<ImagePageView>
                   HapticFeedback.lightImpact();
                   print("Sink emited onPageChange, "+ breeds[pos].name);
                   manager.changeBreed(breeds[pos]);
+                  
                 },
                 itemCount: (breeds == null) ? 0 : breeds.length,
                 controller: _pageController,

@@ -142,13 +142,13 @@ class _DogCardState extends State<DogCardSliver>
         ),
       ),
     );
-    return Card(
-        elevation: 0,
-        color: Colors.transparent,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(30.0),
-        ),
-        child: Container(color: Colors.transparent, child: dogImage));
+    // return Card(
+    //     elevation: 0,
+    //     color: Colors.transparent,
+    //     shape: RoundedRectangleBorder(
+    //       borderRadius: BorderRadius.circular(30.0),
+    //     ),
+    //     child: Container(color: Colors.transparent, child: dogImage));
   }
 
   showDogDetailPage() {
@@ -200,66 +200,66 @@ class _DogCardState extends State<DogCardSliver>
       return ClipRRect(
         borderRadius: new BorderRadius.circular(30.0),
         child: Stack(children: <Widget>[
-          Container(
-            child: Hero(
-              tag: "dogImage" + widget.breed.id.toString(),
-              child: ClipRRect(
-                borderRadius: new BorderRadius.only(
-                    bottomLeft: const Radius.circular(30.0),
-                    bottomRight: const Radius.circular(30),
-                    topLeft: const Radius.circular(30),
-                    topRight: const Radius.circular(30)),
-                child: Container(
-                  child: FadeInImage(
-                    fit: BoxFit.cover,
-                    // placeholder: AssetImage("images/paw.png"),
-                    image: NetworkImage(widget.breed.https),
-                  ),
-                ),
-              ),
-            ),
-          ),
-          Container(
-            child: Hero(
-              tag: "dogName" + widget.breed.id.toString(),
-              child: Align(
-                alignment: Alignment.bottomCenter,
-                child: Padding(
-                  padding: const EdgeInsets.only(
-                      left: 8.0, right: 8.0, top: 8.0, bottom: 8.0),
-                  child: Material(
-                    color: Colors.transparent,
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Flexible(
-                          child: Container(
-                            color: Colors.transparent,
-                            // width: 300.0,
-                            // height: 24.0,
-                            child: FittedBox(
-                              fit: BoxFit.cover,
-                              child: Text(
-                                widget.breed.name,
-                                overflow: TextOverflow.ellipsis,
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: 24,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
+          // Container(
+          //   child: Hero(
+          //     tag: "dogImage" + widget.breed.id.toString(),
+          //     child: ClipRRect(
+          //       borderRadius: new BorderRadius.only(
+          //           bottomLeft: const Radius.circular(30.0),
+          //           bottomRight: const Radius.circular(30),
+          //           topLeft: const Radius.circular(30),
+          //           topRight: const Radius.circular(30)),
+          //       child: Container(
+          //         child: FadeInImage(
+          //           fit: BoxFit.cover,
+          //           // placeholder: AssetImage("images/paw.png"),
+          //           image: NetworkImage(widget.breed.https),
+          //         ),
+          //       ),
+          //     ),
+          //   ),
+          // ),
+          // Container(
+          //   child: Hero(
+          //     tag: "dogName" + widget.breed.id.toString(),
+          //     child: Align(
+          //       alignment: Alignment.bottomCenter,
+          //       child: Padding(
+          //         padding: const EdgeInsets.only(
+          //             left: 80.0, right: 8.0, top: 8.0, bottom: 8.0),
+          //         child: Material(
+          //           color: Colors.transparent,
+          //           child: Row(
+          //             crossAxisAlignment: CrossAxisAlignment.start,
+          //             mainAxisAlignment: MainAxisAlignment.center,
+          //             children: <Widget>[
+          //               Flexible(
+          //                 child: Container(
+          //                   color: Colors.transparent,
+          //                   // width: 300.0,
+          //                   // height: 24.0,
+          //                   child: FittedBox(
+          //                     fit: BoxFit.cover,
+          //                     child: Text(
+          //                       widget.breed.name,
+          //                       overflow: TextOverflow.ellipsis,
+          //                       textAlign: TextAlign.center,
+          //                       style: TextStyle(
+          //                         color: Colors.white,
+          //                         fontWeight: FontWeight.w700,
+          //                         fontSize: 24,
+          //                       ),
+          //                     ),
+          //                   ),
+          //                 ),
+          //               ),
+          //             ],
+          //           ),
+          //         ),
+          //       ),
+          //     ),
+          //   ),
+          // ),
         ]),
       );
     } on Exception catch (_) {

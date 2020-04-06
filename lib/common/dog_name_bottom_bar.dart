@@ -11,18 +11,18 @@ class DogNameBottomBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Hero(
       tag: "dogName" + breed.name.toString(),
-      flightShuttleBuilder: (
-        BuildContext flightContext,
-        Animation<double> animation,
-        HeroFlightDirection flightDirection,
-        BuildContext fromHeroContext,
-        BuildContext toHeroContext,
-      ) {
-        return DefaultTextStyle(
-          style: DefaultTextStyle.of(toHeroContext).style,
-          child: toHeroContext.widget,
-        );
-      },
+      // flightShuttleBuilder: (
+      //   BuildContext flightContext,
+      //   Animation<double> animation,
+      //   HeroFlightDirection flightDirection,
+      //   BuildContext fromHeroContext,
+      //   BuildContext toHeroContext,
+      // ) {
+      //   return DefaultTextStyle(
+      //     style: DefaultTextStyle.of(toHeroContext).style,
+      //     child: toHeroContext.widget,
+      //   );
+      // },
       child: Padding(
         padding:
             const EdgeInsets.only(top: 0.0, bottom: 0.0, left: 0.0, right: 0.0),
