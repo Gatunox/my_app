@@ -133,15 +133,18 @@ class _FifthRouteState extends State<FifthRoute>
                       switch (snapshot.connectionState) {
                         case ConnectionState.none:
                         case ConnectionState.waiting:
-                          return Container();
+                          return EmptyBottomFraction(
+                              screenHeight: screenHeight);
                         case ConnectionState.active:
                           final breed = snapshot.data;
                           print("Stream recived in Active, " + breed.name);
-                          return BottomFraction(screenHeight: screenHeight, breed: breed);
+                          return BottomFraction(
+                              screenHeight: screenHeight, breed: breed);
                         case ConnectionState.done:
                           final breed = snapshot.data;
                           print("Stream recived in Done, " + breed.name);
-                          return BottomFraction(screenHeight: screenHeight, breed: breed);
+                          return BottomFraction(
+                              screenHeight: screenHeight, breed: breed);
                       }
                     }),
               ),
@@ -213,18 +216,46 @@ class BottomFraction extends StatelessWidget {
     return Column(
       children: <Widget>[
         Container(
-            height: screenHeight * 0.10,
-            child: DogNameBottomBar(breed: breed)),
+            height: screenHeight * 0.09, child: DogNameBottomBar(breed: breed)),
         Expanded(
           child: Hero(
             tag: "dogDetail" + breed.id.toString(),
-                      child: Container(
+            child: Container(
               decoration: BoxDecoration(
                   color: snowWhiteColor,
                   borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(35.0),
                       topRight: Radius.circular(35.0))),
             ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class EmptyBottomFraction extends StatelessWidget {
+  const EmptyBottomFraction({
+    Key key,
+    @required this.screenHeight,
+  }) : super(key: key);
+
+  final double screenHeight;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: <Widget>[
+        Container(
+          height: screenHeight * 0.10,
+        ),
+        Expanded(
+          child: Container(
+            decoration: BoxDecoration(
+                color: snowWhiteColor,
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(35.0),
+                    topRight: Radius.circular(35.0))),
           ),
         ),
       ],

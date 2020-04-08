@@ -6,7 +6,7 @@ class AppBottomBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: MediaQuery.of(context).size.width,
-      height: kBottomNavigationBarHeight,
+      height: kBottomNavigationBarHeight * 1.3,
       decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.only(
