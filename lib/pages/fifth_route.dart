@@ -19,22 +19,22 @@ class FifthRoute extends StatefulWidget {
 
 class _FifthRouteState extends State<FifthRoute>
     with SingleTickerProviderStateMixin {
-  
-  
   final double expandedHeightFactor = 0.76;
   final double collapsedHeightFactor = 0.60;
 
   Stream<Breed> _breedStream;
-  
+
   AnimationController _animationController;
   Animation<double> _heightFactorAnimation;
-  
+
   int _bottomBarSelectedItem = 0;
+  int _bottomBarPreviousSelectedItem = 0;
 
   double screenHeight = 0;
   double screenWidth = 0;
 
   bool isAnimationCompleted = false;
+  bool showSearhBottomBar = false;
 
   @override
   void initState() {
@@ -152,6 +152,16 @@ class _FifthRouteState extends State<FifthRoute>
                     }),
               ),
             ),
+            Positioned(
+              bottom: 0.0,
+              left: 0.0,
+              right: 0.0,
+              child: (showSearhBottomBar)
+                  ? SearchAppBottomBar(
+                      _onBottomNavBarTab, _bottomBarSelectedItem)
+                  : FullAppBottomBar(
+                      _onBottomNavBarTab, _bottomBarSelectedItem),
+            ),
           ],
         )
       ],
@@ -182,8 +192,8 @@ class _FifthRouteState extends State<FifthRoute>
       children: <Widget>[
         Scaffold(
           backgroundColor: snowWhiteColor,
-          bottomNavigationBar:
-              AppBottomBar(_onBottomNavBarTab, _bottomBarSelectedItem),
+          // bottomNavigationBar:
+          //     SearchAppBottomBar(_onBottomNavBarTab, _bottomBarSelectedItem),
           body: AnimatedBuilder(
             animation: _animationController,
             builder: (context, widget) {
@@ -196,10 +206,50 @@ class _FifthRouteState extends State<FifthRoute>
     );
   }
 
-  void _onBottomNavBarTab(int index) {
-    print("_onBottomNavBarTab pressed with value = " + index.toString());
+  void _onBottomNavBarTab(AppBottomBarOption option) {
+    print("_onBottomNavBarTab pressed with value = " + option.toString());
+
+    switch (option) {
+      case AppBottomBarOption.dog:
+        {
+          showSearhBottomBar = false;
+        }
+        break;
+      case AppBottomBarOption.search:
+        {
+          showSearhBottomBar = true;
+        }
+        break;
+      // case AppBottomBarOption.close:
+      //   {
+      //     showSearhBottomBar = false;
+      //     option = AppBottomBarOption.values[_bottomBarPreviousSelectedItem];
+      //   }
+      //   break;
+      case AppBottomBarOption.photo:
+        {
+          showSearhBottomBar = false;
+        }
+        break;
+      case AppBottomBarOption.share:
+        {
+          showSearhBottomBar = false;
+        }
+        break;
+      case AppBottomBarOption.list:
+        {
+          showSearhBottomBar = false;
+        }
+        break;
+      case AppBottomBarOption.none:
+        {
+          showSearhBottomBar = false;
+        }
+        break;
+    }
     setState(() {
-      _bottomBarSelectedItem = index;
+      _bottomBarPreviousSelectedItem = _bottomBarSelectedItem;
+      _bottomBarSelectedItem = option.index;
     });
   }
 

@@ -47,8 +47,8 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           primarySwatch: Colors.grey,
-          brightness: Brightness.dark,
-          accentColor: Colors.purple,
+          brightness: Brightness.light,
+          accentColor: Colors.black,
           pageTransitionsTheme: PageTransitionsTheme(builders: {
             TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
             TargetPlatform.android: CupertinoPageTransitionsBuilder(),

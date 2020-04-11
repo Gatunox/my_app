@@ -1,93 +1,240 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/styles/colors.dart';
 
-class AppBottomBar extends StatelessWidget {
-  final Function _callback;
-  final int _selectedItem;
+enum AppBottomBarOption { dog, search, photo, share, list, none }
 
-  double screenHeight = 0;
-  double screenWidth = 0;
+class FullAppBottomBar extends StatelessWidget {
+  final Function callback;
+  final int selectedItem;
 
-  AppBottomBar(this._callback, this._selectedItem);
+  FullAppBottomBar(this.callback, this.selectedItem);
 
   @override
   Widget build(BuildContext context) {
-    screenWidth = MediaQuery.of(context).size.width;
-    screenHeight = MediaQuery.of(context).size.height;
+    final double screenWidth = MediaQuery.of(context).size.width;
+    final double screenHeight = MediaQuery.of(context).size.height;
     return Container(
-      width: MediaQuery.of(context).size.width,
+      width: screenWidth,
       height: kBottomNavigationBarHeight * 1.3,
       decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.only(
               topLeft: Radius.circular(35), topRight: Radius.circular(35))),
-      padding: const EdgeInsets.only(bottom: 0, left: 24, right: 24, top: 0),
+      padding: const EdgeInsets.only(bottom: 0, left: 12, right: 12, top: 8),
       child: Row(
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           GestureDetector(
               onTap: () {
-                _callback(0);
+                callback(AppBottomBarOption.dog);
               },
               child: Container(
-                width: screenWidth  * 0.15,
-                height: screenWidth  * 0.15,
+                width: screenWidth * 0.15,
+                height: screenWidth * 0.15,
                 // color: Colors.grey,
                 child: Icon(Icons.pets,
-                    size: (_selectedItem == 0) ? 35 : 25,
-                    color: (_selectedItem == 0) ? Colors.black : Colors.black38),
+                    size: (selectedItem == 0) ? 35 : 25,
+                    color:
+                        (selectedItem == 0) ? Colors.black : Colors.black38),
               )),
           GestureDetector(
               onTap: () {
-                _callback(1);
+                callback(AppBottomBarOption.search);
               },
               child: Container(
-                width: screenWidth  * 0.15,
-                height: screenWidth  * 0.15,
+                width: screenWidth * 0.15,
+                height: screenWidth * 0.15,
                 // color: Colors.grey,
                 child: Icon(Icons.search,
-                    size: (_selectedItem == 1) ? 35 : 25,
-                    color: (_selectedItem == 1) ? Colors.black : Colors.black38),
+                    size: (selectedItem == 1) ? 35 : 25,
+                    color:
+                        (selectedItem == 1) ? Colors.black : Colors.black38),
               )),
           GestureDetector(
               onTap: () {
-                _callback(2);
+                callback(AppBottomBarOption.photo);
               },
               child: Container(
-                width: screenWidth  * 0.15,
-                height: screenWidth  * 0.15,
+                width: screenWidth * 0.15,
+                height: screenWidth * 0.15,
                 // color: Colors.grey,
                 child: Icon(Icons.camera_alt,
-                    size: (_selectedItem == 2) ? 35 : 25,
-                    color: (_selectedItem == 2) ? Colors.black : Colors.black38),
+                    size: (selectedItem == 2) ? 35 : 25,
+                    color:
+                        (selectedItem == 2) ? Colors.black : Colors.black38),
               )),
           GestureDetector(
               onTap: () {
-                _callback(3);
+                callback(AppBottomBarOption.share);
               },
               child: Container(
-                width: screenWidth  * 0.15,
-                height: screenWidth  * 0.15,
+                width: screenWidth * 0.15,
+                height: screenWidth * 0.15,
                 // color: Colors.grey,
                 child: Icon(Icons.share,
-                    size: (_selectedItem == 3) ? 35 : 25,
-                    color: (_selectedItem == 3) ? Colors.black : Colors.black38),
+                    size: (selectedItem == 3) ? 35 : 25,
+                    color:
+                        (selectedItem == 3) ? Colors.black : Colors.black38),
               )),
           GestureDetector(
               onTap: () {
-                _callback(4);
+                callback(AppBottomBarOption.list);
               },
               child: Container(
-                width: screenWidth  * 0.15,
-                height: screenWidth  * 0.15,
+                width: screenWidth * 0.15,
+                height: screenWidth * 0.15,
                 // color: Colors.grey,
                 child: Icon(Icons.list,
-                    size: (_selectedItem == 4) ? 35 : 25,
-                    color: (_selectedItem == 4) ? Colors.black : Colors.black38),
+                    size: (selectedItem == 4) ? 35 : 25,
+                    color:
+                        (selectedItem == 4) ? Colors.black : Colors.black38),
               )),
         ],
       ),
     );
+  }
+}
+
+class SearchAppBottomBar extends StatefulWidget {
+  SearchAppBottomBar(this.callback, this.selectedItem);
+
+  final Function callback;
+  final int selectedItem;
+
+  @override
+  _SearchAppBottomBarState createState() => _SearchAppBottomBarState();
+}
+
+class _SearchAppBottomBarState extends State<SearchAppBottomBar> {
+
+  TextEditingController _editingController = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    final double screenWidth = MediaQuery.of(context).size.width;
+    final double screenHeight = MediaQuery.of(context).size.height;
+    return Container(
+      width: screenWidth,
+      height: kBottomNavigationBarHeight * 2.15,
+      decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(35), topRight: Radius.circular(35))),
+      padding: const EdgeInsets.only(bottom: 0, left: 12, right: 12, top: 8),
+      child: Column(
+        children: <Widget>[
+          Row(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              // GestureDetector(
+              //     onTap: () {
+              //       widget.callback(AppBottomBarOption.close);
+              //     },
+              //     child: Container(
+              //       width: screenWidth * 0.10,
+              //       height: screenWidth * 0.15,
+              //       // color: Colors.grey,
+              //       child: Icon(Icons.close, size: 25, color: Colors.black),
+              //     )),
+              Container(
+                width: screenWidth * 0.92,
+                height: screenWidth * 0.12,
+                child: TextField(
+                  controller: _editingController,
+                  cursorColor: Colors.black,
+                  decoration: InputDecoration(
+                      prefixIcon: Icon(Icons.search, color: Colors.black),
+                      labelText: "Search",
+                      // hintText: "Dog's breed",
+                      labelStyle: new TextStyle(color: Colors.black),
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(20.0)))),
+                ),
+              ),
+            ],
+          ),
+          Row(
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          GestureDetector(
+              onTap: () {
+                widget.callback(AppBottomBarOption.dog);
+              },
+              child: Container(
+                width: screenWidth * 0.15,
+                height: screenWidth * 0.15,
+                // color: Colors.grey,
+                child: Icon(Icons.pets,
+                    size: (widget.selectedItem == 0) ? 35 : 25,
+                    color:
+                        (widget.selectedItem == 0) ? Colors.black : Colors.black38),
+              )),
+          GestureDetector(
+              onTap: () {
+                widget.callback(AppBottomBarOption.search);
+              },
+              child: Container(
+                width: screenWidth * 0.15,
+                height: screenWidth * 0.15,
+                // color: Colors.grey,
+                child: Icon(Icons.search,
+                    size: (widget.selectedItem == 1) ? 35 : 25,
+                    color:
+                        (widget.selectedItem == 1) ? Colors.black : Colors.black38),
+              )),
+          GestureDetector(
+              onTap: () {
+                widget.callback(AppBottomBarOption.photo);
+              },
+              child: Container(
+                width: screenWidth * 0.15,
+                height: screenWidth * 0.15,
+                // color: Colors.grey,
+                child: Icon(Icons.camera_alt,
+                    size: (widget.selectedItem == 2) ? 35 : 25,
+                    color:
+                        (widget.selectedItem == 2) ? Colors.black : Colors.black38),
+              )),
+          GestureDetector(
+              onTap: () {
+                widget.callback(AppBottomBarOption.share);
+              },
+              child: Container(
+                width: screenWidth * 0.15,
+                height: screenWidth * 0.15,
+                // color: Colors.grey,
+                child: Icon(Icons.share,
+                    size: (widget.selectedItem == 3) ? 35 : 25,
+                    color:
+                        (widget.selectedItem == 3) ? Colors.black : Colors.black38),
+              )),
+          GestureDetector(
+              onTap: () {
+                widget.callback(AppBottomBarOption.list);
+              },
+              child: Container(
+                width: screenWidth * 0.15,
+                height: screenWidth * 0.15,
+                // color: Colors.grey,
+                child: Icon(Icons.list,
+                    size: (widget.selectedItem == 4) ? 35 : 25,
+                    color:
+                        (widget.selectedItem == 4) ? Colors.black : Colors.black38),
+              )),
+        ],
+      )
+        ],
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    // Clean up the con troller when the widget is disposed.
+    _editingController.dispose();
+    super.dispose();
   }
 }
