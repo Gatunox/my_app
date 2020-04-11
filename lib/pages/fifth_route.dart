@@ -19,15 +19,18 @@ class FifthRoute extends StatefulWidget {
 
 class _FifthRouteState extends State<FifthRoute>
     with SingleTickerProviderStateMixin {
-  Stream<Breed> _breedStream;
-
-  // BreedManager manager = BreedManager();
-
-  AnimationController _animationController;
-  Animation<double> _heightFactorAnimation;
-
+  
+  
   final double expandedHeightFactor = 0.76;
   final double collapsedHeightFactor = 0.60;
+
+  Stream<Breed> _breedStream;
+  
+  AnimationController _animationController;
+  Animation<double> _heightFactorAnimation;
+  
+  int _bottomBarSelectedItem = 0;
+
   double screenHeight = 0;
   double screenWidth = 0;
 
@@ -171,6 +174,7 @@ class _FifthRouteState extends State<FifthRoute>
 
   @override
   Widget build(BuildContext context) {
+    print("build");
     BreedManager manager = Provider.of(context);
     screenWidth = MediaQuery.of(context).size.width;
     screenHeight = MediaQuery.of(context).size.height;
@@ -178,17 +182,25 @@ class _FifthRouteState extends State<FifthRoute>
       children: <Widget>[
         Scaffold(
           backgroundColor: snowWhiteColor,
-          bottomNavigationBar: AppBottomBar(),
+          bottomNavigationBar:
+              AppBottomBar(_onBottomNavBarTab, _bottomBarSelectedItem),
           body: AnimatedBuilder(
             animation: _animationController,
             builder: (context, widget) {
-              print("Animation Called");
+              // print("Animation Called");
               return getWidget(manager);
             },
           ),
         ),
       ],
     );
+  }
+
+  void _onBottomNavBarTab(int index) {
+    print("_onBottomNavBarTab pressed with value = " + index.toString());
+    setState(() {
+      _bottomBarSelectedItem = index;
+    });
   }
 
   @override
