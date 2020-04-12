@@ -19,7 +19,7 @@ class FifthRoute extends StatefulWidget {
 
 class _FifthRouteState extends State<FifthRoute>
     with SingleTickerProviderStateMixin {
-  final double expandedHeightFactor = 0.76;
+  final double expandedHeightFactor = 0.70;
   final double collapsedHeightFactor = 0.60;
 
   Stream<Breed> _breedStream;
