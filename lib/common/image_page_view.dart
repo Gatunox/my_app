@@ -7,9 +7,10 @@ import 'package:my_app/common/dog_card_sliver.dart';
 import 'package:my_app/provider/provider.dart';
 
 class ImagePageView extends StatefulWidget {
-  ImagePageView({Key key, this.title}) : super(key: key);
+  ImagePageView({Key key, this.title, this.query}) : super(key: key);
 
   final String title;
+  final String query;
 
   @override
   _ImagePageViewState createState() => _ImagePageViewState();
@@ -28,7 +29,7 @@ class _ImagePageViewState extends State<ImagePageView>
 
   // BreedManager local_manager = BreedManager();
 
-  bool firstValueSet = false;
+  bool _firstValueSet = false;
 
   @override
   void initState() {
@@ -49,7 +50,7 @@ class _ImagePageViewState extends State<ImagePageView>
     //     fit: BoxFit.cover,
     //     colorBlendMode: BlendMode.hue,
     //     color: Colors.black38);
-    breedsStream  = breedsStream ?? manager.filteredBreedList("");
+    breedsStream  = breedsStream ?? manager.filteredBreedList(widget.query);
     return StreamBuilder<List<Breed>>(
         stream: breedsStream,
         builder: (context, snapshot) {
@@ -79,8 +80,8 @@ class _ImagePageViewState extends State<ImagePageView>
                 itemCount: (breeds == null) ? 0 : breeds.length,
                 controller: _pageController,
                 itemBuilder: (BuildContext context, int itemIndex) {
-                  if ( firstValueSet == false ) {
-                    firstValueSet = true;
+                  if ( _firstValueSet == false ) {
+                    _firstValueSet = true;
                     print("Sink emited on itemBuilder, " + breeds[itemIndex].name);
                     manager.changeBreed(breeds[itemIndex]);
                   }
