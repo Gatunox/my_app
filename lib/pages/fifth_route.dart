@@ -22,7 +22,7 @@ class _FifthRouteState extends State<FifthRoute>
   final double expandedHeightFactor = 0.76;
   final double collapsedHeightFactor = 0.60;
 
-  Stream<Breed> _breedStream;
+  // Stream<Breed> _breedStream;
 
   AnimationController _animationController;
   Animation<double> _heightFactorAnimation;
@@ -30,11 +30,13 @@ class _FifthRouteState extends State<FifthRoute>
   int _bottomBarSelectedItem = 0;
   int _bottomBarPreviousSelectedItem = 0;
 
-  double screenHeight = 0;
-  double screenWidth = 0;
+  double _screenHeight = 0;
+  double _screenWidth = 0;
 
-  bool isAnimationCompleted = false;
-  bool showSearhBottomBar = false;
+  String _query = "";
+
+  bool _isAnimationCompleted = false;
+  bool _showSearhBottomBar = false;
 
   @override
   void initState() {
@@ -63,12 +65,12 @@ class _FifthRouteState extends State<FifthRoute>
 
   onButtonPartTap() {
     setState(() {
-      if (isAnimationCompleted) {
+      if (_isAnimationCompleted) {
         _animationController.reverse();
       } else {
         _animationController.forward();
       }
-      isAnimationCompleted = !isAnimationCompleted;
+      _isAnimationCompleted = !_isAnimationCompleted;
     });
   }
 
@@ -80,8 +82,8 @@ class _FifthRouteState extends State<FifthRoute>
       children: <Widget>[
         Container(
           //Add box decoration
-          width: screenWidth,
-          height: screenHeight,
+          width: _screenWidth,
+          height: _screenHeight,
           decoration: BoxDecoration(
             // Box decoration takes a gradient
             gradient: LinearGradient(
@@ -94,24 +96,24 @@ class _FifthRouteState extends State<FifthRoute>
           ),
         ),
         Transform.translate(
-          offset: Offset(screenWidth * 0.6 * 0.5, -screenWidth * 0.1),
+          offset: Offset(_screenWidth * 0.6 * 0.5, -_screenWidth * 0.1),
           child: Transform.rotate(
             angle: -0.2,
             child: Icon(
               Icons.pets,
               color: Colors.white10,
-              size: screenWidth,
+              size: _screenWidth,
             ),
           ),
         ),
         Transform.translate(
-          offset: Offset(-screenWidth * 0.6 * 0.5, screenHeight * 0.4),
+          offset: Offset(-_screenWidth * 0.6 * 0.5, _screenHeight * 0.4),
           child: Transform.rotate(
             angle: -0.2,
             child: Icon(
               Icons.pets,
               color: Colors.white10,
-              size: screenWidth,
+              size: _screenWidth,
             ),
           ),
         ),
@@ -121,7 +123,7 @@ class _FifthRouteState extends State<FifthRoute>
             FractionallySizedBox(
               alignment: Alignment.topCenter,
               heightFactor: _heightFactorAnimation.value,
-              child: ImagePageView(),
+              child: ImagePageView(query: _query),
             ),
             GestureDetector(
               onTap: onButtonPartTap,
@@ -137,17 +139,17 @@ class _FifthRouteState extends State<FifthRoute>
                         case ConnectionState.none:
                         case ConnectionState.waiting:
                           return EmptyBottomFraction(
-                              screenHeight: screenHeight);
+                              screenHeight: _screenHeight);
                         case ConnectionState.active:
                           final breed = snapshot.data;
                           print("Stream recived in Active, " + breed.name);
                           return BottomFraction(
-                              screenHeight: screenHeight, breed: breed);
+                              screenHeight: _screenHeight, breed: breed);
                         case ConnectionState.done:
                           final breed = snapshot.data;
                           print("Stream recived in Done, " + breed.name);
                           return BottomFraction(
-                              screenHeight: screenHeight, breed: breed);
+                              screenHeight: _screenHeight, breed: breed);
                       }
                     }),
               ),
@@ -156,8 +158,8 @@ class _FifthRouteState extends State<FifthRoute>
               bottom: 0.0,
               left: 0.0,
               right: 0.0,
-              child: (showSearhBottomBar)
-                  ? SearchAppBottomBar(
+              child: (_showSearhBottomBar)
+                  ? SearchAppBottomBar(_onSubmittedTextField,
                       _onBottomNavBarTab, _bottomBarSelectedItem)
                   : FullAppBottomBar(
                       _onBottomNavBarTab, _bottomBarSelectedItem),
@@ -169,7 +171,7 @@ class _FifthRouteState extends State<FifthRoute>
   }
 
   onHandleVerticalUpdate(DragUpdateDetails updateDetails) {
-    double fractionDragged = updateDetails.primaryDelta / screenHeight;
+    double fractionDragged = updateDetails.primaryDelta / _screenHeight;
     _animationController.value =
         _animationController.value - 4 * fractionDragged;
   }
@@ -186,8 +188,8 @@ class _FifthRouteState extends State<FifthRoute>
   Widget build(BuildContext context) {
     print("build");
     BreedManager manager = Provider.of(context);
-    screenWidth = MediaQuery.of(context).size.width;
-    screenHeight = MediaQuery.of(context).size.height;
+    _screenWidth = MediaQuery.of(context).size.width;
+    _screenHeight = MediaQuery.of(context).size.height;
     return Stack(
       children: <Widget>[
         Scaffold(
@@ -206,44 +208,45 @@ class _FifthRouteState extends State<FifthRoute>
     );
   }
 
+  void _onSubmittedTextField(String query) {
+    print("Received _onSubimittedTextFiled = " + query);
+    setState(() {
+      _query = query;
+    });
+  }
+
   void _onBottomNavBarTab(AppBottomBarOption option) {
     print("_onBottomNavBarTab pressed with value = " + option.toString());
 
     switch (option) {
       case AppBottomBarOption.dog:
         {
-          showSearhBottomBar = false;
+          _showSearhBottomBar = false;
         }
         break;
       case AppBottomBarOption.search:
         {
-          showSearhBottomBar = true;
+          _showSearhBottomBar = true;
         }
         break;
-      // case AppBottomBarOption.close:
-      //   {
-      //     showSearhBottomBar = false;
-      //     option = AppBottomBarOption.values[_bottomBarPreviousSelectedItem];
-      //   }
-      //   break;
       case AppBottomBarOption.photo:
         {
-          showSearhBottomBar = false;
+          _showSearhBottomBar = false;
         }
         break;
       case AppBottomBarOption.share:
         {
-          showSearhBottomBar = false;
+          _showSearhBottomBar = false;
         }
         break;
       case AppBottomBarOption.list:
         {
-          showSearhBottomBar = false;
+          _showSearhBottomBar = false;
         }
         break;
       case AppBottomBarOption.none:
         {
-          showSearhBottomBar = false;
+          _showSearhBottomBar = false;
         }
         break;
     }

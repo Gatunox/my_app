@@ -4,10 +4,10 @@ import 'package:my_app/styles/colors.dart';
 enum AppBottomBarOption { dog, search, photo, share, list, none }
 
 class FullAppBottomBar extends StatelessWidget {
-  final Function callback;
+  final Function bottomBarCallback;
   final int selectedItem;
 
-  FullAppBottomBar(this.callback, this.selectedItem);
+  FullAppBottomBar(this.bottomBarCallback, this.selectedItem);
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +27,7 @@ class FullAppBottomBar extends StatelessWidget {
         children: <Widget>[
           GestureDetector(
               onTap: () {
-                callback(AppBottomBarOption.dog);
+                bottomBarCallback(AppBottomBarOption.dog);
               },
               child: Container(
                 width: screenWidth * 0.15,
@@ -35,12 +35,11 @@ class FullAppBottomBar extends StatelessWidget {
                 // color: Colors.grey,
                 child: Icon(Icons.pets,
                     size: (selectedItem == 0) ? 35 : 25,
-                    color:
-                        (selectedItem == 0) ? Colors.black : Colors.black38),
+                    color: (selectedItem == 0) ? Colors.black : Colors.black38),
               )),
           GestureDetector(
               onTap: () {
-                callback(AppBottomBarOption.search);
+                bottomBarCallback(AppBottomBarOption.search);
               },
               child: Container(
                 width: screenWidth * 0.15,
@@ -48,12 +47,11 @@ class FullAppBottomBar extends StatelessWidget {
                 // color: Colors.grey,
                 child: Icon(Icons.search,
                     size: (selectedItem == 1) ? 35 : 25,
-                    color:
-                        (selectedItem == 1) ? Colors.black : Colors.black38),
+                    color: (selectedItem == 1) ? Colors.black : Colors.black38),
               )),
           GestureDetector(
               onTap: () {
-                callback(AppBottomBarOption.photo);
+                bottomBarCallback(AppBottomBarOption.photo);
               },
               child: Container(
                 width: screenWidth * 0.15,
@@ -61,12 +59,11 @@ class FullAppBottomBar extends StatelessWidget {
                 // color: Colors.grey,
                 child: Icon(Icons.camera_alt,
                     size: (selectedItem == 2) ? 35 : 25,
-                    color:
-                        (selectedItem == 2) ? Colors.black : Colors.black38),
+                    color: (selectedItem == 2) ? Colors.black : Colors.black38),
               )),
           GestureDetector(
               onTap: () {
-                callback(AppBottomBarOption.share);
+                bottomBarCallback(AppBottomBarOption.share);
               },
               child: Container(
                 width: screenWidth * 0.15,
@@ -74,12 +71,11 @@ class FullAppBottomBar extends StatelessWidget {
                 // color: Colors.grey,
                 child: Icon(Icons.share,
                     size: (selectedItem == 3) ? 35 : 25,
-                    color:
-                        (selectedItem == 3) ? Colors.black : Colors.black38),
+                    color: (selectedItem == 3) ? Colors.black : Colors.black38),
               )),
           GestureDetector(
               onTap: () {
-                callback(AppBottomBarOption.list);
+                bottomBarCallback(AppBottomBarOption.list);
               },
               child: Container(
                 width: screenWidth * 0.15,
@@ -87,8 +83,7 @@ class FullAppBottomBar extends StatelessWidget {
                 // color: Colors.grey,
                 child: Icon(Icons.list,
                     size: (selectedItem == 4) ? 35 : 25,
-                    color:
-                        (selectedItem == 4) ? Colors.black : Colors.black38),
+                    color: (selectedItem == 4) ? Colors.black : Colors.black38),
               )),
         ],
       ),
@@ -97,9 +92,10 @@ class FullAppBottomBar extends StatelessWidget {
 }
 
 class SearchAppBottomBar extends StatefulWidget {
-  SearchAppBottomBar(this.callback, this.selectedItem);
+  SearchAppBottomBar(this.onSubmittedCallback, this.bottomBarCallback, this.selectedItem);
 
-  final Function callback;
+  final Function onSubmittedCallback;
+  final Function bottomBarCallback;
   final int selectedItem;
 
   @override
@@ -107,7 +103,6 @@ class SearchAppBottomBar extends StatefulWidget {
 }
 
 class _SearchAppBottomBarState extends State<SearchAppBottomBar> {
-
   TextEditingController _editingController = TextEditingController();
 
   @override
@@ -150,82 +145,91 @@ class _SearchAppBottomBarState extends State<SearchAppBottomBar> {
                       // hintText: "Dog's breed",
                       labelStyle: new TextStyle(color: Colors.black),
                       border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(20.0)))),
+                          borderRadius:
+                              BorderRadius.all(Radius.circular(20.0)))),
+                  onSubmitted: (String query) {
+                    widget.onSubmittedCallback(query);
+                  },
                 ),
               ),
             ],
           ),
           Row(
-        mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          GestureDetector(
-              onTap: () {
-                widget.callback(AppBottomBarOption.dog);
-              },
-              child: Container(
-                width: screenWidth * 0.15,
-                height: screenWidth * 0.15,
-                // color: Colors.grey,
-                child: Icon(Icons.pets,
-                    size: (widget.selectedItem == 0) ? 35 : 25,
-                    color:
-                        (widget.selectedItem == 0) ? Colors.black : Colors.black38),
-              )),
-          GestureDetector(
-              onTap: () {
-                widget.callback(AppBottomBarOption.search);
-              },
-              child: Container(
-                width: screenWidth * 0.15,
-                height: screenWidth * 0.15,
-                // color: Colors.grey,
-                child: Icon(Icons.search,
-                    size: (widget.selectedItem == 1) ? 35 : 25,
-                    color:
-                        (widget.selectedItem == 1) ? Colors.black : Colors.black38),
-              )),
-          GestureDetector(
-              onTap: () {
-                widget.callback(AppBottomBarOption.photo);
-              },
-              child: Container(
-                width: screenWidth * 0.15,
-                height: screenWidth * 0.15,
-                // color: Colors.grey,
-                child: Icon(Icons.camera_alt,
-                    size: (widget.selectedItem == 2) ? 35 : 25,
-                    color:
-                        (widget.selectedItem == 2) ? Colors.black : Colors.black38),
-              )),
-          GestureDetector(
-              onTap: () {
-                widget.callback(AppBottomBarOption.share);
-              },
-              child: Container(
-                width: screenWidth * 0.15,
-                height: screenWidth * 0.15,
-                // color: Colors.grey,
-                child: Icon(Icons.share,
-                    size: (widget.selectedItem == 3) ? 35 : 25,
-                    color:
-                        (widget.selectedItem == 3) ? Colors.black : Colors.black38),
-              )),
-          GestureDetector(
-              onTap: () {
-                widget.callback(AppBottomBarOption.list);
-              },
-              child: Container(
-                width: screenWidth * 0.15,
-                height: screenWidth * 0.15,
-                // color: Colors.grey,
-                child: Icon(Icons.list,
-                    size: (widget.selectedItem == 4) ? 35 : 25,
-                    color:
-                        (widget.selectedItem == 4) ? Colors.black : Colors.black38),
-              )),
-        ],
-      )
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              GestureDetector(
+                  onTap: () {
+                    widget.bottomBarCallback(AppBottomBarOption.dog);
+                  },
+                  child: Container(
+                    width: screenWidth * 0.15,
+                    height: screenWidth * 0.15,
+                    // color: Colors.grey,
+                    child: Icon(Icons.pets,
+                        size: (widget.selectedItem == 0) ? 35 : 25,
+                        color: (widget.selectedItem == 0)
+                            ? Colors.black
+                            : Colors.black38),
+                  )),
+              GestureDetector(
+                  onTap: () {
+                    widget.bottomBarCallback(AppBottomBarOption.search);
+                  },
+                  child: Container(
+                    width: screenWidth * 0.15,
+                    height: screenWidth * 0.15,
+                    // color: Colors.grey,
+                    child: Icon(Icons.search,
+                        size: (widget.selectedItem == 1) ? 35 : 25,
+                        color: (widget.selectedItem == 1)
+                            ? Colors.black
+                            : Colors.black38),
+                  )),
+              GestureDetector(
+                  onTap: () {
+                    widget.bottomBarCallback(AppBottomBarOption.photo);
+                  },
+                  child: Container(
+                    width: screenWidth * 0.15,
+                    height: screenWidth * 0.15,
+                    // color: Colors.grey,
+                    child: Icon(Icons.camera_alt,
+                        size: (widget.selectedItem == 2) ? 35 : 25,
+                        color: (widget.selectedItem == 2)
+                            ? Colors.black
+                            : Colors.black38),
+                  )),
+              GestureDetector(
+                  onTap: () {
+                    widget.bottomBarCallback(AppBottomBarOption.share);
+                  },
+                  child: Container(
+                    width: screenWidth * 0.15,
+                    height: screenWidth * 0.15,
+                    // color: Colors.grey,
+                    child: Icon(Icons.share,
+                        size: (widget.selectedItem == 3) ? 35 : 25,
+                        color: (widget.selectedItem == 3)
+                            ? Colors.black
+                            : Colors.black38),
+                  )),
+              GestureDetector(
+                  onTap: () {
+                    widget.bottomBarCallback(AppBottomBarOption.list);
+                  },
+                  child: Container(
+                    width: screenWidth * 0.15,
+                    height: screenWidth * 0.15,
+                    // color: Colors.grey,
+                    child: Icon(Icons.list,
+                        size: (widget.selectedItem == 4) ? 35 : 25,
+                        color: (widget.selectedItem == 4)
+                            ? Colors.black
+                            : Colors.black38),
+                  )),
+            ],
+          )
         ],
       ),
     );
