@@ -148,6 +148,7 @@ class _SearchAppBottomBarState extends State<SearchAppBottomBar> {
                           borderRadius:
                               BorderRadius.all(Radius.circular(20.0)))),
                   onSubmitted: (String query) {
+                    print("onSubmitted called with query = " + query);
                     widget.onSubmittedCallback(query);
                   },
                 ),

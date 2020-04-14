@@ -29,6 +29,8 @@ class _ImagePageViewState extends State<ImagePageView>
 
   // BreedManager local_manager = BreedManager();
 
+  String _query = "";
+
   bool _firstValueSet = false;
 
   @override
@@ -50,7 +52,13 @@ class _ImagePageViewState extends State<ImagePageView>
     //     fit: BoxFit.cover,
     //     colorBlendMode: BlendMode.hue,
     //     color: Colors.black38);
-    breedsStream  = breedsStream ?? manager.filteredBreedList(widget.query);
+    if ( widget.query != _query ){
+      _query = widget.query;
+      breedsStream = manager.filteredBreedList(_query);
+    } else {
+      breedsStream  = breedsStream ?? manager.filteredBreedList("");
+    }
+    
     return StreamBuilder<List<Breed>>(
         stream: breedsStream,
         builder: (context, snapshot) {
