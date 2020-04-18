@@ -35,7 +35,7 @@ class _DogCardState extends State<DogCardCompact>
         child: Card(
           elevation: 1,
           shape: RoundedRectangleBorder(
-            side: BorderSide(color: darkerPurpleColor, width: 1.0),
+            side: BorderSide(color: snowWhiteColor, width: 1.0),
             borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(20),
                 topRight: Radius.circular(20),

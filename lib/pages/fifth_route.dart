@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/common/app_bottom_bar.dart';
+import 'package:my_app/common/dog_card_compact.dart';
 import 'package:my_app/common/dog_name_bottom_bar.dart';
 import 'package:my_app/common/image_page_view.dart';
 import 'package:my_app/model/data.dart';
@@ -74,7 +75,7 @@ class _FifthRouteState extends State<FifthRoute>
     });
   }
 
-  Widget getWidget(BreedManager manager) {
+  Widget getMainPageViewWidget(BreedManager manager) {
     // print("screenHeight = " + screenHeight.toString());
     // print("screenWidth = " + screenWidth.toString());
     return Stack(
@@ -170,6 +171,184 @@ class _FifthRouteState extends State<FifthRoute>
     );
   }
 
+  Widget getMainListViewWidget(BreedManager manager) {
+    return Stack(children: <Widget>[
+      Container(
+        //Add box decoration
+        width: _screenWidth,
+        height: _screenHeight,
+        decoration: BoxDecoration(
+          // Box decoration takes a gradient
+          gradient: LinearGradient(
+            // Where the linear gradient begins and ends
+            begin: Alignment.centerLeft,
+            end: Alignment.centerRight,
+            // Add one stop for each color. Stops should increase from 0 to 1
+            colors: [backgroundColor, backgroundColor],
+          ),
+        ),
+      ),
+      Transform.translate(
+        offset: Offset(_screenWidth * 0.6 * 0.5, -_screenWidth * 0.1),
+        child: Transform.rotate(
+          angle: -0.2,
+          child: Icon(
+            Icons.pets,
+            color: Colors.white10,
+            size: _screenWidth,
+          ),
+        ),
+      ),
+      Transform.translate(
+        offset: Offset(-_screenWidth * 0.6 * 0.5, _screenHeight * 0.4),
+        child: Transform.rotate(
+          angle: -0.2,
+          child: Icon(
+            Icons.pets,
+            color: Colors.white10,
+            size: _screenWidth,
+          ),
+        ),
+      ),
+      Stack(
+        children: <Widget>[
+          // Positioned(
+          //     //Place it at the top, and not use the entire screen
+          //     top: 0.0,
+          //     bottom: 0.0,
+          //     left: 0.0,
+          //     width: 140,
+          //     child: Container(
+          //       color: darkerPurpleColor54,
+          //       child: Padding(
+          //         padding: const EdgeInsets.only(left: 6.0, top: 110, bottom: 20),
+          //         child: new Column(),
+          //       ),
+          //     )),
+          Container(
+              width: _screenWidth,
+              padding: EdgeInsets.only(top: 0.0),
+              child: StreamBuilder<List<Breed>>(
+                  stream: manager.filteredBreedList(_query),
+                  builder: (context, snapshot) {
+                    switch (snapshot.connectionState) {
+                      case ConnectionState.none:
+                      case ConnectionState.active:
+                      case ConnectionState.waiting:
+                        print("Building");
+                        return Stack(
+                          fit: StackFit.expand,
+                          children: <Widget>[
+                            FractionallySizedBox(
+                              alignment: Alignment.topCenter,
+                              heightFactor: _heightFactorAnimation.value,
+                              child: Center(
+                                  child: CircularProgressIndicator(
+                                valueColor: new AlwaysStoppedAnimation<Color>(
+                                    Colors.white),
+                              )),
+                            ),
+                            Positioned(
+                              bottom: 0.0,
+                              left: 0.0,
+                              right: 0.0,
+                              child: (_showSearhBottomBar)
+                                  ? SearchAppBottomBar(
+                                      _onSubmittedTextField,
+                                      _onBottomNavBarTab,
+                                      _bottomBarSelectedItem)
+                                  : FullAppBottomBar(_onBottomNavBarTab,
+                                      _bottomBarSelectedItem),
+                            ),
+                          ],
+                        );
+                      case ConnectionState.done:
+                        print("Build Done");
+                        breeds = snapshot.data;
+                        return ListView.separated(
+                          separatorBuilder: (context, index) => Divider(
+                            height: 20,
+                            color: Colors.transparent,
+                          ),
+                          padding: EdgeInsets.only(bottom: 150),
+                          // Must have an item count equal to the number of items!
+                          addAutomaticKeepAlives: true,
+                          physics: const AlwaysScrollableScrollPhysics(),
+                          itemCount: breeds.length,
+                          // A callback that will return a widget.
+                          itemBuilder: (context, int index) {
+                            if (index == 0) {
+                              // return the header
+                              return Container(
+                                height: 120,
+                                color: Colors.transparent,
+                                child: AppBar(
+                                  brightness: Brightness.dark,
+                                  iconTheme: IconThemeData(color: Colors.white),
+                                  title: const Text("Breeds List",
+                                      style: TextStyle(color: Colors.white)),
+                                  //   title: Text("Dogs List"),
+                                  backgroundColor:
+                                      Colors.transparent, //No more green
+                                  elevation: 0.0, //Shadow gone
+                                  // leading: new IconButton(
+                                  //   icon: new Icon(Icons.pets, color: Colors.white,),
+                                  //   // onPressed: () => Navigator.pop(context),
+                                  // ),
+                                ),
+                              );
+                            }
+                            index -= 1;
+                            return DogCardCompact(breed: breeds[index]);
+                          },
+                        );
+                        return Container();
+                    }
+                  })),
+          Positioned(
+            bottom: 0.0,
+            left: 0.0,
+            right: 0.0,
+            child: (_showSearhBottomBar)
+                ? SearchAppBottomBar(_onSubmittedTextField, _onBottomNavBarTab,
+                    _bottomBarSelectedItem)
+                : FullAppBottomBar(_onBottomNavBarTab, _bottomBarSelectedItem),
+          ),
+        ],
+      ),
+    ]);
+  }
+
+  Widget getWidget(BreedManager manager) {
+    switch (_bottomBarSelectedItem) {
+      case 0:
+        {
+          return getMainPageViewWidget(manager);
+        }
+        break;
+      case 1:
+        {
+          return getMainListViewWidget(manager);
+        }
+        break;
+      case 2:
+        {
+          return getMainPageViewWidget(manager);
+        }
+        break;
+      case 3:
+        {
+          return getMainPageViewWidget(manager);
+        }
+        break;
+      case 4:
+        {
+          return getMainPageViewWidget(manager);
+        }
+        break;
+    }
+  }
+
   onHandleVerticalUpdate(DragUpdateDetails updateDetails) {
     double fractionDragged = updateDetails.primaryDelta / _screenHeight;
     _animationController.value =
@@ -200,6 +379,7 @@ class _FifthRouteState extends State<FifthRoute>
             animation: _animationController,
             builder: (context, widget) {
               // print("Animation Called");
+              // return getMainListViewWidget(manager);
               return getWidget(manager);
             },
           ),
