@@ -35,7 +35,7 @@ class _DogCardState extends State<DogCardCompact>
         child: Card(
           elevation: 1,
           shape: RoundedRectangleBorder(
-            side: BorderSide(color: snowWhiteColor, width: 1.0),
+            side: BorderSide(color: snowWhiteColor38, width: 1.0),
             borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(20),
                 topRight: Radius.circular(20),
@@ -43,7 +43,7 @@ class _DogCardState extends State<DogCardCompact>
                 bottomRight: Radius.circular(20)),
           ),
           margin: const EdgeInsets.only(left: 10, right: 10),
-          color: foregroungColor54,
+          color: Colors.white30,
           // Wrap children in a Padding widget in order to give padding.
           child: Padding(
             // The class that controls padding is called 'EdgeInsets'

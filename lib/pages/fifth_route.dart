@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:my_app/common/app_bottom_bar.dart';
 import 'package:my_app/common/dog_card_compact.dart';
 import 'package:my_app/common/dog_name_bottom_bar.dart';
+import 'package:my_app/common/image_list_view.dart';
 import 'package:my_app/common/image_page_view.dart';
 import 'package:my_app/model/data.dart';
 import 'package:my_app/model/dog_model.dart';
@@ -211,100 +212,36 @@ class _FifthRouteState extends State<FifthRoute>
         ),
       ),
       Stack(
+        fit: StackFit.expand,
         children: <Widget>[
-          // Positioned(
-          //     //Place it at the top, and not use the entire screen
-          //     top: 0.0,
-          //     bottom: 0.0,
-          //     left: 0.0,
-          //     width: 140,
-          //     child: Container(
-          //       color: darkerPurpleColor54,
-          //       child: Padding(
-          //         padding: const EdgeInsets.only(left: 6.0, top: 110, bottom: 20),
-          //         child: new Column(),
-          //       ),
-          //     )),
-          Container(
-              width: _screenWidth,
-              padding: EdgeInsets.only(top: 0.0),
-              child: StreamBuilder<List<Breed>>(
-                  stream: manager.filteredBreedList(_query),
-                  builder: (context, snapshot) {
-                    switch (snapshot.connectionState) {
-                      case ConnectionState.none:
-                      case ConnectionState.active:
-                      case ConnectionState.waiting:
-                        print("Building");
-                        return Stack(
-                          fit: StackFit.expand,
-                          children: <Widget>[
-                            FractionallySizedBox(
-                              alignment: Alignment.topCenter,
-                              heightFactor: _heightFactorAnimation.value,
-                              child: Center(
-                                  child: CircularProgressIndicator(
-                                valueColor: new AlwaysStoppedAnimation<Color>(
-                                    Colors.white),
-                              )),
-                            ),
-                            Positioned(
-                              bottom: 0.0,
-                              left: 0.0,
-                              right: 0.0,
-                              child: (_showSearhBottomBar)
-                                  ? SearchAppBottomBar(
-                                      _onSubmittedTextField,
-                                      _onBottomNavBarTab,
-                                      _bottomBarSelectedItem)
-                                  : FullAppBottomBar(_onBottomNavBarTab,
-                                      _bottomBarSelectedItem),
-                            ),
-                          ],
-                        );
-                      case ConnectionState.done:
-                        print("Build Done");
-                        breeds = snapshot.data;
-                        return ListView.separated(
-                          separatorBuilder: (context, index) => Divider(
-                            height: 20,
-                            color: Colors.transparent,
-                          ),
-                          padding: EdgeInsets.only(bottom: 150),
-                          // Must have an item count equal to the number of items!
-                          addAutomaticKeepAlives: true,
-                          physics: const AlwaysScrollableScrollPhysics(),
-                          itemCount: breeds.length,
-                          // A callback that will return a widget.
-                          itemBuilder: (context, int index) {
-                            if (index == 0) {
-                              // return the header
-                              return Container(
-                                height: 120,
-                                color: Colors.transparent,
-                                child: AppBar(
-                                  brightness: Brightness.dark,
-                                  iconTheme: IconThemeData(color: Colors.white),
-                                  title: const Text("Breeds List",
-                                      style: TextStyle(color: Colors.white)),
-                                  //   title: Text("Dogs List"),
-                                  backgroundColor:
-                                      Colors.transparent, //No more green
-                                  elevation: 0.0, //Shadow gone
-                                  // leading: new IconButton(
-                                  //   icon: new Icon(Icons.pets, color: Colors.white,),
-                                  //   // onPressed: () => Navigator.pop(context),
-                                  // ),
-                                ),
-                              );
-                            }
-                            index -= 1;
-                            return DogCardCompact(breed: breeds[index]);
-                          },
-                        );
-                        return Container();
-                    }
-                  })),
+          FractionallySizedBox(
+            alignment: Alignment.topCenter,
+            heightFactor: 1.0,
+            child: NestedScrollView(
+              headerSliverBuilder:
+                  (BuildContext context, bool innerBoxIsScrolled) {
+                return <Widget>[
+                  SliverAppBar(
+                    brightness: Brightness.dark,
+                    backgroundColor: Colors.transparent,
+                    expandedHeight: 100.0,
+                    floating: false,
+                    pinned: false,
+                    flexibleSpace: FlexibleSpaceBar(
+                        centerTitle: true,
+                        title: Text("Breeds List",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 16.0,
+                            )),
+                        ),
+                  ),
+                ];
+              },
+              body: ImageListView(query: _query),
+            ),
+            // ImageListView(query: _query),
+          ),
           Positioned(
             bottom: 0.0,
             left: 0.0,
