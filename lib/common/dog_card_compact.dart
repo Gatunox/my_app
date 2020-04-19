@@ -26,7 +26,7 @@ class _DogCardState extends State<DogCardCompact>
   Widget get dogCard {
     // A new container
     // The height and width are arbitrary numbers for styling.
-    return Container(
+return Container(
       width: 266.0,
       height: 120.5,
       padding: const EdgeInsets.all(0.0),
@@ -133,15 +133,15 @@ class _DogCardState extends State<DogCardCompact>
         child: Container(
           height: 121.0,
           child: Stack(
+            fit: StackFit.expand,
             children: <Widget>[
+              Positioned(top: 0.0, left: 0.0, child: dogImage),
               Positioned(
                 top: 0.0,
                 left: 130.0,
                 right: 0.0,
                 child: dogCard,
               ),
-              //Positioned(top: 0.0, child: placeholderContainer),
-              Positioned(top: 0.0, left: 0.0, child: dogImage),
             ],
           ),
         ),
