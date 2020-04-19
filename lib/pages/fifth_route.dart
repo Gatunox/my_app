@@ -36,6 +36,7 @@ class _FifthRouteState extends State<FifthRoute>
   double _screenWidth = 0;
 
   String _query = "";
+  String _breedCountValue = "";
 
   bool _isAnimationCompleted = false;
   bool _showSearhBottomBar = false;
@@ -228,13 +229,39 @@ class _FifthRouteState extends State<FifthRoute>
                     floating: false,
                     pinned: false,
                     flexibleSpace: FlexibleSpaceBar(
-                        centerTitle: true,
-                        title: Text("Breeds List",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 16.0,
-                            )),
-                        ),
+                      centerTitle: true,
+                      title: StreamBuilder<int>(
+                          stream: manager.breedCountStream,
+                          builder: (context, snapshot) {
+                            switch (snapshot.connectionState) {
+                              case ConnectionState.none:
+                              case ConnectionState.waiting:
+                                return Text("Breeds List " + _breedCountValue,
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 16.0,
+                                    ));
+                              case ConnectionState.active:
+                                _breedCountValue = snapshot.data.toString();
+                                print("Stream recived in Active, " +
+                                    _breedCountValue);
+                                return Text("Breeds List " + _breedCountValue,
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 16.0,
+                                    ));
+                              case ConnectionState.done:
+                                _breedCountValue = snapshot.data.toString();
+                                print("Stream recived in Done, " +
+                                    _breedCountValue);
+                                return Text("Breeds List " + _breedCountValue,
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 16.0,
+                                    ));
+                            }
+                          }),
+                    ),
                   ),
                 ];
               },

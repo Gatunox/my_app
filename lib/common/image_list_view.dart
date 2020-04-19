@@ -46,8 +46,11 @@ class _ImageListViewState extends State<ImageListView>
     if (widget.query != _query) {
       _query = widget.query;
       breedsStream = manager.filteredBreedList(_query);
+      manager.listenToBreeeListStream(_query);
     } else {
-      breedsStream = breedsStream ?? manager.filteredBreedList("");
+      breedsStream = breedsStream ??
+          manager.filteredBreedList(_query);
+      manager.listenToBreeeListStream(_query);
     }
 
     return StreamBuilder<List<Breed>>(
@@ -57,7 +60,7 @@ class _ImageListViewState extends State<ImageListView>
             case ConnectionState.none:
             case ConnectionState.active:
             case ConnectionState.waiting:
-              print("Building");
+              print("Building - ListView ");
               return FractionallySizedBox(
                 alignment: Alignment.topCenter,
                 heightFactor: expandedHeightFactor,
@@ -67,7 +70,7 @@ class _ImageListViewState extends State<ImageListView>
                 )),
               );
             case ConnectionState.done:
-              print("Build Done");
+              print("Build Done - ListView");
               breeds = snapshot.data;
               return ListView.separated(
                 separatorBuilder: (context, index) => Divider(
