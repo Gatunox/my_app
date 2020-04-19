@@ -370,6 +370,8 @@ class _FifthRouteState extends State<FifthRoute>
         break;
       case AppBottomBarOption.search:
         {
+          _query = "";
+          _breedCountValue = "";
           _showSearhBottomBar = true;
         }
         break;
