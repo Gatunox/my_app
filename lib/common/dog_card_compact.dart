@@ -35,7 +35,7 @@ return Container(
         child: Card(
           elevation: 1,
           shape: RoundedRectangleBorder(
-            side: BorderSide(color: snowWhiteColor38, width: 1.0),
+            side: BorderSide(color: Colors.white, width: 1.0),
             borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(20),
                 topRight: Radius.circular(20),
@@ -43,7 +43,7 @@ return Container(
                 bottomRight: Radius.circular(20)),
           ),
           margin: const EdgeInsets.only(left: 10, right: 10),
-          color: Colors.white30,
+          color: snowWhiteColor87,
           // Wrap children in a Padding widget in order to give padding.
           child: Padding(
             // The class that controls padding is called 'EdgeInsets'
@@ -76,7 +76,7 @@ return Container(
                         style: TextStyle(
                             fontFamily: 'Roboto',
                             fontSize: 18.0,
-                            color: Colors.white),
+                            color: Colors.black),
                       ),
                     ],
                   ),
@@ -89,7 +89,7 @@ return Container(
                         style: TextStyle(
                             fontFamily: 'Roboto',
                             fontSize: 14.0,
-                            color: Colors.white),
+                            color: Colors.black),
                       ),
                     ],
                   ),
@@ -106,7 +106,7 @@ return Container(
                           TextSpan(
                             text: ': ${widget.breed.rating} / 10',
                             style:
-                                TextStyle(fontSize: 14.0, color: Colors.white),
+                                TextStyle(fontSize: 14.0, color: Colors.black),
                           ),
                         ],
                       ),
