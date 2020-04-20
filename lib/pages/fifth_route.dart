@@ -236,16 +236,19 @@ class _FifthRouteState extends State<FifthRoute>
                             switch (snapshot.connectionState) {
                               case ConnectionState.none:
                               case ConnectionState.waiting:
-                                return Text("Breeds List " + _breedCountValue,
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 16.0,
-                                    ));
+                                if (_breedCountValue.isNotEmpty) {
+                                  return Text(_breedCountValue + "  Breeds",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 16.0,
+                                      ));
+                                }
+                                return Container();
                               case ConnectionState.active:
                                 _breedCountValue = snapshot.data.toString();
                                 print("Stream recived in Active, " +
                                     _breedCountValue);
-                                return Text("Breeds List " + _breedCountValue,
+                                return Text(_breedCountValue + "  Breeds",
                                     style: TextStyle(
                                       color: Colors.white,
                                       fontSize: 16.0,
@@ -254,7 +257,7 @@ class _FifthRouteState extends State<FifthRoute>
                                 _breedCountValue = snapshot.data.toString();
                                 print("Stream recived in Done, " +
                                     _breedCountValue);
-                                return Text("Breeds List " + _breedCountValue,
+                                return Text(_breedCountValue + "  Breeds",
                                     style: TextStyle(
                                       color: Colors.white,
                                       fontSize: 16.0,
