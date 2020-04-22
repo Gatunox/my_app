@@ -43,7 +43,7 @@ return Container(
                 bottomRight: Radius.circular(20)),
           ),
           margin: const EdgeInsets.only(left: 10, right: 10),
-          color: snowWhiteColor87,
+          color: snowWhiteColor26,
           // Wrap children in a Padding widget in order to give padding.
           child: Padding(
             // The class that controls padding is called 'EdgeInsets'
@@ -76,7 +76,7 @@ return Container(
                         style: TextStyle(
                             fontFamily: 'Roboto',
                             fontSize: 18.0,
-                            color: Colors.black),
+                            color: Colors.white),
                       ),
                     ],
                   ),
@@ -89,7 +89,7 @@ return Container(
                         style: TextStyle(
                             fontFamily: 'Roboto',
                             fontSize: 14.0,
-                            color: Colors.black),
+                            color: Colors.white),
                       ),
                     ],
                   ),
@@ -106,7 +106,7 @@ return Container(
                           TextSpan(
                             text: ': ${widget.breed.rating} / 10',
                             style:
-                                TextStyle(fontSize: 14.0, color: Colors.black),
+                                TextStyle(fontSize: 14.0, color: Colors.white),
                           ),
                         ],
                       ),

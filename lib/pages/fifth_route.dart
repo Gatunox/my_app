@@ -226,8 +226,9 @@ class _FifthRouteState extends State<FifthRoute>
                     brightness: Brightness.dark,
                     backgroundColor: Colors.transparent,
                     expandedHeight: 100.0,
-                    floating: false,
+                    floating: true,
                     pinned: false,
+                    snap: false,
                     flexibleSpace: FlexibleSpaceBar(
                       centerTitle: true,
                       title: StreamBuilder<int>(

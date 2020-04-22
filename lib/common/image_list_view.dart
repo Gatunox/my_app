@@ -77,7 +77,7 @@ class _ImageListViewState extends State<ImageListView>
                   height: 20,
                   color: Colors.transparent,
                 ),
-                padding: EdgeInsets.only(bottom: 150),
+                padding: EdgeInsets.only(top: 20, bottom: 150),
                 // Must have an item count equal to the number of items!
                 addAutomaticKeepAlives: true,
                 physics: const AlwaysScrollableScrollPhysics(),
