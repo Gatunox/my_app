@@ -22,7 +22,7 @@ class FifthRoute extends StatefulWidget {
 class _FifthRouteState extends State<FifthRoute>
     with SingleTickerProviderStateMixin {
   final double expandedHeightFactor = 0.70;
-  final double collapsedHeightFactor = 0.60;
+  final double collapsedHeightFactor = 0.55;
 
   // Stream<Breed> _breedStream;
 
@@ -47,7 +47,7 @@ class _FifthRouteState extends State<FifthRoute>
 
     // _breedStream = manager.breedStream;
     _animationController = AnimationController(
-        vsync: this, duration: const Duration(milliseconds: 300));
+        vsync: this, duration: const Duration(milliseconds: 150));
     _heightFactorAnimation = Tween<double>(
       begin: expandedHeightFactor,
       end: collapsedHeightFactor,
@@ -104,7 +104,7 @@ class _FifthRouteState extends State<FifthRoute>
             angle: -0.2,
             child: Icon(
               Icons.pets,
-              color: Colors.white10,
+              color: snowWhiteColor05,
               size: _screenWidth,
             ),
           ),
@@ -115,7 +115,7 @@ class _FifthRouteState extends State<FifthRoute>
             angle: -0.2,
             child: Icon(
               Icons.pets,
-              color: Colors.white10,
+              color: snowWhiteColor05,
               size: _screenWidth,
             ),
           ),
@@ -196,7 +196,7 @@ class _FifthRouteState extends State<FifthRoute>
           angle: -0.2,
           child: Icon(
             Icons.pets,
-            color: Colors.white10,
+            color: snowWhiteColor05,
             size: _screenWidth,
           ),
         ),
@@ -207,7 +207,7 @@ class _FifthRouteState extends State<FifthRoute>
           angle: -0.2,
           child: Icon(
             Icons.pets,
-            color: Colors.white10,
+            color: snowWhiteColor05,
             size: _screenWidth,
           ),
         ),
@@ -241,7 +241,7 @@ class _FifthRouteState extends State<FifthRoute>
                                   return Text(_breedCountValue + "  Breeds",
                                       style: TextStyle(
                                         color: Colors.white,
-                                        fontSize: 16.0,
+                                        fontSize: 20.0,
                                       ));
                                 }
                                 return Container();
@@ -252,7 +252,7 @@ class _FifthRouteState extends State<FifthRoute>
                                 return Text(_breedCountValue + "  Breeds",
                                     style: TextStyle(
                                       color: Colors.white,
-                                      fontSize: 16.0,
+                                      fontSize: 20.0,
                                     ));
                               case ConnectionState.done:
                                 _breedCountValue = snapshot.data.toString();
@@ -261,7 +261,7 @@ class _FifthRouteState extends State<FifthRoute>
                                 return Text(_breedCountValue + "  Breeds",
                                     style: TextStyle(
                                       color: Colors.white,
-                                      fontSize: 16.0,
+                                      fontSize: 20.0,
                                     ));
                             }
                           }),
@@ -365,8 +365,10 @@ class _FifthRouteState extends State<FifthRoute>
 
   void _onBottomNavBarTab(AppBottomBarOption option) {
     print("_onBottomNavBarTab pressed with value = " + option.toString());
-
+     _query = "";
+     _breedCountValue = "";
     switch (option) {
+      
       case AppBottomBarOption.dog:
         {
           _showSearhBottomBar = false;
@@ -374,8 +376,6 @@ class _FifthRouteState extends State<FifthRoute>
         break;
       case AppBottomBarOption.search:
         {
-          _query = "";
-          _breedCountValue = "";
           _showSearhBottomBar = true;
         }
         break;

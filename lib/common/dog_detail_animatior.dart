@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/pages/dog_detail_page.dart';
+import 'package:my_app/pages/fifth_route.dart';
 import 'dog_detail_enter_animations.dart';
 import 'package:my_app/model/dog_model.dart';
 
@@ -39,6 +40,7 @@ class _DogDetailAnimator extends State<DogDetailAnimator>
 
   @override
   Widget build(BuildContext context) {
+    return FifthRoute(title: "More Dod Breeds",);
     return DogDetailPage(breed: _breed, animation: DogDetailsEnterAnimations(_controller));
   }
 }

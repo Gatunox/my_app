@@ -56,7 +56,7 @@ class MyApp extends StatelessWidget {
         ),
         routes: {
           // When we navigate to the "/" route, build the FirstScreen Widget
-          '/': (context) => FifthRoute(title: 'Dos Breeds'),
+          '/': (context) => FifthRoute(title: 'Dog Breeds'),
           // When we navigate to the "/second" route, build the SecondScreen Widget
           // '/second': (context) => SecondRoute(),
           '/third': (context) => ThirdRoute(title: 'We Rate Dogs'),
