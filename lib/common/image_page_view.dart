@@ -7,10 +7,12 @@ import 'package:my_app/common/dog_card_sliver.dart';
 import 'package:my_app/provider/provider.dart';
 
 class ImagePageView extends StatefulWidget {
-  ImagePageView({Key key, this.title, this.query}) : super(key: key);
+  ImagePageView({Key key, this.title, this.query, this.breed})
+      : super(key: key);
 
   final String title;
   final String query;
+  final Breed breed;
 
   @override
   _ImagePageViewState createState() => _ImagePageViewState();
@@ -18,11 +20,10 @@ class ImagePageView extends StatefulWidget {
 
 class _ImagePageViewState extends State<ImagePageView>
     with SingleTickerProviderStateMixin, AutomaticKeepAliveClientMixin {
-
   Stream<List<Breed>> breedsStream = null;
 
   AnimationController _animationController;
-  
+
   PageController _pageController;
 
   // ValueNotifier<double> _page = ValueNotifier<double>(0.0);
@@ -37,7 +38,8 @@ class _ImagePageViewState extends State<ImagePageView>
   void initState() {
     super.initState();
     // breedsStream = manager.filteredBreedList("");
-    _pageController = PageController(initialPage: 0, keepPage: true, viewportFraction: 1);
+    _pageController =
+        PageController(initialPage: 0, keepPage: true, viewportFraction: 1);
     _animationController = AnimationController(
         vsync: this, duration: const Duration(milliseconds: 500));
   }
@@ -52,13 +54,13 @@ class _ImagePageViewState extends State<ImagePageView>
     //     fit: BoxFit.cover,
     //     colorBlendMode: BlendMode.hue,
     //     color: Colors.black38);
-    if ( widget.query != _query ){
+    if (widget.query != _query) {
       _query = widget.query;
       breedsStream = manager.filteredBreedList(_query);
     } else {
-      breedsStream  = breedsStream ?? manager.filteredBreedList("");
+      breedsStream = breedsStream ?? manager.filteredBreedList("");
     }
-    
+
     return StreamBuilder<List<Breed>>(
         stream: breedsStream,
         builder: (context, snapshot) {
@@ -77,20 +79,26 @@ class _ImagePageViewState extends State<ImagePageView>
                   ));
             case ConnectionState.done:
               breeds = snapshot.data;
+              if (widget.breed is Breed) {
+                int initialPage = breeds.indexOf(widget.breed);
+                print("-- Should Display breed " + widget.breed.name + " --");
+                _pageController = PageController(
+                    initialPage: initialPage, keepPage: true, viewportFraction: 1);
+              }
               return PageView.builder(
                 pageSnapping: true,
                 onPageChanged: (pos) {
                   HapticFeedback.lightImpact();
-                  print("Sink emited onPageChange, "+ breeds[pos].name);
+                  print("Sink emited onPageChange, " + breeds[pos].name);
                   manager.changeBreed(breeds[pos]);
-                  
                 },
                 itemCount: (breeds == null) ? 0 : breeds.length,
                 controller: _pageController,
                 itemBuilder: (BuildContext context, int itemIndex) {
-                  if ( _firstValueSet == false ) {
+                  if (_firstValueSet == false) {
                     _firstValueSet = true;
-                    print("Sink emited on itemBuilder, " + breeds[itemIndex].name);
+                    print("Sink emited on itemBuilder, " +
+                        breeds[itemIndex].name);
                     manager.changeBreed(breeds[itemIndex]);
                   }
                   return DogCardSliver(breed: breeds[itemIndex], scale: 1);

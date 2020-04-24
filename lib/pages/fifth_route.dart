@@ -11,8 +11,9 @@ import 'package:my_app/styles/colors.dart';
 import 'package:my_app/manager/breed_manager.dart';
 
 class FifthRoute extends StatefulWidget {
-  FifthRoute({Key key, this.title}) : super(key: key);
+  FifthRoute({Key key, this.title, this.breed }) : super(key: key);
 
+  final Breed breed;
   final String title;
 
   @override
@@ -126,7 +127,7 @@ class _FifthRouteState extends State<FifthRoute>
             FractionallySizedBox(
               alignment: Alignment.topCenter,
               heightFactor: _heightFactorAnimation.value,
-              child: ImagePageView(query: _query),
+              child: ImagePageView(query: _query, breed: widget.breed,),
             ),
             GestureDetector(
               onTap: onButtonPartTap,

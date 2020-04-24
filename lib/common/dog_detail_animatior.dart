@@ -40,7 +40,7 @@ class _DogDetailAnimator extends State<DogDetailAnimator>
 
   @override
   Widget build(BuildContext context) {
-    return FifthRoute(title: "More Dod Breeds",);
+    return FifthRoute(title: "More Dod Breeds", breed: _breed);
     return DogDetailPage(breed: _breed, animation: DogDetailsEnterAnimations(_controller));
   }
 }

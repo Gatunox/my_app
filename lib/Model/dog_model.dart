@@ -76,17 +76,41 @@ class Breed {
   }
 
   @override
-  bool operator ==(other) {
+  int get hashCode {
+    int result = 17;
+    result = 37 * result + id.hashCode;
+    result = 37 * result + name.hashCode;
+    result = 37 * result + group.hashCode;
+    result = 37 * result + height.hashCode;
+    result = 37 * result + weight.hashCode;
+    result = 37 * result + https.hashCode;
+    result = 37 * result + location.hashCode;
+    result = 37 * result + description.hashCode;
+    // result = 37 * result + imageUrl.hashCode;
+    result = 37 * result + longevety.hashCode;
+    result = 37 * result + size.hashCode;
+    result = 37 * result + grooming.hashCode;
+    result = 37 * result + activity.hashCode;
+    result = 37 * result + barking.hashCode;
+    result = 37 * result + training.hashCode;
+    result = 37 * result + coat.hashCode;
+    return result;
+  }
+
+  @override
+  bool operator ==(dynamic other) {
     if (identical(this, other)) return true;
     if (other.runtimeType != runtimeType) return false;
     final Breed otherDog = other;
     return otherDog.id == id &&
         otherDog.name == name &&
-        otherDog.location == location &&
-        otherDog.description == description &&
-        otherDog.imageUrl == imageUrl &&
+        otherDog.group == group &&
         otherDog.height == height &&
         otherDog.weight == weight &&
+        otherDog.https == https &&
+        otherDog.location == location &&
+        otherDog.description == description &&
+        // otherDog.imageUrl == imageUrl &&
         otherDog.longevety == longevety &&
         otherDog.size == size &&
         otherDog.grooming == grooming &&
@@ -95,6 +119,7 @@ class Breed {
         otherDog.training == training &&
         otherDog.coat == coat;
   }
+
 
   @override
   bool contains(Object other) {
@@ -111,7 +136,7 @@ class Breed {
         location = json["location"],
         description = json["description"],
         https = json["https"];
-        
+
   static Future<List<Breed>> load() async {
     http.Response response =
         await http.get('https://dogos-9d19d.firebaseio.com/breeds.json');
