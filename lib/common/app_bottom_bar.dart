@@ -32,7 +32,7 @@ class FullAppBottomBar extends StatelessWidget {
               child: Container(
                 width: screenWidth * 0.15,
                 height: screenWidth * 0.15,
-                // color: Colors.grey,
+                color: Colors.white,
                 child: Icon(Icons.pets,
                     size: (selectedItem == 0) ? 35 : 25,
                     color: (selectedItem == 0) ? Colors.black : Colors.black38),
@@ -44,7 +44,7 @@ class FullAppBottomBar extends StatelessWidget {
               child: Container(
                 width: screenWidth * 0.15,
                 height: screenWidth * 0.15,
-                // color: Colors.grey,
+                color: Colors.white,
                 child: Icon(Icons.search,
                     size: (selectedItem == 1) ? 35 : 25,
                     color: (selectedItem == 1) ? Colors.black : Colors.black38),
@@ -56,7 +56,7 @@ class FullAppBottomBar extends StatelessWidget {
               child: Container(
                 width: screenWidth * 0.15,
                 height: screenWidth * 0.15,
-                // color: Colors.grey,
+                color: Colors.white,
                 child: Icon(Icons.camera_alt,
                     size: (selectedItem == 2) ? 35 : 25,
                     color: (selectedItem == 2) ? Colors.black : Colors.black38),
@@ -68,7 +68,7 @@ class FullAppBottomBar extends StatelessWidget {
               child: Container(
                 width: screenWidth * 0.15,
                 height: screenWidth * 0.15,
-                // color: Colors.grey,
+                color: Colors.white,
                 child: Icon(Icons.share,
                     size: (selectedItem == 3) ? 35 : 25,
                     color: (selectedItem == 3) ? Colors.black : Colors.black38),
@@ -80,7 +80,7 @@ class FullAppBottomBar extends StatelessWidget {
               child: Container(
                 width: screenWidth * 0.15,
                 height: screenWidth * 0.15,
-                // color: Colors.grey,
+                color: Colors.white,
                 child: Icon(Icons.list,
                     size: (selectedItem == 4) ? 35 : 25,
                     color: (selectedItem == 4) ? Colors.black : Colors.black38),
@@ -92,7 +92,8 @@ class FullAppBottomBar extends StatelessWidget {
 }
 
 class SearchAppBottomBar extends StatefulWidget {
-  SearchAppBottomBar(this.onSubmittedCallback, this.bottomBarCallback, this.selectedItem);
+  SearchAppBottomBar(
+      this.onSubmittedCallback, this.bottomBarCallback, this.selectedItem);
 
   final Function onSubmittedCallback;
   final Function bottomBarCallback;
@@ -111,7 +112,7 @@ class _SearchAppBottomBarState extends State<SearchAppBottomBar> {
     final double screenHeight = MediaQuery.of(context).size.height;
     return Container(
       width: screenWidth,
-      height: kBottomNavigationBarHeight * 2.15,
+      height: kBottomNavigationBarHeight * 2.55,
       decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.only(
@@ -135,7 +136,8 @@ class _SearchAppBottomBarState extends State<SearchAppBottomBar> {
               //     )),
               Container(
                 width: screenWidth * 0.92,
-                height: screenWidth * 0.12,
+                height: screenWidth * 0.15,
+                margin: EdgeInsets.only(top: 10),
                 child: TextField(
                   controller: _editingController,
                   cursorColor: Colors.black,
@@ -166,7 +168,7 @@ class _SearchAppBottomBarState extends State<SearchAppBottomBar> {
                   child: Container(
                     width: screenWidth * 0.15,
                     height: screenWidth * 0.15,
-                    // color: Colors.grey,
+                    color: Colors.white,
                     child: Icon(Icons.pets,
                         size: (widget.selectedItem == 0) ? 35 : 25,
                         color: (widget.selectedItem == 0)
@@ -180,7 +182,7 @@ class _SearchAppBottomBarState extends State<SearchAppBottomBar> {
                   child: Container(
                     width: screenWidth * 0.15,
                     height: screenWidth * 0.15,
-                    // color: Colors.grey,
+                    color: Colors.white,
                     child: Icon(Icons.search,
                         size: (widget.selectedItem == 1) ? 35 : 25,
                         color: (widget.selectedItem == 1)
@@ -194,7 +196,7 @@ class _SearchAppBottomBarState extends State<SearchAppBottomBar> {
                   child: Container(
                     width: screenWidth * 0.15,
                     height: screenWidth * 0.15,
-                    // color: Colors.grey,
+                    color: Colors.white,
                     child: Icon(Icons.camera_alt,
                         size: (widget.selectedItem == 2) ? 35 : 25,
                         color: (widget.selectedItem == 2)
@@ -208,7 +210,7 @@ class _SearchAppBottomBarState extends State<SearchAppBottomBar> {
                   child: Container(
                     width: screenWidth * 0.15,
                     height: screenWidth * 0.15,
-                    // color: Colors.grey,
+                    color: Colors.white,
                     child: Icon(Icons.share,
                         size: (widget.selectedItem == 3) ? 35 : 25,
                         color: (widget.selectedItem == 3)
@@ -222,7 +224,7 @@ class _SearchAppBottomBarState extends State<SearchAppBottomBar> {
                   child: Container(
                     width: screenWidth * 0.15,
                     height: screenWidth * 0.15,
-                    // color: Colors.grey,
+                    color: Colors.white,
                     child: Icon(Icons.list,
                         size: (widget.selectedItem == 4) ? 35 : 25,
                         color: (widget.selectedItem == 4)

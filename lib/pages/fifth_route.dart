@@ -242,7 +242,7 @@ class _FifthRouteState extends State<FifthRoute>
                                   return Text(_breedCountValue + "  Breeds",
                                       style: TextStyle(
                                         color: Colors.white,
-                                        fontSize: 20.0,
+                                        fontSize: 18.0,
                                       ));
                                 }
                                 return Container();
@@ -253,7 +253,7 @@ class _FifthRouteState extends State<FifthRoute>
                                 return Text(_breedCountValue + "  Breeds",
                                     style: TextStyle(
                                       color: Colors.white,
-                                      fontSize: 20.0,
+                                      fontSize: 18.0,
                                     ));
                               case ConnectionState.done:
                                 _breedCountValue = snapshot.data.toString();
@@ -262,7 +262,7 @@ class _FifthRouteState extends State<FifthRoute>
                                 return Text(_breedCountValue + "  Breeds",
                                     style: TextStyle(
                                       color: Colors.white,
-                                      fontSize: 20.0,
+                                      fontSize: 18.0,
                                     ));
                             }
                           }),
