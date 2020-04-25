@@ -348,6 +348,7 @@ class MySliverAppBar extends SliverPersistentHeaderDelegate {
           ),
         ),
         AppBar(
+          brightness: Brightness.dark,
           iconTheme: IconThemeData(
             color: Colors.white, //change your color here
           ),
