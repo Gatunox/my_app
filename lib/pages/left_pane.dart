@@ -19,6 +19,7 @@ class _LeftPageState extends State<LeftPage>
   int _counter = 0;
 
   void _incrementCounter() {
+    if (!mounted) return;
     setState(() {
       _counter++;
     });
@@ -65,8 +66,8 @@ class _LeftPageState extends State<LeftPage>
               tooltip: 'Increment',
               child: Icon(Icons.add),
               heroTag: "left_page_btn",
-            ), 
-            backgroundColor: Colors.transparent, 
+            ),
+            backgroundColor: Colors.transparent,
           ),
           Positioned(
             //Place it at the top, and not use the entire screen

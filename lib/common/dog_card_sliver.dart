@@ -56,6 +56,7 @@ class _DogCardState extends State<DogCardSliver>
     downloadImage.image.resolve(ImageConfiguration()).addListener(
       ImageStreamListener(
         (info, call) {
+          if (!mounted) return;
           setState(() {
             _visible = !_visible;
           });
@@ -187,12 +188,11 @@ class _DogCardState extends State<DogCardSliver>
     await widget.breed.getImageUrl();
     // setState tells Flutter to rerender anything that's been changed.
     // setState cannot be async, so we use a variable that can be overwritten
-    if (mounted) {
-      // Avoid calling `setState` if the widget is no longer in the widget tree.
-      setState(() {
-        _renderUrl = widget.breed.imageUrl;
-      });
-    }
+    if (!mounted) return;
+    // Avoid calling `setState` if the widget is no longer in the widget tree.
+    setState(() {
+      _renderUrl = widget.breed.imageUrl;
+    });
   }
 
   Widget get dogImageContainer {

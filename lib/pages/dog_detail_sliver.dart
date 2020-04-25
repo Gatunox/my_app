@@ -28,11 +28,10 @@ class _DogDetailPageState extends State<DogDetailSliver>
   DogDetailsEnterAnimations _animation;
 
   Future<void> executeAfterBuild() async {
-    if (mounted) {
-      setState(() {
-        //print("executeAfterBuild");
-      });
-    }
+    if (!mounted) return;
+    setState(() {
+      //print("executeAfterBuild");
+    });
   }
 
   Widget _buildAnimation(BuildContext context, Widget child) {
@@ -84,7 +83,7 @@ class _DogDetailPageState extends State<DogDetailSliver>
           children: <Widget>[
             Container(
               child: Hero(
-            tag: "dogName" + widget.breed.id.toString(),
+                tag: "dogName" + widget.breed.id.toString(),
                 child: Padding(
                   padding: const EdgeInsets.only(
                       top: 15.0, bottom: 15.0, left: 0.0, right: 0.0),

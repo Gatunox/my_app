@@ -39,7 +39,6 @@ class _DogCardState extends State<DogCard> with AutomaticKeepAliveClientMixin {
                 topRight: Radius.circular(20),
                 bottomLeft: Radius.circular(20),
                 bottomRight: Radius.circular(20)),
-              
           ),
           color: foregroungColor54,
           // Wrap children in a Padding widget in order to give padding.
@@ -103,9 +102,8 @@ class _DogCardState extends State<DogCard> with AutomaticKeepAliveClientMixin {
                         children: <TextSpan>[
                           TextSpan(
                             text: ': ${widget.breed.rating} / 10',
-                            style: TextStyle(
-                                fontSize: 14.0,
-                                color: Colors.white),
+                            style:
+                                TextStyle(fontSize: 14.0, color: Colors.white),
                           ),
                         ],
                       ),
@@ -183,12 +181,11 @@ class _DogCardState extends State<DogCard> with AutomaticKeepAliveClientMixin {
     await _breed.getImageUrl();
     // setState tells Flutter to rerender anything that's been changed.
     // setState cannot be async, so we use a variable that can be overwritten
-    if (mounted) {
-      // Avoid calling `setState` if the widget is no longer in the widget tree.
-      setState(() {
-        _renderUrl = _breed.imageUrl;
-      });
-    }
+    if (!mounted) return;
+    // Avoid calling `setState` if the widget is no longer in the widget tree.
+    setState(() {
+      _renderUrl = _breed.imageUrl;
+    });
   }
 
   Widget get dogImageContainer {

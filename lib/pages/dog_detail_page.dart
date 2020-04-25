@@ -89,11 +89,10 @@ class _DogDetailPageState extends State<DogDetailPage>
   }
 
   Future<void> executeAfterBuild() async {
-    if (mounted) {
-      setState(() {
-        //print("executeAfterBuild");
-      });
-    }
+    if (!mounted) return;
+    setState(() {
+      //print("executeAfterBuild");
+    });
   }
 
   Widget _buildAnimation(BuildContext context, Widget child) {

@@ -26,7 +26,7 @@ class _DogCardState extends State<DogCardCompact>
   Widget get dogCard {
     // A new container
     // The height and width are arbitrary numbers for styling.
-return Container(
+    return Container(
       width: 266.0,
       height: 120.5,
       padding: const EdgeInsets.all(0.0),
@@ -185,12 +185,11 @@ return Container(
     await _breed.getImageUrl();
     // setState tells Flutter to rerender anything that's been changed.
     // setState cannot be async, so we use a variable that can be overwritten
-    if (mounted) {
-      // Avoid calling `setState` if the widget is no longer in the widget tree.
-      setState(() {
-        _renderUrl = _breed.imageUrl;
-      });
-    }
+    if (!mounted) return;
+    // Avoid calling `setState` if the widget is no longer in the widget tree.
+    setState(() {
+      _renderUrl = _breed.imageUrl;
+    });
   }
 
   Widget get dogImageContainer {

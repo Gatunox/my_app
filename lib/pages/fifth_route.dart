@@ -11,7 +11,7 @@ import 'package:my_app/styles/colors.dart';
 import 'package:my_app/manager/breed_manager.dart';
 
 class FifthRoute extends StatefulWidget {
-  FifthRoute({Key key, this.title, this.breed }) : super(key: key);
+  FifthRoute({Key key, this.title, this.breed}) : super(key: key);
 
   final Breed breed;
   final String title;
@@ -127,7 +127,10 @@ class _FifthRouteState extends State<FifthRoute>
             FractionallySizedBox(
               alignment: Alignment.topCenter,
               heightFactor: _heightFactorAnimation.value,
-              child: ImagePageView(query: _query, breed: widget.breed,),
+              child: ImagePageView(
+                query: _query,
+                breed: widget.breed,
+              ),
             ),
             GestureDetector(
               onTap: onButtonPartTap,
@@ -224,6 +227,7 @@ class _FifthRouteState extends State<FifthRoute>
                   (BuildContext context, bool innerBoxIsScrolled) {
                 return <Widget>[
                   SliverAppBar(
+                    leading: Container(),
                     brightness: Brightness.dark,
                     backgroundColor: Colors.transparent,
                     expandedHeight: 100.0,
@@ -359,6 +363,7 @@ class _FifthRouteState extends State<FifthRoute>
 
   void _onSubmittedTextField(String query) {
     print("Received _onSubimittedTextFiled = " + query);
+    if (!mounted) return;
     setState(() {
       _query = query;
     });
@@ -366,10 +371,10 @@ class _FifthRouteState extends State<FifthRoute>
 
   void _onBottomNavBarTab(AppBottomBarOption option) {
     print("_onBottomNavBarTab pressed with value = " + option.toString());
-     _query = "";
-     _breedCountValue = "";
+    if (!mounted) return;
+    _query = "";
+    _breedCountValue = "";
     switch (option) {
-      
       case AppBottomBarOption.dog:
         {
           _showSearhBottomBar = false;
