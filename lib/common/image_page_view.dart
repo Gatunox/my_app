@@ -37,9 +37,6 @@ class _ImagePageViewState extends State<ImagePageView>
   @override
   void initState() {
     super.initState();
-    // breedsStream = manager.filteredBreedList("");
-    _pageController =
-        PageController(initialPage: 0, keepPage: true, viewportFraction: 1);
     _animationController = AnimationController(
         vsync: this, duration: const Duration(milliseconds: 500));
   }
@@ -50,10 +47,8 @@ class _ImagePageViewState extends State<ImagePageView>
     BreedManager manager = Provider.of(context);
     final double screenWidth = MediaQuery.of(context).size.width;
     final double screenHeight = MediaQuery.of(context).size.height;
-    // return Image.asset("images/russell-terrier.jpg",
-    //     fit: BoxFit.cover,
-    //     colorBlendMode: BlendMode.hue,
-    //     color: Colors.black38);
+    _pageController =
+        PageController(initialPage: manager.lastPositionShown, keepPage: true, viewportFraction: 1);
     if (widget.query != _query) {
       _query = widget.query;
       breedsStream = manager.filteredBreedList(_query);
@@ -90,7 +85,7 @@ class _ImagePageViewState extends State<ImagePageView>
                 onPageChanged: (pos) {
                   HapticFeedback.lightImpact();
                   print("Sink emited onPageChange, " + breeds[pos].name);
-                  manager.changeBreed(breeds[pos]);
+                  manager.changeBreed(breeds[pos], position: pos);
                 },
                 itemCount: (breeds == null) ? 0 : breeds.length,
                 controller: _pageController,

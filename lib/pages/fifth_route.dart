@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/common/app_bottom_bar.dart';
-import 'package:my_app/common/dog_card_compact.dart';
 import 'package:my_app/common/dog_name_bottom_bar.dart';
 import 'package:my_app/common/image_list_view.dart';
 import 'package:my_app/common/image_page_view.dart';
-import 'package:my_app/model/data.dart';
 import 'package:my_app/model/dog_model.dart';
 import 'package:my_app/provider/provider.dart';
 import 'package:my_app/styles/colors.dart';
 import 'package:my_app/manager/breed_manager.dart';
+import 'package:share/share.dart';
 
 class FifthRoute extends StatefulWidget {
   FifthRoute({Key key, this.title, this.breed}) : super(key: key);
@@ -311,6 +310,7 @@ class _FifthRouteState extends State<FifthRoute>
         break;
       case 3:
         {
+          // _bottomBarPreviousSelectedItem;
           return getMainPageViewWidget(manager);
         }
         break;
@@ -392,6 +392,10 @@ class _FifthRouteState extends State<FifthRoute>
         break;
       case AppBottomBarOption.share:
         {
+          final RenderBox box = context.findRenderObject();
+          Share.share("check out my website https://example.com",
+              subject: "Look what I made!",
+              sharePositionOrigin: box.localToGlobal(Offset.zero) & box.size);
           _showSearhBottomBar = false;
         }
         break;

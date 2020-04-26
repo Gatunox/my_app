@@ -30,9 +30,12 @@ class BreedManager {
   Sink get breedSink => _breedController.sink;
   Stream<Breed> get breedStream => _breedController.stream;
 
-  changeBreed(Breed breed) {
+  int lastPositionShown = 0;
+
+  changeBreed(Breed breed, {int position}) {
     print("adding " + breed.name + " to Stream");
-    breedSink.add(breed);
+    breedSink.add(breed);    
+    lastPositionShown = position ?? 0;
   }
 
   void listenToBreeeListStream(String query) {
