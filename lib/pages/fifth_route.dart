@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:my_app/common/app_bottom_bar.dart';
 import 'package:my_app/common/dog_name_bottom_bar.dart';
@@ -372,8 +374,7 @@ class _FifthRouteState extends State<FifthRoute>
   void _onBottomNavBarTab(AppBottomBarOption option) {
     print("_onBottomNavBarTab pressed with value = " + option.toString());
     if (!mounted) return;
-    _query = "";
-    _breedCountValue = "";
+    int nextSelectedItem = option.index;
     switch (option) {
       case AppBottomBarOption.dog:
         {
@@ -392,10 +393,18 @@ class _FifthRouteState extends State<FifthRoute>
         break;
       case AppBottomBarOption.share:
         {
-          final RenderBox box = context.findRenderObject();
-          Share.share("check out my website https://example.com",
-              subject: "Look what I made!",
-              sharePositionOrigin: box.localToGlobal(Offset.zero) & box.size);
+          Future.delayed(const Duration(milliseconds: 500), () {
+            final RenderBox box = context.findRenderObject();
+            Share.share("check out my website https://example.com",
+                    subject: "Look what I made!",
+                    sharePositionOrigin:
+                        box.localToGlobal(Offset.zero) & box.size)
+                .then((value) {
+              print(" -- Then is called -- ");
+            }).whenComplete(() {
+              print(" -- called when future completes -- ");
+            });
+          });
           _showSearhBottomBar = false;
         }
         break;
@@ -411,8 +420,10 @@ class _FifthRouteState extends State<FifthRoute>
         break;
     }
     setState(() {
-      _bottomBarPreviousSelectedItem = _bottomBarSelectedItem;
-      _bottomBarSelectedItem = option.index;
+      //  _bottomBarPreviousSelectedItem = _bottomBarSelectedItem;
+      _query = "";
+      _breedCountValue = "";
+      _bottomBarSelectedItem = nextSelectedItem;
     });
   }
 
