@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:my_app/common/two_line_item.dart';
 import 'package:my_app/pages/dog_detail_sliver.dart';
 import 'package:my_app/model/dog_model.dart';
 import 'package:my_app/styles/colors.dart';
@@ -126,30 +127,21 @@ class _DogCardState extends State<DogCardSliver>
                       decoration: BoxDecoration(
                           gradient: LinearGradient(
                               colors: [
-                            Colors.black26,
+                            Colors.black38,
                             Colors.transparent,
                             Colors.black26
                           ],
                               begin: Alignment.bottomCenter,
                               end: Alignment.topCenter)),
                     ),
-                  )
+                  ),
                 ],
               ),
-              // Image.network(widget.breed.https,),
-              // ),
             ),
           ),
         ),
       ),
     );
-    // return Card(
-    //     elevation: 0,
-    //     color: Colors.transparent,
-    //     shape: RoundedRectangleBorder(
-    //       borderRadius: BorderRadius.circular(30.0),
-    //     ),
-    //     child: Container(color: Colors.transparent, child: dogImage));
   }
 
   showDogDetailPage() {
@@ -195,101 +187,9 @@ class _DogCardState extends State<DogCardSliver>
     });
   }
 
-  Widget get dogImageContainer {
-    try {
-      return ClipRRect(
-        borderRadius: new BorderRadius.circular(30.0),
-        child: Stack(children: <Widget>[
-          // Container(
-          //   child: Hero(
-          //     tag: "dogImage" + widget.breed.id.toString(),
-          //     child: ClipRRect(
-          //       borderRadius: new BorderRadius.only(
-          //           bottomLeft: const Radius.circular(30.0),
-          //           bottomRight: const Radius.circular(30),
-          //           topLeft: const Radius.circular(30),
-          //           topRight: const Radius.circular(30)),
-          //       child: Container(
-          //         child: FadeInImage(
-          //           fit: BoxFit.cover,
-          //           // placeholder: AssetImage("images/paw.png"),
-          //           image: NetworkImage(widget.breed.https),
-          //         ),
-          //       ),
-          //     ),
-          //   ),
-          // ),
-          // Container(
-          //   child: Hero(
-          //     tag: "dogName" + widget.breed.id.toString(),
-          //     child: Align(
-          //       alignment: Alignment.bottomCenter,
-          //       child: Padding(
-          //         padding: const EdgeInsets.only(
-          //             left: 80.0, right: 8.0, top: 8.0, bottom: 8.0),
-          //         child: Material(
-          //           color: Colors.transparent,
-          //           child: Row(
-          //             crossAxisAlignment: CrossAxisAlignment.start,
-          //             mainAxisAlignment: MainAxisAlignment.center,
-          //             children: <Widget>[
-          //               Flexible(
-          //                 child: Container(
-          //                   color: Colors.transparent,
-          //                   // width: 300.0,
-          //                   // height: 24.0,
-          //                   child: FittedBox(
-          //                     fit: BoxFit.cover,
-          //                     child: Text(
-          //                       widget.breed.name,
-          //                       overflow: TextOverflow.ellipsis,
-          //                       textAlign: TextAlign.center,
-          //                       style: TextStyle(
-          //                         color: Colors.white,
-          //                         fontWeight: FontWeight.w700,
-          //                         fontSize: 24,
-          //                       ),
-          //                     ),
-          //                   ),
-          //                 ),
-          //               ),
-          //             ],
-          //           ),
-          //         ),
-          //       ),
-          //     ),
-          //   ),
-          // ),
-        ]),
-      );
-    } on Exception catch (_) {
-      print("Catched exception");
-    } catch (error) {
-      print('Catched error ' + error.toString());
-    }
-  }
-
-  Widget get dogImage {
-    var dogAvatar = GestureDetector(
-            onTap: () {
-              showDogDetailPage();
-            },
-            child: ClipRRect(
-              borderRadius: new BorderRadius.circular(30.0),
-              child: widget.breed.https == "" ? Container() : dogImageContainer,
-            ))
-        //)
-        ;
-
-    //print("Getting dogImage = " + widget.dog.imageUrl);
-    return widget.breed.imageUrl == "" ? Container() : dogAvatar;
-  }
-
   @override
   bool get wantKeepAlive => true;
 }
-
-Completer() {}
 
 class PeakQuadraticCurve extends Curve {
   @override
@@ -298,3 +198,4 @@ class PeakQuadraticCurve extends Curve {
     return -2 * math.pow(t, 1) + 2 * t + 1;
   }
 }
+

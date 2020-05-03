@@ -128,14 +128,14 @@ class Breed {
   }
 
   Breed.fromJson(Map<String, dynamic> json)
-      : id = json["id"],
-        name = json["name"],
-        height = json["height"],
-        weight = json["weight"],
-        longevety = json["longevety"],
-        location = json["location"],
-        description = json["description"],
-        https = json["https"];
+      : id = json["id"] ?? "",
+        name = json["name"] ?? "",
+        height = json["height"] ?? "",
+        weight = json["weight"] ?? "",
+        longevety = json["lifespan"] ?? "",
+        location = json["location"] ?? "",
+        description = json["description"] ?? "",
+        https = json["https"] ?? "";
 
   static Future<List<Breed>> load() async {
     http.Response response =
