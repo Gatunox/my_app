@@ -21,12 +21,13 @@ class ImagePageView extends StatefulWidget {
 
 class _ImagePageViewState extends State<ImagePageView>
     with SingleTickerProviderStateMixin, AutomaticKeepAliveClientMixin {
-
   BreedManager manager;
 
-  Stream<List<Breed>> breedsStream = null;
+  Stream<List<Breed>> breedsStream;
 
   AnimationController _animationController;
+  Animation _slideAnimation;
+  Animation _fadeAnimation;
 
   PageController _pageController;
 
@@ -38,12 +39,21 @@ class _ImagePageViewState extends State<ImagePageView>
 
   bool _firstValueSet = false;
 
-
   @override
   void initState() {
     super.initState();
     _animationController = AnimationController(
         vsync: this, duration: const Duration(milliseconds: 500));
+    _slideAnimation = TweenSequence([
+      TweenSequenceItem<Offset>(
+          weight: 10, tween: Tween(begin: Offset(0, 0), end: Offset(0, 0.8))),
+      TweenSequenceItem<Offset>(
+      weight: 90, tween: Tween(begin: Offset(0, 0.8), end: Offset(0, 0)))
+    ]).animate(_animationController);
+    _fadeAnimation = TweenSequence([
+      TweenSequenceItem<double>(weight: 10, tween: Tween(begin: 1, end: 0)),
+      TweenSequenceItem<double>(weight: 90, tween: Tween(begin: 0, end: 1))
+    ]).animate(_animationController);
   }
 
   @override
@@ -95,9 +105,13 @@ class _ImagePageViewState extends State<ImagePageView>
                   return PageView.builder(
                     pageSnapping: true,
                     onPageChanged: (pos) {
-                      HapticFeedback.lightImpact();
-                      print("Sink emited onPageChange, " + breeds[pos].name);
-                      manager.changeBreed(breeds[pos], position: pos);
+                      setState(() {
+                        _animationController.reset();
+                        _animationController.forward();
+                        HapticFeedback.lightImpact();
+                        print("Sink emited onPageChange, " + breeds[pos].name);
+                        manager.changeBreed(breeds[pos], position: pos);
+                      });
                     },
                     itemCount: (breeds == null) ? 0 : breeds.length,
                     controller: _pageController,
@@ -117,7 +131,11 @@ class _ImagePageViewState extends State<ImagePageView>
           bottom: 16,
           left: 20,
           right: 20,
-          child: DogProfileDetails(manager: manager),
+          child: DogProfileDetails(
+            manager: manager,
+            slideAnimation: _slideAnimation,
+            fadeAnimation: _fadeAnimation,
+          ),
         ),
       ],
     );
@@ -135,15 +153,15 @@ class _ImagePageViewState extends State<ImagePageView>
 }
 
 class DogProfileDetails extends StatelessWidget {
-
   final BreedManager manager;
-  
-  DogProfileDetails({this.manager});
+  final Animation slideAnimation, fadeAnimation;
+
+  DogProfileDetails({this.manager, this.slideAnimation, this.fadeAnimation});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-          child: StreamBuilder<Breed>(
+      child: StreamBuilder<Breed>(
           stream: manager.breedStream,
           builder: (context, snapshot) {
             switch (snapshot.connectionState) {
@@ -154,25 +172,31 @@ class DogProfileDetails extends StatelessWidget {
               case ConnectionState.done:
                 final breed = snapshot.data;
                 print("-- Stream recived in Done, " + breed.name);
-                return Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    TwoLineItem(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      firstText: "height",
-                      secondText: breed.height + " inches",
+                return FadeTransition(
+                  opacity: fadeAnimation,
+                  child: SlideTransition(
+                    position: slideAnimation,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        TwoLineItem(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          firstText: "Height",
+                          secondText: breed.height + " inches",
+                        ),
+                        TwoLineItem(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          firstText: "Weight",
+                          secondText: breed.weight + " pounds",
+                        ),
+                        TwoLineItem(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          firstText: "Lifespan",
+                          secondText: breed.longevety + " years",
+                        ),
+                      ],
                     ),
-                    TwoLineItem(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      firstText: "Weight",
-                      secondText: breed.weight + " pounds",
-                    ),
-                    TwoLineItem(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      firstText: "Lifespan",
-                      secondText: breed.longevety + " years",
-                    ),
-                  ],
+                  ),
                 );
             }
           }),
