@@ -93,7 +93,8 @@ class _FifthRouteState extends State<FifthRoute> with TickerProviderStateMixin {
   }
 
   void onScrollChange() {
-    print("onStrollChange() = " + _scrollController.offset.toString());
+    print(" ----------------- onStrollChange() = " +
+        _scrollController.offset.toString());
   }
 
   Widget getMainStackWidget(BreedManager manager) {
@@ -105,9 +106,20 @@ class _FifthRouteState extends State<FifthRoute> with TickerProviderStateMixin {
         FractionallySizedBox(
           alignment: Alignment.topCenter,
           heightFactor: _heightFactorAnimation.value,
-          child: ImagePageView(
-            query: _query,
-            breed: widget.breed,
+          child: NotificationListener(
+            child: ImagePageView(
+              query: _query,
+              breed: widget.breed,
+            ),
+            onNotification: (notificationInfo) {
+              if (notificationInfo is OverscrollIndicatorNotification) {
+                print("------- scroll, lastPostionShown = " + manager.lastPositionShown.toString());
+                print("------- detail:" + notificationInfo.toString());
+
+                /// your code
+              }
+              return true;
+            },
           ),
         ),
         GestureDetector(
@@ -155,7 +167,7 @@ class _FifthRouteState extends State<FifthRoute> with TickerProviderStateMixin {
               leading: Container(),
               brightness: Brightness.dark,
               backgroundColor: Colors.transparent,
-              expandedHeight: _screenHeight * 0.10,
+              expandedHeight: _screenHeight * 0.12,
               floating: true,
               pinned: false,
               snap: true,
@@ -196,7 +208,9 @@ class _FifthRouteState extends State<FifthRoute> with TickerProviderStateMixin {
                           if (_breedCountValue.isNotEmpty) {
                             return Padding(
                               padding: const EdgeInsets.all(10.0),
-                              child: Text(_breedCountValue + "  Breeds found",
+                              child: 
+                              
+                              Text(_breedCountValue + "  Breeds found",
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 18.0,
@@ -210,13 +224,15 @@ class _FifthRouteState extends State<FifthRoute> with TickerProviderStateMixin {
                           print("Stream recived in Done, " + _breedCountValue);
                           return Padding(
                             padding: const EdgeInsets.only(bottom: 10.0),
-                            child: Text(_breedCountValue + "  Breeds found",
+                            child: 
+                            
+                            
+                            Text(_breedCountValue + "  Breeds found",
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 18.0,
                                 )),
                           );
-                        
                       }
                     }),
               ),
@@ -224,7 +240,6 @@ class _FifthRouteState extends State<FifthRoute> with TickerProviderStateMixin {
           ];
         },
         body: ImageListView(),
-
       ),
       // ImageListView(query: _query),
     );
@@ -342,24 +357,21 @@ class _FifthRouteState extends State<FifthRoute> with TickerProviderStateMixin {
           backgroundColor: snowWhiteColor,
           // bottomNavigationBar:
           //     SearchAppBottomBar(_onBottomNavBarTab, _bottomBarSelectedItem),
-          body: getMainPageWidgets(manager),
-
-          // AnimatedBuilder(
-          //   animation: _animationController,
-          //   builder: (context, widget) {
-          //     print("Animation Called");
-          //     // return getMainListViewWidget(manager);
-          //     // return AnimatedSwitcher(
-          //     //     duration: const Duration(milliseconds: 1000),
-          //     // transitionBuilder:
-          //     //     (Widget child, Animation<double> animation) {
-          //     //   return ScaleTransition(child: child, scale: animation);
-          //     // },
-          //     // child:
-          //     return getMainPageWidgets(
-          //         ValueKey(_bottomBarSelectedItem), manager);
-          //   },
-          // ),
+          body: AnimatedBuilder(
+            animation: _animationController,
+            builder: (context, widget) {
+              print("Animation Called");
+              // return getMainListViewWidget(manager);
+              // return AnimatedSwitcher(
+              //     duration: const Duration(milliseconds: 1000),
+              // transitionBuilder:
+              //     (Widget child, Animation<double> animation) {
+              //   return ScaleTransition(child: child, scale: animation);
+              // },
+              // child:
+              return getMainPageWidgets(manager);
+            },
+          ),
         ),
       ],
     );
@@ -434,10 +446,8 @@ class _FifthRouteState extends State<FifthRoute> with TickerProviderStateMixin {
     print("onDoubleTabBottomNavBar pressed with value = " + option.toString());
     if (!mounted) return;
     int doubleTapItem = option.index;
-   
-    setState(() {
 
-    });
+    setState(() {});
   }
 
   @override

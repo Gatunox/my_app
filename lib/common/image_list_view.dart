@@ -27,7 +27,7 @@ class _ImageListViewState extends State<ImageListView>
 
   TextEditingController _editingController;
 
-  Stream<List<Breed>> breedsStream = null;
+  Stream<List<Breed>> breedsStream;
 
   String _query;
 
@@ -54,8 +54,8 @@ class _ImageListViewState extends State<ImageListView>
       _changedQuery = false;
       breedsStream = manager.filteredBreedList(_query);
       manager.listenToBreeeListStream(_query);
-    } else {
-      breedsStream = breedsStream ?? manager.filteredBreedList(_query);
+    } else if (breedsStream == null) {
+      breedsStream = manager.filteredBreedList(_query);
       manager.listenToBreeeListStream(_query);
     }
 
@@ -94,9 +94,10 @@ class _ImageListViewState extends State<ImageListView>
                         duration: Duration(milliseconds: 200),
                         child: Container(
                           color: Colors.transparent,
-                      width: _screenWidth,
+                          width: _screenWidth,
                           height: _searchBoxVisible ? searchBarHeight : 0.0,
-                          margin: EdgeInsets.only(top: _searchBoxVisible ? 10 : 0),
+                          margin:
+                              EdgeInsets.only(top: _searchBoxVisible ? 10 : 0),
                           child: TextField(
                             autocorrect: false,
                             controller: _editingController,
@@ -151,8 +152,6 @@ class _ImageListViewState extends State<ImageListView>
                         },
                       ),
                       onNotification: (scrollEndNotification) {
-                        print("Calling setState with value = " +
-                            scrollEndNotification.metrics.atEdge.toString());
                         WidgetsBinding.instance.addPostFrameCallback((_) {
                           setState(() {
                             print("Calling setState with value = " +

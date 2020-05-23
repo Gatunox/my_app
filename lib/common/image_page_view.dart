@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:my_app/common/two_line_item.dart';
 import 'package:my_app/manager/breed_manager.dart';
@@ -35,6 +36,8 @@ class _ImagePageViewState extends State<ImagePageView>
 
   // BreedManager local_manager = BreedManager();
 
+    int _previousPage;
+
   String _query = "";
 
   bool _firstValueSet = false;
@@ -56,6 +59,19 @@ class _ImagePageViewState extends State<ImagePageView>
     ]).animate(_animationController);
   }
 
+  void _onScroll() {
+    // print(' ----- onScroll Called -----');
+    // if (_pageController.page.toInt() == _pageController.page) {
+    //   _previousPage = _pageController.page.toInt();
+    // }
+    // // widget.notifier?.value = _pageController.page - _previousPage;
+    // if (_pageController.position.userScrollDirection == ScrollDirection.forward) {
+    //   print(' ----- swiped to right -----' + _previousPage.toString());
+    // } else {
+    //   print(' ----- swiped to left -----' + _previousPage.toString());
+    // }
+  }
+
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -65,13 +81,15 @@ class _ImagePageViewState extends State<ImagePageView>
     _pageController = PageController(
         initialPage: manager.lastPositionShown,
         keepPage: true,
-        viewportFraction: 1);
+        viewportFraction: 1)..addListener(_onScroll);
+        _pageController.addListener(_onScroll);
     if (widget.query != _query) {
       _query = widget.query;
       breedsStream = manager.filteredBreedList(_query);
     } else {
       breedsStream = breedsStream ?? manager.filteredBreedList("");
     }
+
 
     return Stack(
       children: <Widget>[
@@ -101,6 +119,7 @@ class _ImagePageViewState extends State<ImagePageView>
                         initialPage: initialPage,
                         keepPage: true,
                         viewportFraction: 1);
+                    _pageController.addListener(_onScroll);
                   }
                   return PageView.builder(
                     pageSnapping: true,
